@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistentes Legales - Vértice Legal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        /* 
+          NUEVA PALETA (Basada en tu branding anterior):
+          - Mantengo la idea del teal y rosa, pero ajusto tonos para buen contraste
+        */
+        :root {
+            --primary-color: #ffffff;            /* Fondo principal blanco */
+            --secondary-color: #eaf7f7;          /* Teal clarito para fondos suaves */
+            --accent-color: #025951;             /* Teal oscuro */
+            --pink-color: #ff8db3;               /* Rosa de acento */
+            --text-color: #4b4647;               /* Texto principal gris oscuro */
+            --text-color-secondary: #555555;     /* Texto secundario un poco más claro */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
+            color: var(--text-color);
+            background: linear-gradient(
+                135deg,            /* ángulo del degradado */
+                var(--secondary-color) 0%, 
+                var(--accent-color) 100%
+            );
+        }
+        
+        /* NAVBAR */
+        .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--accent-color);
+        }
+
+        .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+        }
+
+        .logo {
+        color: var(--accent-color);
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        }
+
+        .nav-links {
+        display: flex;
+        gap: 3rem;
+        }
+
+        .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: all 0.2s ease;
+        position: relative;
+        padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--pink-color);
+        transition: width 0.3s ease;
+        }
+
+        /* Aplica al hacer hover (ratón encima) */
+        .nav-links a:hover {
+        color: var(--accent-color);
+        transform: scale(1.02);
+
+        /* Simulamos algo de "grosor" extra */
+        text-shadow: 
+            0.5px 0 currentColor,   /* sombra a la derecha */
+        -0.5px 0 currentColor;   /* sombra a la izquierda */
+        }
+
+        .nav-links a:hover::after {
+        width: 100%;
+        }
+
+
+        /* MENU HAMBURGUESA */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+        }
+        /* SELECTOR DE ASISTENTES */
+        .assistant-selector {
+            position: relative;
+            margin: 1rem 0;
+            width: 100%;
+        }
+
+        .current-assistant {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.3rem;
+        }
+
+        .current-assistant:hover {
+            background: #024c47; /* Un poco más oscuro al hover */
+        }
+
+        .assistant-icon {
+            font-size: 1.2rem;
+        }
+
+        .assistants-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 1.3rem;
+        }
+
+        .assistants-dropdown.show {
+            display: block;
+        }
+
+        .assistant-option {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .assistant-option:hover {
+            background: var(--secondary-color);
+        }
+
+        /* CHAT CONTAINER */
+        .chat-container {
+            max-width: 1000px;
+            margin: 8rem auto 2rem;
+            padding: 2rem;
+            background: var(--primary-color); /* Fondo blanco para mejor contraste */
+            border-radius: 16px;
+            border: 1px solid rgba(25, 63, 102, 0.2);
+            position: relative;
+            z-index: 2;
+            height: calc(100vh - 10rem);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .chat-header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* MENSAJES DEL CHAT */
+        .chat-messages {
+            flex-grow: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            background: #ffffff;
+            border-radius: 8px;
+            position: relative;
+            border: 1px solid rgba(25, 63, 102, 0.1);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+            animation: messageAppear 0.3s ease-out;
+            position: relative;
+            word-wrap: break-word; /* Por si hay textos largos */
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MENSAJES DEL USUARIO */
+        .user-message {
+            background: var(--accent-color);
+            color: #ffffff;
+            margin-left: auto;
+            border-right: 4px solid var(--pink-color);
+            font-size: 1.3rem;
+        }
+
+        /* MENSAJES DEL ASISTENTE */
+        .assistant-message {
+            /* Teal clarito para resaltar el mensaje del asistente */
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-size: 1.3rem;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .assistant-message h1, .assistant-message h2, .assistant-message h3 {
+            margin: 1rem 0 0.5rem;
+            font-weight: bold;
+        }
+
+        .assistant-message ul {
+            margin-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        .assistant-message li {
+            margin-bottom: 0.5rem;
+        }
+
+        .assistant-message strong {
+            font-weight: bold;
+        }
+
+        .assistant-message p {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Contenedor del Indicador de Cargando */
+        .typing-indicator-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            align-items: center;
+        }
+
+        .typing-indicator-wrapper .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+        .typing-indicator-wrapper .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator-wrapper .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* CONTENEDOR INPUT Y BOTÓN */
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid rgba(25, 63, 102, 0.2);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(25, 63, 102, 0.3);
+        }
+
+        .send-button {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .send-button:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 6rem 1rem 1rem;
+                padding: 1rem;
+                height: calc(100vh - 8rem);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .chat-header h1 {
+                font-size: 2rem;
+            }
+
+            .chat-messages {
+                height: auto;
+            }
+
+            .nav-links.show {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                background: #ffffff;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .chat-input-container {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+
+        /* PARTICULAS DE FONDO */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* Para que no interfiera con clics */
+        }
+
+        /* Disclaimer */
+        .disclaimerbot {
+            text-align: center;
+            color: var(--text-color-secondary);
+            font-size: 0.75rem;
+            padding: 0.25rem;
+            margin-top: 0.25rem;
+            border-top: 1px solid rgba(25, 63, 102, 0.1);
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">§ Vértice<span style="color: var(--pink-color)">|</span> Legal</a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#nosotros">Nosotras</a>
+                <a href="index.html#area_de_practica">Áreas de Práctica</a>
+                <a href="index.html#equipo">Equipo</a>
+                <a href="index.html#contacto">Contacto</a>
+                <a href="#">Asistente IA</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Asistentes Legales</h1>
+            <div class="assistant-selector">
+                <div class="current-assistant">
+                    <i class="fas fa-balance-scale assistant-icon"></i>
+                    <span class="assistant-name">Derecho Chileno AI</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="assistants-dropdown">
+                    <div class="assistant-option" data-assistant="chile" style="display: none;">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>Derecho Chileno AI</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="datos-personales">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>LEX: Ley de Datos Personales</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="civil">
+                        <i class="fas fa-book"></i>
+                        <span>CIVILIS: Código Civil</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="procedimiento-civil">
+                        <i class="fas fa-gavel"></i>
+                        <span>PROCESAL: Procedimiento Civil</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="penal">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>PENALIS: Código Penal</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="procesal-penal">
+                        <i class="fas fa-legal"></i>
+                        <span>JUSTITIA: Procesal Penal</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="responsabilidad-juridica">
+                        <i class="fas fa-building"></i>
+                        <span>CORPUS: Responsabilidad Jurídica</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="delitos-economicos">
+                        <i class="fas fa-chart-line"></i>
+                        <span>PECUNIA: Delitos Económicos</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="tributario">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>TRIBUTUM: Código Tributario</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="copropiedad">
+                        <i class="fas fa-home"></i>
+                        <span>DOMUS: Copropiedad Inmobiliaria</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="constitucion-politica">
+                        <i class="fas fa-book-open"></i>
+                        <span>CONSTITUCIÓN: Constitución Política</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="ley-19-628">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>HOBBES: Ley 19.628 sobre Protección de la Vida Privada</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="ley-20417">
+                        <i class="fas fa-tree"></i>
+                        <span>HUMBOLDT: Ley 20.417, Evaluación Ambiental</span>
+                    </div>
+                    <div class="assistant-option" data-assistant="ley-19300">
+                        <i class="fas fa-leaf"></i>
+                        <span>GRETA: Ley 19.300, Bases Ambientales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-messages">
+            <div class="message assistant-message">
+                ¡Hola! Soy el asistente virtual especializado en Derecho Chileno. ¿En qué puedo ayudarte hoy?
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <textarea class="chat-input" placeholder="Escribe tu mensaje aquí..." rows="1"></textarea>
+            <button class="send-button">Enviar</button>
+        </div>
+
+        <div class="disclaimerbot">
+            Asistente IA puede cometer errores.
+        </div>
+    </div>
+
+    <script>
+        // Configuración de particles.js 
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.4,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#025951",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Funcionalidad del menú hamburguesa
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Funcionalidad del selector de asistentes
+        const currentAssistant = document.querySelector('.current-assistant');
+        const assistantsDropdown = document.querySelector('.assistants-dropdown');
+        const assistantOptions = document.querySelectorAll('.assistant-option');
+
+        currentAssistant.addEventListener('click', () => {
+            assistantsDropdown.classList.toggle('show');
+        });
+
+        let currentSelectedOption = null;
+        window.addEventListener('DOMContentLoaded', () => {
+            // Buscamos la opción "chile"
+            currentSelectedOption = document.querySelector('.assistant-option[data-assistant="chile"]');
+        });
+
+        assistantOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // 1. Muestra la que estaba seleccionada antes, si existe
+                if (currentSelectedOption) {
+                    currentSelectedOption.style.display = '';
+                }
+                // 2. Oculta la que acabo de seleccionar
+                option.style.display = 'none';
+                // 3. Actualizo la "actual"
+                currentSelectedOption = option;
+                // 4. Actualizo texto e ícono
+                const assistantName = option.querySelector('span').textContent;
+                const assistantIcon = option.querySelector('i').className;
+                document.querySelector('.current-assistant .assistant-name').textContent = assistantName;
+                document.querySelector('.current-assistant .assistant-icon').className
+                    = assistantIcon + ' assistant-icon';
+                // 5. Cierro el dropdown
+                assistantsDropdown.classList.remove('show');
+                // 6. Lógica de backend (opcional)
+                changeAssistant(option.dataset.assistant);
+            });
+        });
+
+        // Cerrar el dropdown cuando se hace clic fuera
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.assistant-selector')) {
+                assistantsDropdown.classList.remove('show');
+            }
+        });
+
+        // Función para cambiar de asistente (conectar con backend)
+        function changeAssistant(assistantId) {
+            console.log(`Cambiando al asistente: ${assistantId}`);
+            addMessage(`Ahora estás hablando con el asistente especializado en ${assistantId}`, false);
+        }
+
+        // Funcionalidad del chat
+        const chatInput = document.querySelector('.chat-input');
+        const sendButton = document.querySelector('.send-button');
+        const chatMessages = document.querySelector('.chat-messages');
+
+        // Crear indicador de typing
+        function createTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator-wrapper');
+            for(let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                typingDiv.appendChild(dot);
+            }
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return typingDiv;
+        }
+        // Eliminar indicador de typing
+        function removeTypingIndicator(typingDiv) {
+            if (typingDiv && typingDiv.parentNode) {
+                typingDiv.parentNode.removeChild(typingDiv);
+            }
+        }
+        // Añadir mensaje al chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'assistant-message');
+            if (!isUser) {
+                // Renderizar Markdown para asistente
+                messageDiv.innerHTML = marked.parse(message);
+            } else {
+                // Texto plano para el usuario
+                messageDiv.textContent = message;
+            }
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        // Llamada al backend
+        function simulateTyping(typingDiv, userQuestion) {
+            fetch("https://xqgvjfn7s4.execute-api.us-east-1.amazonaws.com/production/legal_bot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: "Buenos dias" })
+                })
+                .then((res) => {
+                    if (!res.ok) {
+                    throw new Error(`Error en la respuesta. Código de estado: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log("Response:", data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+
+        }
+        // Manejar envío de mensajes
+        function handleSendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                const assistantNameFull = document.querySelector('.current-assistant .assistant-name').textContent; 
+                const splitted = assistantNameFull.split(':');
+                const afterColon = (splitted.length > 1) ? splitted[1].trim() : splitted[0].trim();
+                const finalMessage = `Eres experto en: ${afterColon} Chileno. Responde: ${message}`;
+                chatInput.value = '';
+                const typingDiv = createTypingIndicator();
+                simulateTyping(typingDiv, finalMessage);
+            }
+        }
+        sendButton.addEventListener('click', handleSendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+            }
+        });
+        // Auto-resize del textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

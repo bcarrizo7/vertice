@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vértice Legal - Expertas en Ley de Datos Personales</title>
+
+  <!-- Librerías externas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+
+  <!-- Estilos -->
+  <style>
+    /* PALETA DE COLORES */
+    :root {
+      /* Fondo general (blanco) */
+      --primary-color: #ffffff;
+      /* Secciones secundarias (celeste) */
+      /*--secondary-color: #a2dbdd;*/
+      --secondary-color: #027368;
+      /* Azul marino */
+      /* --accent-color: #193f66;*/
+      --accent-color: #025951;
+      /* Rosado para detalles */
+      --pink-color: #ff8db3;
+      /* Texto principal (gris oscuro) */
+      --text-color: #4b4647;
+      /* Texto secundario (gris intermedio) */
+      --text-color-secondary: #555555;
+    }
+
+    /* RESETEO */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    /*body {
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: var(--primary-color);
+      overflow-x: hidden;
+    }*/
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--pink-color);
+      transition: width 0.3s ease;
+    }
+
+    /* Aplica al hacer hover (ratón encima) */
+    .nav-links a:hover {
+      color: var(--accent-color);
+      transform: scale(1.02);
+
+      /* Simulamos algo de "grosor" extra */
+      text-shadow: 
+        0.5px 0 currentColor,   /* sombra a la derecha */
+      -0.5px 0 currentColor;   /* sombra a la izquierda */
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+
+    /* MENU HAMBURGUESA */
+    .menu-toggle {
+        display: none;
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        cursor: pointer;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-links.show {
+            display: flex;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+    }
+
+    /* IMAGEN PORTADAS SLIDER */
+    .image-slider {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background-size: cover; /* Por defecto cover para desktop */
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Cambio a contain y ajuste de altura para tablets y móviles */
+    @media (max-width: 1024px) {
+      .slide {
+        background-size: contain;
+      }
+      
+      .image-slider {
+        height: auto; /* Altura automática basada en el contenido */
+        aspect-ratio: 16/9; /* Mantiene una proporción consistente */
+        min-height: 300px; /* Altura mínima para evitar que sea muy pequeño */
+        max-height: 80vh; /* Altura máxima para evitar que sea muy grande */
+      }
+    }
+
+    /* Ajustes adicionales para móviles */
+    @media (max-width: 480px) {
+      .image-slider {
+        aspect-ratio: 3/3; /* Proporción más cuadrada para móviles */
+        min-height: 250px;
+        margin-bottom: -90px;
+      }
+    }
+
+    .slide:first-child {
+      opacity: 1;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    /* HERO SECTION */
+
+    .hero {
+      height: 20vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--secondary-color);
+      padding: 0 4rem;
+
+    }
+
+    #particles-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      background: linear-gradient(85deg, var(--primary-color), var(--primary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    /* SECCIONES GENERALES */
+    .section {
+      padding: 8rem 4rem;
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* TITULOS DE SECCION */
+    .section-title {
+      font-size: 3rem;
+      margin-bottom: 4rem;
+      text-align: center;
+      color: var(--accent-color);
+      position: relative;
+    }
+
+    /* AUMENTAMOS TAMAÑO Y GROSOR DEL SUBRAYADO ROSADO */
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px; /* más ancho */
+      height: 4px;  /* más grueso */
+      background: var(--pink-color);
+    }
+
+    /* SECCION NOSOTRAS */
+    .nosotros-section {
+      /* Fondo blanco (primary) */
+      background: var(--primary-color);
+      padding: 8rem 4rem;
+      position: relative;
+    }
+
+    /* Estilos para el contenedor de partículas */
+    #particles-js-nosotras, #particles-js-area_de_practica, #particles-js-equipo, #particles-js-contacto {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;  /* Las partículas quedan detrás del contenido */
+    }
+        
+
+    .nosotros-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nosotros-content p {
+      font-size: 1.5rem;
+      color: var(--text-color-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      text-align: justify;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .stat-card {
+      background: var(--secondary-color);
+      padding: 2rem;
+      text-align: center;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(25,63,102, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .nosotros-image-container {
+      margin-top: 3rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nosotros-image {
+      max-width: 800px;
+      width: 90%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Media queries para la sección Nosotras */
+    @media (max-width: 768px) {
+      .nosotros-section {
+        padding: 4rem 2rem;
+      }
+      
+      .nosotros-content p {
+        font-size: 1.2rem;
+      }
+      
+      .nosotros-image {
+        width: 95%;
+      }
+    }
+
+    /* SECCION ÁREA DE PRÁCTICA */
+    .area_de_practica-section {
+      background: var(--secondary-color);
+      color: var(--accent-color);
+      padding: 8rem 4rem;
+      position: relative;
+    }
+
+    /* Cambia el color del título solo en la sección Áreas de Práctica */
+    #area_de_practica .section-title {
+        color: var(--primary-color);
+    }
+
+    /* Contenedor general del carrusel */ 
+    /* CARRUSEL MEJORADO */
+            /* -------------- Contenedor principal del carrusel -------------- */
+    .carousel-container {
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .carousel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .carousel-track {
+        display: flex;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+        /* -------------- Ítems del carrusel -------------- */
+    .carousel-item {
+        position: absolute;
+        width: calc(33.333% - 2rem);
+        height: 500px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: center;
+        pointer-events: none;
+        opacity: 0;
+        /* Posición inicial (fuera de vista) */
+        transform: scale(0.8) translateX(-100%);
+        /* Sombra base */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Permitir clicks en el ítem central (active) */
+    .carousel-item.interactive {
+        pointer-events: auto;
+    }
+
+    .carousel-item .image-container {
+        width: 100%;
+        height: 250px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .carousel-item img {
+        width: 45%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .carousel-item.interactive:hover img {
+        transform: scale(1.1);
+    }
+
+    .carousel-item h3 {
+        font-size: 2rem;
+        margin: 1.5rem 0;
+        color: var(--accent-color);
+    }
+
+    .carousel-item p {
+        color: var(--text-color-secondary);
+        font-size: 1.3rem;
+        margin: 0 auto;
+        white-space: pre-wrap;
+        line-height: 1.6;
+    }
+
+    /* -------------- Estados prev, active, next -------------- */
+    /* Tarjeta previa (izquierda) */
+    .carousel-item.prev {
+        opacity: 0.8;
+        left: 0;
+        z-index: 1;
+        /* Pequeña escala + rotación negativa = inclinada a la izquierda */
+        transform: scale(0.8) translateX(0) perspective(900px) rotateY(-15deg);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Tarjeta activa (centro) */
+    .carousel-item.active {
+        opacity: 1;
+        left: 33.333%;
+        z-index: 2;
+        transform: scale(1) translateX(0);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Tarjeta siguiente (derecha) */
+    .carousel-item.next {
+        opacity: 0.8;
+        left: 66.666%;
+        z-index: 1;
+        /* Pequeña escala + rotación positiva = inclinada a la derecha */
+        transform: scale(0.8) translateX(0) perspective(900px) rotateY(15deg);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    }
+
+    /* -------------- Animaciones de salida -------------- */
+    .carousel-item.exit-left {
+        opacity: 0;
+        transform: scale(0.6) translateX(-200%) perspective(1000px) rotateY(-45deg);
+    }
+
+    .carousel-item.exit-right {
+        opacity: 0;
+        transform: scale(0.6) translateX(200%) perspective(1000px) rotateY(45deg);
+    }
+
+    /* -------------- Botones de navegación -------------- */
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--accent-color);
+        color: #fff;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        z-index: 3;
+        transition: all 0.3s ease;
+    }
+    .carousel-button:hover {
+        background: var(--pink-color);
+        transform: translateY(-50%) scale(1.1);
+    }
+    .carousel-button.left {
+        left: 20px;
+    }
+    .carousel-button.right {
+        right: 20px;
+    }
+
+    /* -------------- Responsividad (personalízala a tu gusto) -------------- */
+    @media (max-width: 1024px) {
+        .area_de_practica-section {
+            padding: 4rem 2rem;
+        }
+        .carousel-item {
+            width: calc(50% - 2rem);
+        }
+        .carousel-item.prev  { left: -5%; }
+        .carousel-item.active { left: 25%; }
+        .carousel-item.next { left: 55%; }
+    }
+
+    @media (max-width: 768px) {
+        .carousel-container {
+            height: 520px;
+        }
+        .carousel-item {
+            width: 75%;
+            min-height: 420px;
+            position: absolute;
+            margin: 0;
+            padding: 20px 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .carousel-item.prev,
+        .carousel-item.next {
+            opacity: 0.3;
+            display: block !important;
+            pointer-events: none;
+            visibility: visible;
+            transform: scale(0.8) !important;
+        }
+        .carousel-item.prev  { left: -25% !important; }
+        .carousel-item.active {
+            left: 12.5% !important;
+            opacity: 1;
+            transform: scale(1) !important;
+            z-index: 2;
+        }
+        .carousel-item.next {
+            left: 50% !important;
+        }
+        .carousel-item .image-container {
+            height: 220px;
+            margin: 0.5rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            order: 2;
+        }
+        .carousel-item img {
+            width: 90%;
+            max-height: 200px;
+        }
+        .carousel-item h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--accent-color);
+            order: 1;
+        }
+        .carousel-item p {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            padding: 0 5px;
+            margin-top: 0.5rem;
+            order: 3;
+        }
+        .carousel-button {
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        .carousel-button.left {
+            left: 2px;
+        }
+        .carousel-button.right {
+            right: 2px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .carousel-item {
+            width: 70%;
+        }
+        .carousel-item.prev {
+            left: -30% !important;
+            visibility: hidden;
+        }
+        .carousel-item.active {
+            left: 15% !important;
+        }
+        .carousel-item.next {
+            left: 60% !important;
+            visibility: hidden;
+        }
+    }
+
+    /* SECCION EQUIPO */
+    .team-section {
+      background: var(--primary-color);
+      padding: 8rem 4rem;
+    }
+
+    .team-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .team-member {
+      flex: 1;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: #f7f7f7;
+      border-radius: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(25, 63, 102, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .member-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--accent-color); /* Borde azul */
+    }
+
+
+    .flip-container {
+      perspective: 1000px;
+      width: 220px;
+      height: 220px;
+      margin-bottom: 1.5rem;
+    }
+
+    .flipper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-container:hover .flipper {
+      transform: rotateY(180deg);
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+    }
+
+    .back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(50%); /* Efecto gris */
+      border: 4px solid var(--accent-color); /* Borde azul */
+    }
+
+
+    .back-content {
+      position: absolute;
+      text-align: center;
+    }
+
+    .ver-mas-btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .ver-mas-btn:hover {
+      background: white;
+      color: var(--accent-color);
+    }
+
+    
+
+    .member-name {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .member-title {
+      color: var(--pink-color);
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .member-role {
+      color: var(--text-color-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .member-description {
+      color: var(--text-color);
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    /* Ocultar descripción en dispositivos móviles */
+    @media (max-width: 1000px) {
+      .member-description {
+        display: none;
+      }
+    }
+
+
+    /* CONTACTO */
+    .contact-section {
+      /* Fondo celeste (secondary) nuevamente */
+      background: var(--secondary-color);
+      padding: 8rem 4rem;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    /* Cambiar el título "Información de Contacto" a blanco */
+    .contact-info .section-title {
+        color: var(--primary-color); /* Cambiar a blanco */
+        font-weight: bold; /* Mantenerlo más grueso */
+        text-align: center; /* Opcional: para centrarlo */
+    }
+
+    /* Cambiar los títulos "Dirección:", "Email:" y "Teléfono:" */
+    .contact-info p strong {
+        color: var(--primary-color); /* Cambiar a blanco */
+        font-weight: bold; /* Mantenerlo más grueso */
+        font-size: 1.5rem; /* Asegurar que mantenga el tamaño original */
+    }
+
+    /* Cambiar el texto después del ":" y subrayarlo */
+    .contact-info p a, .contact-info p span {
+        color: var(--primary-color); /* Cambiar todo a blanco */
+        text-decoration: underline; /* Subrayar solo el contenido después del ":" */
+        font-size: 1.5rem; /* Igualar el tamaño al original */
+        font-weight: normal; /* Mantener texto normal */
+    }
+
+    .contact-form {
+      background: var(--primary-color);
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid rgba(25,63,102, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-color);
+      border: 1px solid rgba(25,63,102, 0.2);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+    }
+
+    button.btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    button.btn:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* FADE-IN ANIMATION */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .team-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .team-member {
+        max-width: 100%;
+      }
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+      .carousel-cards {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .hero {
+        padding: 0 2rem;
+      }
+      .arrow {
+        font-size: 2rem;
+      }
+    }
+
+
+
+    /* FOOTER STYLES */
+    /* FOOTER STYLES */
+    .footer-section {
+      background: var(--accent-color);
+      padding: 3rem 4rem;
+      color: var(--primary-color);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .copyright {
+      font-size: 1rem;
+    }
+
+    .footer-link {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--secondary-color);
+    }
+
+    .separator {
+      color: var(--pink-color);
+      margin: 0 0.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 0.5rem;
+    }
+
+    .social-links a {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Línea separadora */
+    .footer-divider {
+      height: 1px;
+      background-color: var(--pink-color);
+      margin: 2rem auto;
+      width: 80%;
+    }
+
+    .footer-credits {
+      text-align: center;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .footer-links {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      
+      .separator {
+        display: none;
+      }
+      
+      .social-links {
+        margin-top: 1rem;
+        justify-content: center;
+      }
+    }
+
+    /* MODAL STYLES */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      margin: 15% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 1rem;
+      top: 0.5rem;
+      color: var(--text-color-secondary);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close-modal:hover {
+      color: var(--accent-color);
+    }
+
+    /* GENERAL */
+    body {
+      font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
+    }
+
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">§ Vértice <span style="color: var(--pink-color)">|</span> Legal</a>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="nav-links">
+        <a href="#nosotros">Nosotras</a>
+        <a href="#area_de_practica">Áreas de Práctica</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#contacto">Contacto</a>
+        <a href="asistente.html">Asistente IA</a>
+      </div>
+    </div>
+  </nav>
+    <!-- Nuevo slider de imágenes -->
+  <div class="image-slider">
+    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal.webp')"></div>
+    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_2.webp')"></div>
+    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_3.webp')"></div>
+    <!-- <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_4.webp')"></div>-->
+  </div>
+
+  <!-- Hero  
+  <section class="hero">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <h1>Un punto de encuentro</h1>
+      <a href="#contacto" class="btn">Contáctanos</a>
+    </div>
+  </section>-->
+ 
+
+  <!-- Sección Nosotras -->
+  <!-- Sección Nosotras con Hero -->
+  <section id="nosotros" class="nosotros-section fade-in">
+    <div class="nosotros-content">
+          <!-- Fondo de partículas -->
+      <div id="particles-js-nosotras"></div>
+      <h2 class="section-title">Nosotras</h2>
+      <p>
+        Vértice Legal es un estudio jurídico líder en Chile, dedicado a la representación de personas y empresas, con perspectiva de género. Nos guía el compromiso con la justicia, el trabajo colaborativo y la construcción de un entorno laboral inclusivo y respetuoso.
+      </p>
+      <div class="nosotros-image-container">
+        <img src="/fotos_pagina_web/webp/portada_vértice_legal_4.webp" alt="Equipo Vértice Legal" class="nosotros-image">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Sección Áreas de Práctica (carrusel) -->
+  <section id="area_de_practica" class="area_de_practica-section">
+    <div class="section-container">
+      <div id="particles-js-area_de_practica"></div>
+      <h2 class="section-title">Áreas de Práctica</h2>
+      <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-track">
+                <!-- Tarjetas generadas dinámicamente -->
+            </div>
+            <button class="carousel-button left">&lt;</button>
+            <button class="carousel-button right">&gt;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+    <!-- Sección EQUIPO -->
+  <section id="equipo" class="team-section fade-in">
+    <div id="particles-js-equipo"></div>
+    <div class="team-container">
+      <h2 class="section-title">Equipo</h2>
+      <div class="team-grid">
+  
+        <!-- Miembro 2 -->
+        <div class="team-member" onclick="handleClick(event, '/equipo/alejandra-castillo.html')">
+          <div class="flip-container">
+            <div class="flipper">
+              <!-- Frente -->
+              <div class="front">
+                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo" class="member-image">
+              </div>
+              <!-- Reverso -->
+              <div class="back">
+                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo" class="member-image">
+                <div class="back-content">
+                  <a href="/equipo/alejandra-castillo.html" class="ver-mas-btn">
+                    Ver Más
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="member-name">Alejandra Castillo</h3>
+          <p class="member-title">Directora</p>
+          <p class="member-role">Especialista en Derecho Penal y Procesal Penal</p>
+          <p class="member-description">Abogada con doctorado en Derecho por la Universidad de Freiburg, Alemania. Autora de publicaciones sobre justicia penal y protección de datos.</p>
+        </div>
+  
+        <!-- Miembro 3 -->
+        <div class="team-member" onclick="handleClick(event, '/equipo/maria-eugeneia.html')">
+          <div class="flip-container">
+            <div class="flipper">
+              <div class="front">
+                <img src="/fotos_pagina_web/webp/María Eugenia Raggi .webp" alt="María Eugenia Raggi" class="member-image">
+              </div>
+              <div class="back">
+                <img src="/fotos_pagina_web/webp/María Eugenia Raggi .webp" alt="María Eugenia Raggi" class="member-image">
+                <div class="back-content">
+                  <a href="/equipo/maria-eugeneia.html" class="ver-mas-btn">
+                    Ver Más
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="member-name">María Eguneia Raggi</h3>
+          <p class="member-title">Socia Fundadora</p>
+          <p class="member-role">Especialista en Derecho Penal y Criminología</p>
+          <p class="member-description">Abogada de la Universidad Diego Portales, con un Magíster en Derecho Penal y Procesal Penal. Diplomada en Criminología Aplicada y Justicia Penal. Experiencia en la Defensoría Penal Pública.</p>
+        </div>
+
+        <!-- Miembro 1 -->
+        <div class="team-member" onclick="handleClick(event, '/equipo/pilar-carrasco.html')">
+          <div class="flip-container">
+            <div class="flipper">
+              <div class="front">
+                <img src="/fotos_pagina_web/webp/Pilar Carrasco.webp" alt="Pilar Carrasco" class="member-image">
+              </div>
+              <div class="back">
+                <img src="/fotos_pagina_web/webp/Pilar Carrasco.webp" alt="Pilar Carrasco" class="member-image">
+                <div class="back-content">
+                  <a href="/equipo/pilar-carrasco.html" class="ver-mas-btn">
+                    Ver Más
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="member-name">Pilar Carrasco</h3>
+          <p class="member-title">Socia Fundadora</p>
+          <p class="member-role">Especialista en Derecho Penal Económico</p>
+          <p class="member-description">Abogada titulada con distinción de la Universidad Diego Portales, con formación internacional en la Universidad de Leiden. Experiencia en instituciones como la Defensoría Penal Pública.</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección Contacto -->
+  <section id="contacto" class="contact-section fade-in">
+    <div id="particles-js-contacto"></div>
+    <div class="contact-container">
+      <!-- Formulario -->
+      <form class="contact-form" action="https://formspree.io/f/xannzloa" method="post">
+        <h2 class="section-title">Contáctanos</h2>
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input name="Nombre" id="nombre" type="text" placeholder="Ingresa tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input name="Email" id="email" type="email" placeholder="Ingresa tu correo" required>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <input name="Mensaje" id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí" required>
+        </div>
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+  
+      <!-- Información de contacto -->
+      <!-- Información de contacto -->
+      <div class="contact-info">
+        <h2 class="section-title">Información de Contacto</h2>
+        
+        <!-- Mapa -->
+        <div class="map-container" style="margin: 2rem 0;">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11983.518405110435!2d-70.55368108062595!3d-33.4090869437642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662ce9569ad04e7%3A0xa6e9757d0f89deac!2sAv.%20Apoquindo%207935%2C%20Of.%20B718%2C%20Las%20Condes%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1736822717088!5m2!1ses-419!2scl" 
+                width="100%"
+                height="300"
+                style="border: 4px solid var(--accent-color); border-radius: 8px;"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+        </div>
+        
+        <!-- Detalles de contacto -->
+        <div style="text-align: center;">
+            <p><strong>Dirección:</strong> 
+                <a href="https://www.google.com/maps/search/Avenida+Apoquindo+7935,+Of.+B718,+Las+Condes,+Santiago,+Chile" 
+                  target="_blank">
+                  📍 Las Condes, Santiago, Chile
+                </a>
+            </p>
+            <p><strong>Email:</strong> 
+                <a href="mailto:contacto@verticelegal.cl"> contacto@verticelegal.cl</a>
+            </p>
+            <p><strong>Teléfono:</strong><span> +56 9 8902 9993</span></p>
+        </div>
+      </div>
+
+      
+    </div>
+  </section>
+  
+
+    <!-- Footer Section -->
+  <section class="footer-section">
+    <div class="section-container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <span class="copyright">© 2025 Vértice Legal</span>
+          <span class="separator">|</span>
+          <button class="footer-link" onclick="openModal('disclaimer')">Disclaimer</button>
+          <span class="separator">|</span>
+          <button class="footer-link" onclick="openModal('privacy')">Políticas de privacidad y cookies</button>
+          <span class="separator">|</span>
+          <div class="social-links">
+            <a href="https://instagram.com/crcabogadas" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com/@crcabogadas" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://linkedin.com/company/crcabogadas" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Línea separadora -->
+      <div class="footer-divider"></div>
+  
+      <div class="footer-credits">
+        Sitio creado por ayoproduction7@gmail.com, Santiago, Chile
+      </div>
+    </div>
+
+    <!-- Modal Disclaimer -->
+    <div id="disclaimerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('disclaimer')">&times;</span>
+        <h2>Disclaimer Legal</h2>
+        <p>La información contenida en este sitio web se proporciona únicamente a título informativo y no constituye asesoramiento legal. Vértice Legal no se responsabiliza por la exactitud, integridad o utilidad de la información proporcionada. Para obtener asesoramiento legal adaptado a sus necesidades particulares, le recomendamos ponerse en contacto directo con nuestras profesionales. Los enlaces a sitios web de terceros se proporcionan únicamente como una conveniencia para nuestros usuarios y no implican ningún respaldo a los contenidos de dichos sitios. Vértice Legal no se hace responsable del contenido, la exactitud o las opiniones expresadas en dichos sitios. La información proporcionada por herramientas de inteligencia artificial, como Asistente IA Legal, es generada automáticamente y puede no ser precisa o completa. El uso de esta información es bajo su propio riesgo. Al acceder a este sitio web, usted acepta estos términos y condiciones.</p>
+      </div>
+    </div>
+
+    <!-- Modal Políticas -->
+    <div id="privacyModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('privacy')">&times;</span>
+        <h2>Políticas de Privacidad y Cookies</h2>
+        <p>Este sitio web utiliza cookies para mejorar su experiencia de navegación. Al continuar navegando, usted acepta nuestra política de privacidad y el uso de cookies. Recopilamos datos personales únicamente con su consentimiento y los tratamos de acuerdo con la legislación vigente de protección de datos personales.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Configuración de particles.js + Lógica del carrusel (JS) -->
+  <script>
+
+    
+  // Referencias a los elementos
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links a');
+
+    // Función para alternar el menú
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+    });
+
+    // Función para cerrar el menú al hacer clic en un enlace
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navLinks.classList.remove('show');
+        });
+    });
+    
+    /*****************************/
+    /*  PARTICLES.JS (FONDO)    */
+    /*****************************/
+    function initParticles(containerId, particleColor) {
+        particlesJS(containerId, {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": { "enable": true, "value_area": 800 }
+            },
+            "color": { "value": particleColor },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.4 },
+            "size": { "value": 3, "random": true },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": particleColor,
+              "opacity": 0.3,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 2,
+              "direction": "none",
+              "random": false,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": { "enable": true, "mode": "repulse" },
+              "onclick": { "enable": true, "mode": "push" },
+              "resize": true
+            }
+          },
+          "retina_detect": true
+        });
+    }
+
+        // Ejecuta esto cuando el contenido del DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+        //initParticles('particles-js', '#ffffff'); // Partículas blancas en la sección Hero
+        initParticles('particles-js-nosotras', '#025951'); // Partículas verdes en la sección Nosotras
+        initParticles('particles-js-area_de_practica', '#ffffff'); // Partículas verdes en la sección practica
+        initParticles('particles-js-equipo', '#025951'); // Partículas verdes en la sección Equipo
+        initParticles('particles-js-contacto', '#ffffff');
+    });
+
+
+      //PORTADA Lógica del slider
+      document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.slide');
+      let currentSlide = 0;
+      
+      // Asegurarse de que la primera imagen esté visible inmediatamente
+      slides[0].classList.add('active');
+      
+      function nextSlide() {
+        // Desactivar slide actual
+        slides[currentSlide].classList.remove('active');
+        
+        // Calcular siguiente slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Activar nuevo slide
+        slides[currentSlide].classList.add('active');
+      }
+      
+      // Iniciar el temporizador para cambiar slides
+      setInterval(nextSlide, 2700);
+      
+      // Precargar las imágenes para evitar parpadeos
+      slides.forEach(slide => {
+        const bgImage = slide.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)[1];
+        const img = new Image();
+        img.src = bgImage;
+      });
+    });
+  
+    /*********************************************************/
+    /*  INTERSECTION OBSERVER PARA ANIMACIONES FADE-IN       */
+    /*********************************************************/
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    });
+    fadeElements.forEach(element => {
+      observer.observe(element);
+    });
+
+      /****************************************************/
+    /*  CARRUSEL DE ÁREAS DE PRÁCTICA (JS PURO)         */
+    /****************************************************/
+    /*****************************************************************
+     * 1. Datos del carrusel
+     *****************************************************************/
+    // Datos del carrusel
+    const areas = [
+        { 
+            title: "Litigación Penal", 
+            desc: "Asesoría y defensa legal en delitos de carácter penales. Penal Económico, Procesal Penal, etc.", 
+            img: "/fotos_pagina_web/png/litigación_penal_martillo_judicial.png"
+        },
+        { 
+            title: "Compliance", 
+            desc: "Ley de Delitos Económicos. \n Lean Management. \n Ley Karin.", 
+            img: "/fotos_pagina_web/png/compliance_checklist.png" 
+        },
+        { 
+            title: "Datos Personales", 
+            desc: "Asesorías para enfrentar la nueva Ley de Protección de Datos Personales del 2026.", 
+            img: "/fotos_pagina_web/png/datos_personales_huella_digital.png" 
+        },
+        {
+            title: "Capacitaciones Legales", 
+            desc: "Educación y formación para grupos y empresas sobre leyes, derechos y cumplimiento normativo.", 
+            img: "/fotos_pagina_web/png/capacitaciones_grupo_de_personas.png"
+        },
+        {
+            title: "Chatbots Legales",
+            desc: "Inteligencia artificial y agentes entrenados para responder cualquier duda sobre la ley chilena.",
+            img: "/fotos_pagina_web/png/Chatbot_ai_legal_chileno.png"
+        },
+    ];
+
+    const track = document.querySelector('.carousel-track');
+    const leftButton = document.querySelector('.carousel-button.left');
+    const rightButton = document.querySelector('.carousel-button.right');
+    let isTransitioning = false;
+
+    // Crear los ítems del carrusel dinámicamente
+    areas.forEach((area) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        item.innerHTML = `
+            <div class="image-container">
+                <img src="${area.img}" alt="${area.title}">
+            </div>
+            <h3>${area.title}</h3>
+            <p>${area.desc}</p>
+        `;
+        track.appendChild(item);
+    });
+
+    const items = Array.from(track.querySelectorAll('.carousel-item'));
+    let currentIndex = 0;
+
+    function updateCarousel(direction = null, exitingIndex = null) {
+        const totalItems = items.length;
+
+        // Limpiar clases previas
+        items.forEach(item => {
+            item.classList.remove(
+                'active', 
+                'prev', 
+                'next', 
+                'exit-left', 
+                'exit-right', 
+                'interactive'
+            );
+            item.style.display = 'block';
+        });
+
+        // Calcular prevIndex y nextIndex
+        const prevIndex = (currentIndex - 1 + totalItems) % totalItems;
+        const nextIndex = (currentIndex + 1) % totalItems;
+
+        // Animación de salida
+        if (exitingIndex !== null) {
+            // Si movemos a la derecha, sale por la izquierda; si movemos a la izquierda, sale por la derecha
+            items[exitingIndex].classList.add(
+                direction === 'right' ? 'exit-left' : 'exit-right'
+            );
+            // Quitar del flujo tras la animación
+            setTimeout(() => {
+                items[exitingIndex].style.display = 'none';
+            }, 600);
+        }
+
+        // Asignar clases (prev, active, next)
+        items[prevIndex].classList.add('prev');
+        items[currentIndex].classList.add('active', 'interactive');
+        items[nextIndex].classList.add('next');
+    }
+
+    function moveLeft() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        // El que sale es el next actual
+        const exitingIndex = (currentIndex + 1) % items.length;
+        // Actualizamos currentIndex al prev
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+
+        updateCarousel('left', exitingIndex);
+
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 600);
+    }
+
+    function moveRight() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        // El que sale es el prev actual
+        const exitingIndex = (currentIndex - 1 + items.length) % items.length;
+        // Actualizamos currentIndex al next
+        currentIndex = (currentIndex + 1) % items.length;
+
+        updateCarousel('right', exitingIndex);
+
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 600);
+    }
+
+    // Eventos de los botones
+    leftButton.addEventListener('click', moveLeft);
+    rightButton.addEventListener('click', moveRight);
+
+    // Inicializar
+    updateCarousel();
+
+
+    // ========== CÓDIGO PARA ARRASTRAR CON MOUSE Y DEDO ==========
+
+    // Variables para almacenar la posición inicial de arrastre y el estado
+    let startX = 0;
+    let isDragging = false;
+    // Distancia mínima de arrastre para cambiar de tarjeta (ajusta a tu gusto)
+    let threshold = 50;
+
+    // Referencia al contenedor principal del carrusel (o al track, según prefieras)
+    const carouselElement = document.querySelector('.carousel');
+
+    // Funciones para normalizar los eventos de mouse/touch
+    function getPointerPosition(e) {
+        return e.type.includes('mouse') 
+            ? e.pageX 
+            : e.touches[0].clientX;
+    }
+
+    // Evento de inicio de arrastre (mousedown / touchstart)
+    function handleDragStart(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = getPointerPosition(e);
+    }
+
+    // Evento durante el arrastre (mousemove / touchmove) [opcional para animar en tiempo real]
+    function handleDragMove(e) {
+        if (!isDragging) return;
+        // Si quisieras animar el movimiento, podrías hacerlo aquí
+        // const currentX = getPointerPosition(e);
+        // const moved = currentX - startX;
+        // track.style.transform = `translateX(${moved}px)`; // Ejemplo
+    }
+
+    // Evento de fin de arrastre (mouseup / touchend)
+    function handleDragEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const endX = e.type.includes('mouse')
+            ? e.pageX
+            : e.changedTouches[0].clientX;
+
+        // Distancia total arrastrada
+        const diff = endX - startX;
+
+        // Determina si se arrastró suficientemente a la izquierda o a la derecha
+        if (diff > threshold) {
+            // Se arrastró a la derecha (ir a la tarjeta previa)
+            moveLeft();
+        } else if (diff < -threshold) {
+            // Se arrastró a la izquierda (ir a la tarjeta siguiente)
+            moveRight();
+        }
+    }
+
+    // Listeners para mouse
+    carouselElement.addEventListener('mousedown', handleDragStart);
+    carouselElement.addEventListener('mousemove', handleDragMove);
+    carouselElement.addEventListener('mouseup', handleDragEnd);
+    carouselElement.addEventListener('mouseleave', () => {
+        // Para asegurar que si se sale del elemento, se detenga el arrastre
+        isDragging = false;
+    });
+
+    // Listeners para touch
+    carouselElement.addEventListener('touchstart', handleDragStart);
+    carouselElement.addEventListener('touchmove', handleDragMove);
+    carouselElement.addEventListener('touchend', handleDragEnd);
+
+    //EQUIPOOOOO click redirigir no foto
+    function handleClick(event, url) {
+      // Si el clic no es en una imagen, redirigir
+      if (!event.target.classList.contains('member-image')) {
+        location.href = url;
+      }
+    }
+
+    //FOOTEER 
+    // Modal functionality
+    function openModal(modalType) {
+      document.getElementById(`${modalType}Modal`).style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalType) {
+      document.getElementById(`${modalType}Modal`).style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+  </script>
+</body>
+</html>

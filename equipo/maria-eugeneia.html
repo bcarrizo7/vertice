@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font Awesome para iconos -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  />
+  <!-- Particles.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <title>María Eugenia Raggi - Vértice Legal</title>
+
+  <style>
+        :root {
+      /* Fondo general (blanco) */
+      --primary-color: #ffffff;
+      /* Secciones secundarias (celeste) */
+      /*--secondary-color: #a2dbdd;*/
+      --secondary-color: #027368;
+      /* Azul marino */
+      /* --accent-color: #193f66;*/
+      --accent-color: #025951;
+      /* Rosado para detalles */
+      --pink-color: #ff8db3;
+      /* Texto principal (gris oscuro) */
+      --text-color: #4b4647;
+      /* Texto secundario (gris intermedio) */
+      --text-color-secondary: #555555;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    
+    body {
+      font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
+    }
+
+        /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--pink-color);
+      transition: width 0.3s ease;
+    }
+
+    /* Aplica al hacer hover (ratón encima) */
+    .nav-links a:hover {
+      color: var(--accent-color);
+      transform: scale(1.02);
+
+      /* Simulamos algo de "grosor" extra */
+      text-shadow: 
+        0.5px 0 currentColor,   /* sombra a la derecha */
+      -0.5px 0 currentColor;   /* sombra a la izquierda */
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+
+    /* MENU HAMBURGUESA */
+    .menu-toggle {
+        display: none;
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        cursor: pointer;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-links.show {
+            display: flex;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+    }
+
+
+    /* Sección "hero" con partículas */
+    .hero-section {
+      position: relative;
+      min-height: 40vh; /* Ajusta a tu gusto */
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      overflow: hidden;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0; /* Partículas detrás */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1; /* Texto delante de partículas */
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 10%;
+      text-align: center; /* Centrado horizontal */
+    }
+
+    /* María Eugenia Raggi y Socia Fundadora en la misma línea */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      /* margen opcional para separarlos un poco del tope */
+      margin-top: 8rem;
+      margin-bottom: 2rem;
+    }
+    .profile-name {
+      font-size: 3rem;
+      color: var(--accent-color);
+    }
+    .profile-role {
+      font-size: 1.3rem;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    /* Contenido principal */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 10%;
+      position: relative;
+    }
+
+    /* Imagen fija a la derecha */
+    .profile-image {
+      position: fixed;
+      right: 20rem;
+      top: 20vh;
+      width: 400px;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .profile-content {
+      margin-right: 450px; /* Para no chocar con la imagen */
+    }
+
+    @media (max-width: 1900px) {
+      .profile-image {
+        position: fixed; /* Imagen fija a la derecha */
+        top: 20vh;
+        right: 20rem; /* Mantén la imagen alineada a la derecha */
+        width: 33.33%;  /* 1/3 del tamaño de la pantalla */
+        height: auto;
+        margin-right: -350px; 
+      }
+    }
+
+    .profile-section {
+      margin-bottom: 2rem;
+    }
+
+    .profile-section h2 {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-section ul {
+      list-style: none;
+    }
+
+    .profile-section li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .profile-section li::before {
+      content: "•";
+      color: var(--pink-color);
+      position: absolute;
+      left: 0;
+    }
+
+    /* Flechas al final */
+    .navigation-arrows {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .arrow-btn {
+      background: var(--accent-color);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .arrow-btn:hover {
+      background: var(--pink-color);
+      transform: scale(1.1);
+    }
+
+
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: auto;
+      }
+
+      .profile-image {
+        position: relative;
+        top: -6rem;  /* Mover la imagen hacia arriba */
+        left: 50%;   /* Centrar horizontalmente */
+        transform: translateX(-50%);  /* Asegurar que la imagen esté perfectamente centrada */
+        width: 70%;  /* Tamaño de la imagen */
+        height: auto;
+        margin: 0;   /* Eliminar márgenes adicionales */
+      }
+
+      .profile-content {
+        margin-top: -1rem; /* Acercar el contenido a la imagen */
+        margin-right: 0;
+      }
+
+      .profile-section {
+        margin-bottom: 1.5rem; /* Reducir el espacio entre secciones */
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.show {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .profile-name {
+        font-size: 2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+    <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">§ Vértice <span style="color: var(--pink-color)">|</span> Legal</a>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="nav-links">
+        <a href="/#nosotros">Nosotras</a>
+        <a href="/#area_de_practica">Áreas de Práctica</a>
+        <a href="/#equipo">Equipo</a>
+        <a href="/#contacto">Contacto</a>
+        <a href="/asistente.html">Asistente IA</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sección con partículas: solo "María Eugenia Raggi" y "Socia Fundadora" -->
+  <section class="hero-section">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <div class="profile-header">
+        <h1 class="profile-name">Eugenia Raggi</h1>
+      </div>
+      <span class="profile-role">Socia Fundadora</span>
+    </div>
+  </section>
+
+  <!-- Contenido principal: imagen, biografía y flechas -->
+  <main class="main-content">
+    <img src="/fotos_pagina_web/webp/María Eugenia Raggi .webp" alt="María Eugenia Raggi" class="profile-image" />
+  
+    <div class="profile-content">
+      <div class="profile-section">
+        <h2>Formación Académica</h2>
+        <ul>
+          <li>Abogada, Universidad Diego Portales (2018), titulada con distinción</li>
+          <li>Magíster en Derecho Penal y Procesal Penal, Universidad Diego Portales</li>
+          <li>Diplomada en Criminología Aplicada (2022) y en Mujeres y Justicia Penal (2021), ambos programas de la Universidad de Chile</li>
+        </ul>
+      </div>
+  
+      <div class="profile-section">
+        <h2>Experiencia Profesional</h2>
+        <ul>
+          <li>Abogada en la Defensoría Penal Pública (2021-actual)</li>
+        </ul>
+      </div>
+  
+      <div class="profile-section">
+        <h2>Actividades Académicas</h2>
+        <ul>
+          <li>Ayudante senior en Derecho Procesal Penal, a cargo de los profesores Mauricio Duce, Alejandra Mera, Víctor Beltrán y Eduardo Fuentes, y en Derecho Penal Parte Especial, bajo la dirección del profesor Cristian Irarrazabal, en la Universidad Diego Portales</li>
+        </ul>
+      </div>
+  
+      <div class="profile-section">
+        <h2>Idiomas</h2>
+        <ul>
+          <li>Español</li>
+          <li>Inglés</li>
+        </ul>
+      </div>
+  
+      <div class="profile-section">
+        <h2>Email</h2>
+        <ul>
+          <li><a href="mailto:Raggi.me@gmail.com">Raggi.me@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Flechas de navegación fuera del contenedor principal -->
+    <div class="navigation-arrows">
+      <a href="/equipo/alejandra-castillo.html" class="arrow-btn">&lt;</a>
+      <a href="/equipo/pilar-carrasco.html" class="arrow-btn">&gt;</a>
+    </div>
+  </main>
+  
+
+
+  <!-- Scripts -->
+  <script>
+    // Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // Particles.js
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#193f66" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4 },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#193f66",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>
