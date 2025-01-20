@@ -449,7 +449,7 @@
     
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">§ Vértice<span style="color: var(--pink-color)">|</span> Legal</a>
+            <a href="/index.html" class="logo">§ Vértice<span style="color: var(--pink-color)">|</span> Legal</a>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
@@ -710,10 +710,11 @@
         function simulateTyping(typingDiv, userQuestion) {
             fetch("https://xqgvjfn7s4.execute-api.us-east-1.amazonaws.com/production/legal_bot", {
                 method: "POST",
+                
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ question: "Buenos dias" })
+                body: JSON.stringify({ question: "Que pasa si robo una tienda y me pillan" })
                 })
                 .then((res) => {
                     if (!res.ok) {
