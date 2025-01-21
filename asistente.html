@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         /* 
@@ -707,14 +708,14 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         // Llamada al backend
+
         function simulateTyping(typingDiv, userQuestion) {
             fetch("https://xqgvjfn7s4.execute-api.us-east-1.amazonaws.com/production/legal_bot", {
                 method: "POST",
-                
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ question: "Que pasa si robo una tienda y me pillan" })
+                body: JSON.stringify({ question: userQuestion})
                 })
                 .then((res) => {
                     if (!res.ok) {
@@ -724,9 +725,17 @@
                 })
                 .then((data) => {
                     console.log("Response:", data);
+                    // Removemos el indicador de typing
+                    removeTypingIndicator(typingDiv);
+                    // Agregamos la respuesta del asistente al chat
+                    // Asumiendo que data.response.response contiene la respuesta del asistente
+                    addMessage(data.response.response, false);
                 })
                 .catch((error) => {
                     console.error("Error:", error);
+                    // En caso de error, también removemos el indicador y mostramos un mensaje de error
+                    removeTypingIndicator(typingDiv);
+                    addMessage("Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.", false);
                 });
 
         }
