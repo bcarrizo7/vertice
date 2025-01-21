@@ -729,7 +729,7 @@
                     removeTypingIndicator(typingDiv);
                     // Agregamos la respuesta del asistente al chat
                     // Asumiendo que data.response.response contiene la respuesta del asistente
-                    addMessage(data.response.response, false);
+                    addMessage(data.response, false);
                 })
                 .catch((error) => {
                     console.error("Error:", error);
