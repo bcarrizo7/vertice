@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <!-- Particles.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <title>Pilar Carrasco - Vértice Legal | Datos Personales y Compliance.</title>
+  <meta name="description"
+    content="Conoce a Pilar Carrasco, Socia Fundadora en Vértice Legal. Experta en Teoría del Delito y Procesal Penal.">
+  <meta property="og:title" content="Pilar Carrasco - Vértice Legal">
+  <meta property="og:description"
+    content="Socia Fundadora en Vértice Legal. Especialista en Teoría del Delito y Procesal Penal.">
+  <meta property="og:type" content="profile">
+  <meta property="og:image" content="https://verticelegal.cl/fotos_pagina_web/webp/Pilar Carrasco.webp">
+
+  <style>
+    :root {
+      /* Fondo general (blanco) */
+      --primary-color: #ffffff;
+      /* Secciones secundarias (celeste) */
+      /*--secondary-color: #a2dbdd;*/
+      --secondary-color: #027368;
+      /* Azul marino */
+      /* --accent-color: #193f66;*/
+      --accent-color: #025951;
+      /* Verde para detalles (antes rosa) */
+      --highlight-color: #027368;
+      /* Texto principal (gris oscuro) */
+      --text-color: #4b4647;
+      /* Texto secundario (gris intermedio) */
+      --text-color-secondary: #555555;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--highlight-color);
+      transition: width 0.3s ease;
+    }
+
+    /* Aplica al hacer hover (ratón encima) */
+    .nav-links a:hover {
+      color: var(--accent-color);
+      transform: scale(1.02);
+
+      /* Simulamos algo de "grosor" extra */
+      text-shadow:
+        0.5px 0 currentColor,
+        /* sombra a la derecha */
+        -0.5px 0 currentColor;
+      /* sombra a la izquierda */
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+
+    /* MENU HAMBURGUESA */
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+    }
+
+
+    /* Sección "hero" con partículas */
+    .hero-section {
+      position: relative;
+      min-height: 25vh;
+      /* Más corto */
+      background: var(--accent-color);
+      /* Color más oscuro para contraste */
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      /* Partículas detrás */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      /* Texto delante de partículas */
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 8rem 10% 2rem 10%;
+      /* Aumentado de 6rem a 8rem */
+      text-align: center;
+    }
+
+    /* Pilar Carrasco y Socia Fundadora en la misma línea */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-name {
+      font-size: 3rem;
+      color: #ffffff;
+      /* Blanco para contraste */
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-role {
+      font-size: 1.8rem;
+      color: #ffffff;
+      /* Blanco para contraste */
+      font-weight: 400;
+      margin-top: 0.5rem;
+      display: block;
+      opacity: 0.9;
+    }
+
+    /* Contenido principal */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 10%;
+      display: flex;
+      gap: 4rem;
+      align-items: stretch;
+      /* Permite que el contenedor de imagen sea tan alto como el texto */
+      background: white;
+    }
+
+    /* Imagen fija a la derecha */
+    .profile-image-container {
+      width: 400px;
+      flex-shrink: 0;
+    }
+
+    .profile-image {
+      position: sticky;
+      top: 120px;
+      /* Se queda pegada debajo del navbar */
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-content {
+      flex: 1;
+    }
+
+    @media (max-width: 1900px) {
+      .profile-image-container {
+        width: 30%;
+      }
+    }
+
+    .profile-section {
+      margin-bottom: 2rem;
+    }
+
+    .profile-section h2 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      /* Aumentado */
+      margin-bottom: 1rem;
+    }
+
+    .profile-section ul {
+      list-style: none;
+    }
+
+    .profile-section li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 1.3rem;
+      /* Aumentado */
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .profile-section li::before {
+      content: "•";
+      color: var(--highlight-color);
+      position: absolute;
+      left: 0;
+    }
+
+    /* Flechas al final */
+    .navigation-arrows {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .arrow-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .arrow-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+      border-color: #fff;
+    }
+
+
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: auto;
+        padding-bottom: 2rem;
+      }
+
+      .main-content {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+      }
+
+      .profile-image-container {
+        width: 100%;
+        order: -1; /* Imagen primero en mobile */
+      }
+
+      .profile-image {
+        position: static;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        transform: none;
+      }
+
+      .profile-content {
+        margin-top: 0;
+        margin-right: 0;
+      }
+
+      .profile-section {
+        margin-bottom: 1.5rem;
+        /* Reducir el espacio entre secciones */
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.show {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .profile-name {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/index.html" class="logo">§ Vértice <span style="color: var(--accent-color)">|</span> Legal</a>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="nav-links">
+        <a href="/#nosotros">Nosotras</a>
+        <a href="/#area_de_practica">Áreas de Práctica</a>
+        <a href="/#equipo">Equipo</a>
+        <a href="/#contacto">Contacto</a>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sección con partículas: solo "Pilar Carrasco" y "Socia Fundadora" -->
+  <section class="hero-section">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <div class="profile-header">
+        <a href="/equipo/alejandra-castillo.html" class="arrow-btn">&lt;</a>
+        <h1 class="profile-name">Pilar Carrasco</h1>
+        <a href="/equipo/pablo-carrasco.html" class="arrow-btn">&gt;</a>
+      </div>
+      <span class="profile-role">Socia Fundadora <a
+          href="https://www.linkedin.com/in/mar%C3%ADa-pilar-carrasco-melo-7bba2428/" target="_blank"
+          style="color: #ffffff; margin-left: 0.5rem; vertical-align: middle; font-size: 1.5rem;"><i
+            class="fab fa-linkedin"></i></a></span>
+    </div>
+  </section>
+
+  <!-- Contenido principal: imagen, biografía y flechas -->
+  <main class="main-content">
+    <div class="profile-content">
+      <div class="profile-section">
+        <h2>Formación</h2>
+        <ul>
+          <li>Abogada, Universidad Diego Portales (2024), titulada con distinción</li>
+          <li>Diplomado en Derecho Penal Económico, Universidad Adolfo Ibáñez (2025)</li>
+          <li>Curso Derecho Internacional Humanitario, Universidad de Leiden (Países Bajos)</li>
+          <li>Intercambio semestral, Universidad de Edimburgo (Escocia)</li>
+          <li>Programas de invierno en Pontificia Universidad Católica de Perú y Universidad de Buenos Aires (Argentina)
+          </li>
+        </ul>
+      </div>
+
+      <div class="profile-section">
+        <h2>Experiencia Profesional</h2>
+        <ul>
+          <li>Jefa del Área Legal, Administración y Finanzas en ProyectaE</li>
+          <li>Capacitadora Ley Datos Personales cursos postgrado Universidad Diego Portales y colaboración en
+            investigación proyecto Fondecyt (2025)</li>
+          <li>Defensoría Penal Pública: práctica profesional Lo Prado; prueba habilitante aprobada; incluida en nómina
+            de reemplazos Metropolitana Norte y Sur</li>
+          <li>Pasantía en el área penal de Tavolari Abogados (2024)</li>
+          <li>Pasantía SLBZ Abogados</li>
+          <li>Relatora en Ciclo de Perfeccionamiento en Redacción Jurídica y Litigación con Perspectiva de Género,
+            SernamEG (2025)</li>
+        </ul>
+      </div>
+
+      <div class="profile-section">
+        <h2>Actividades Académicas</h2>
+        <ul>
+          <li>Ayudante del Departamento de Derecho Penal y Procesal Penal de la Universidad Diego Portales (2021-2025).
+          </li>
+          <li>Fundadora de sitio de apuntes colaborativo: <a href="https://www.portalderecho.cl"
+              target="_blank">Portal Derecho</a></li>
+        </ul>
+      </div>
+
+      <div class="profile-section">
+        <h2>Idiomas</h2>
+        <ul>
+          <li>Español</li>
+          <li>Inglés</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="profile-image-container">
+      <img src="/fotos_pagina_web/webp/Pilar Carrasco.webp" alt="Pilar Carrasco" class="profile-image" />
+    </div>
+  </main>
+
+
+
+
+
+  <!-- Scripts -->
+  <script>
+    // Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // Particles.js
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4 },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+
+</html>
