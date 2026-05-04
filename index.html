@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vértice Legal - Expertas en Ley de Datos Personales</title>
+  <title>Vértice Legal - Datos Personales y Compliance.</title>
+  <meta name="description"
+    content="Vértice Legal - Especialistas en protección de datos personales y compliance legal en Chile. Asesoría experta para empresas y organizaciones.">
+  <meta property="og:title" content="Vértice Legal - Datos Personales y Compliance.">
+  <meta property="og:description"
+    content="Especialistas en protección de datos personales y compliance legal en Chile.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://verticelegal.cl/">
+  <meta property="og:image" content="https://verticelegal.cl/fotos_pagina_web/webp/portada_vértice_legal_4.webp">
 
   <!-- Librerías externas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -11,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  
+
 
   <!-- Estilos -->
   <style>
@@ -25,8 +34,8 @@
       /* Azul marino */
       /* --accent-color: #193f66;*/
       --accent-color: #025951;
-      /* Rosado para detalles */
-      --pink-color: #ff8db3;
+      /* Verde para detalles (antes rosado) */
+      --highlight-color: #027368;
       /* Texto principal (gris oscuro) */
       --text-color: #4b4647;
       /* Texto secundario (gris intermedio) */
@@ -50,6 +59,11 @@
     }*/
 
     /* NAVBAR */
+    /* Offset para secciones con ID — compensa la altura del navbar fijo */
+    section[id] {
+      scroll-margin-top: 80px;
+    }
+
     .navbar {
       position: fixed;
       top: 0;
@@ -62,7 +76,8 @@
     }
 
     .nav-container {
-      max-width: 1400px;
+      max-width: 1250px;
+      /* Ajustado para dar más aire a los links */
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -101,7 +116,7 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: var(--pink-color);
+      background: var(--highlight-color);
       transition: width 0.3s ease;
     }
 
@@ -111,9 +126,11 @@
       transform: scale(1.02);
 
       /* Simulamos algo de "grosor" extra */
-      text-shadow: 
-        0.5px 0 currentColor,   /* sombra a la derecha */
-      -0.5px 0 currentColor;   /* sombra a la izquierda */
+      text-shadow:
+        0.5px 0 currentColor,
+        /* sombra a la derecha */
+        -0.5px 0 currentColor;
+      /* sombra a la izquierda */
     }
 
     .nav-links a:hover::after {
@@ -123,33 +140,33 @@
 
     /* MENU HAMBURGUESA */
     .menu-toggle {
-        display: none;
-        font-size: 1.5rem;
-        color: var(--accent-color);
-        cursor: pointer;
+      display: none;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      cursor: pointer;
     }
-    
+
     /* RESPONSIVE */
     @media (max-width: 1000px) {
-        .nav-links {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            flex-direction: column;
-            padding: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-        .nav-links.show {
-            display: flex;
-        }
+      .nav-links.show {
+        display: flex;
+      }
 
-        .menu-toggle {
-            display: block;
-        }
+      .menu-toggle {
+        display: block;
+      }
 
     }
 
@@ -162,17 +179,33 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      background-color: white;
+      /* Para que combine con el fondo de la foto */
     }
 
     .slide {
       position: absolute;
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
+      top: 10%;
+      left: 10%;
       opacity: 0;
       transition: opacity 1s ease-in-out;
-      background-size: cover; /* Por defecto cover para desktop */
+      background-size: contain;
+      /* Cambiado de cover a contain para ver la foto completa */
       background-position: center;
       background-repeat: no-repeat;
+      z-index: 2;
+    }
+
+    #particles-js-hero {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
     }
 
     /* Cambio a contain y ajuste de altura para tablets y móviles */
@@ -180,19 +213,24 @@
       .slide {
         background-size: contain;
       }
-      
+
       .image-slider {
-        height: auto; /* Altura automática basada en el contenido */
-        aspect-ratio: 16/9; /* Mantiene una proporción consistente */
-        min-height: 300px; /* Altura mínima para evitar que sea muy pequeño */
-        max-height: 80vh; /* Altura máxima para evitar que sea muy grande */
+        height: auto;
+        /* Altura automática basada en el contenido */
+        aspect-ratio: 16/9;
+        /* Mantiene una proporción consistente */
+        min-height: 300px;
+        /* Altura mínima para evitar que sea muy pequeño */
+        max-height: 80vh;
+        /* Altura máxima para evitar que sea muy grande */
       }
     }
 
     /* Ajustes adicionales para móviles */
     @media (max-width: 480px) {
       .image-slider {
-        aspect-ratio: 3/3; /* Proporción más cuadrada para móviles */
+        aspect-ratio: 3/3;
+        /* Proporción más cuadrada para móviles */
         min-height: 250px;
         margin-bottom: -90px;
       }
@@ -267,13 +305,25 @@
       transform: translateY(-2px);
     }
 
+    /* Global Bold Highlights */
+    strong,
+    b {
+      color: var(--accent-color);
+    }
+
+    .form-group label {
+      color: var(--accent-color) !important;
+    }
+
     /* SECCIONES GENERALES */
     .section {
-      padding: 8rem 4rem;
+      padding: 2rem 4rem;
+      position: relative;
+      min-height: auto;
     }
 
     .section-container {
-      max-width: 1400px;
+      max-width: 1100px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
@@ -282,42 +332,62 @@
     /* TITULOS DE SECCION */
     .section-title {
       font-size: 3rem;
-      margin-bottom: 4rem;
+      margin-bottom: 2rem;
+      /* Reducido */
       text-align: center;
       color: var(--accent-color);
       position: relative;
+      display: table;
+      /* Hace que el ancho sea el del texto */
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* AUMENTAMOS TAMAÑO Y GROSOR DEL SUBRAYADO ROSADO */
+    /* SUBRAYADO QUE CUBRE TODO EL TEXTO */
     .section-title::after {
       content: '';
       position: absolute;
       bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150px; /* más ancho */
-      height: 4px;  /* más grueso */
-      background: var(--pink-color);
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--highlight-color);
     }
 
     /* SECCION NOSOTRAS */
     .nosotros-section {
       /* Fondo blanco (primary) */
       background: var(--primary-color);
-      padding: 8rem 4rem;
+      padding: 2rem 4rem;
+      /* Reducido aún más */
       position: relative;
     }
 
-    /* Estilos para el contenedor de partículas */
-    #particles-js-nosotras, #particles-js-area_de_practica, #particles-js-equipo, #particles-js-contacto {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;  /* Las partículas quedan detrás del contenido */
+    /* Estilos para el contenedor de partículas (secciones generales) */
+    #particles-js-nosotras,
+    #particles-js-equipo,
+    #particles-js-blog,
+    #particles-js-contacto {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
-        
+
+    /* Partículas de Áreas de Práctica: ancho total de izquierda a derecha */
+    #particles-js-area_de_practica {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
 
     .nosotros-content {
       max-width: 1200px;
@@ -345,13 +415,13 @@
       text-align: center;
       border-radius: 10px;
       transition: transform 0.3s ease;
-      border: 1px solid rgba(25,63,102, 0.1);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 1px solid rgba(25, 63, 102, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
     .stat-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     }
 
     .stat-number {
@@ -382,292 +452,121 @@
       .nosotros-section {
         padding: 4rem 2rem;
       }
-      
+
       .nosotros-content p {
         font-size: 1.2rem;
       }
-      
+
       .nosotros-image {
         width: 95%;
       }
     }
 
-    /* SECCION ÁREA DE PRÁCTICA */
+    /* SECCION ÁREA DE PRÁCTICA REDISEÑADA */
     .area_de_practica-section {
-      background: var(--secondary-color);
-      color: var(--accent-color);
-      padding: 8rem 4rem;
       position: relative;
-    }
-
-    /* Cambia el color del título solo en la sección Áreas de Práctica */
-    #area_de_practica .section-title {
-        color: var(--primary-color);
-    }
-
-    /* Contenedor general del carrusel */ 
-    /* CARRUSEL MEJORADO */
-            /* -------------- Contenedor principal del carrusel -------------- */
-    .carousel-container {
-        width: 100%;
-        height: 600px;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .carousel {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-    }
-
-    .carousel-track {
-        display: flex;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-
-        /* -------------- Ítems del carrusel -------------- */
-    .carousel-item {
-        position: absolute;
-        width: calc(33.333% - 2rem);
-        height: 500px;
-        background: #fff;
-        border-radius: 15px;
-        padding: 20px;
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        text-align: center;
-        pointer-events: none;
-        opacity: 0;
-        /* Posición inicial (fuera de vista) */
-        transform: scale(0.8) translateX(-100%);
-        /* Sombra base */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Permitir clicks en el ítem central (active) */
-    .carousel-item.interactive {
-        pointer-events: auto;
-    }
-
-    .carousel-item .image-container {
-        width: 100%;
-        height: 250px;
-        margin: 0 auto 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    .carousel-item img {
-        width: 45%;
-        height: auto;
-        object-fit: contain;
-        transition: transform 0.3s ease;
-    }
-
-    .carousel-item.interactive:hover img {
-        transform: scale(1.1);
-    }
-
-    .carousel-item h3 {
-        font-size: 2rem;
-        margin: 1.5rem 0;
-        color: var(--accent-color);
-    }
-
-    .carousel-item p {
-        color: var(--text-color-secondary);
-        font-size: 1.3rem;
-        margin: 0 auto;
-        white-space: pre-wrap;
-        line-height: 1.6;
-    }
-
-    /* -------------- Estados prev, active, next -------------- */
-    /* Tarjeta previa (izquierda) */
-    .carousel-item.prev {
-        opacity: 0.8;
-        left: 0;
-        z-index: 1;
-        /* Pequeña escala + rotación negativa = inclinada a la izquierda */
-        transform: scale(0.8) translateX(0) perspective(900px) rotateY(-15deg);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Tarjeta activa (centro) */
-    .carousel-item.active {
-        opacity: 1;
-        left: 33.333%;
-        z-index: 2;
-        transform: scale(1) translateX(0);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Tarjeta siguiente (derecha) */
-    .carousel-item.next {
-        opacity: 0.8;
-        left: 66.666%;
-        z-index: 1;
-        /* Pequeña escala + rotación positiva = inclinada a la derecha */
-        transform: scale(0.8) translateX(0) perspective(900px) rotateY(15deg);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
-    }
-
-    /* -------------- Animaciones de salida -------------- */
-    .carousel-item.exit-left {
-        opacity: 0;
-        transform: scale(0.6) translateX(-200%) perspective(1000px) rotateY(-45deg);
-    }
-
-    .carousel-item.exit-right {
-        opacity: 0;
-        transform: scale(0.6) translateX(200%) perspective(1000px) rotateY(45deg);
-    }
-
-    /* -------------- Botones de navegación -------------- */
-    .carousel-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--accent-color);
-        color: #fff;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 1.5rem;
-        z-index: 3;
-        transition: all 0.3s ease;
-    }
-    .carousel-button:hover {
-        background: var(--pink-color);
-        transform: translateY(-50%) scale(1.1);
-    }
-    .carousel-button.left {
-        left: 20px;
-    }
-    .carousel-button.right {
-        right: 20px;
-    }
-
-    /* -------------- Responsividad (personalízala a tu gusto) -------------- */
-    @media (max-width: 1024px) {
-        .area_de_practica-section {
-            padding: 4rem 2rem;
-        }
-        .carousel-item {
-            width: calc(50% - 2rem);
-        }
-        .carousel-item.prev  { left: -5%; }
-        .carousel-item.active { left: 25%; }
-        .carousel-item.next { left: 55%; }
-    }
-
-    @media (max-width: 768px) {
-        .carousel-container {
-            height: 520px;
-        }
-        .carousel-item {
-            width: 75%;
-            min-height: 420px;
-            position: absolute;
-            margin: 0;
-            padding: 20px 15px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-        }
-        .carousel-item.prev,
-        .carousel-item.next {
-            opacity: 0.3;
-            display: block !important;
-            pointer-events: none;
-            visibility: visible;
-            transform: scale(0.8) !important;
-        }
-        .carousel-item.prev  { left: -25% !important; }
-        .carousel-item.active {
-            left: 12.5% !important;
-            opacity: 1;
-            transform: scale(1) !important;
-            z-index: 2;
-        }
-        .carousel-item.next {
-            left: 50% !important;
-        }
-        .carousel-item .image-container {
-            height: 220px;
-            margin: 0.5rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            order: 2;
-        }
-        .carousel-item img {
-            width: 90%;
-            max-height: 200px;
-        }
-        .carousel-item h3 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: var(--accent-color);
-            order: 1;
-        }
-        .carousel-item p {
-            font-size: 1.1rem;
-            line-height: 1.4;
-            padding: 0 5px;
-            margin-top: 0.5rem;
-            order: 3;
-        }
-        .carousel-button {
-            width: 35px;
-            height: 35px;
-            font-size: 1.2rem;
-            z-index: 10;
-        }
-        .carousel-button.left {
-            left: 2px;
-        }
-        .carousel-button.right {
-            right: 2px;
-        }
-    }
-
-    @media (max-width: 360px) {
-        .carousel-item {
-            width: 70%;
-        }
-        .carousel-item.prev {
-            left: -30% !important;
-            visibility: hidden;
-        }
-        .carousel-item.active {
-            left: 15% !important;
-        }
-        .carousel-item.next {
-            left: 60% !important;
-            visibility: hidden;
-        }
-    }
-
-    /* SECCION EQUIPO */
-    .team-section {
       background: var(--primary-color);
-      padding: 8rem 4rem;
+      padding: 2rem 4rem;
+      overflow: hidden;
+    }
+
+    /* El contenedor central queda por encima de las partículas */
+    .area_de_practica-section .section-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .practice-areas-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+
+    .practice-card {
+      background: #f4f9f8;
+      /* Verde clarito unificado */
+      padding: 1.8rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid #e0eeec;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .practice-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .practice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .practice-title {
+      font-size: 1.4rem;
+      color: var(--accent-color);
+      font-family: serif;
+      margin: 0;
+      flex: 1;
+    }
+
+    .practice-content {
+      font-size: 1.3rem;
+      /* Aumentado */
+      color: var(--text-color-secondary);
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .highlight-text {
+      color: var(--highlight-color);
+      font-weight: bold;
+    }
+
+    .practice-icon-container {
+      width: 85px;
+      height: 85px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .practice-mini-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      opacity: 1;
+    }
+
+    @media (max-width: 900px) {
+      .practice-areas-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .practice-card.expanded {
+        grid-column: span 1;
+      }
+    }
+
+    .team-section {
+      position: relative;
+      /* CRUCIAL para las partículas */
+      background: var(--primary-color);
+      padding: 2rem 4rem;
+      overflow: hidden;
     }
 
     .team-container {
-      max-width: 1400px;
+      max-width: 1100px;
+      /* Estandarizado */
       margin: 0 auto;
     }
 
@@ -680,22 +579,24 @@
 
     .team-member {
       flex: 1;
+      min-width: 320px;
       max-width: 400px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 2rem;
-      background: #f7f7f7;
-      border-radius: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(25, 63, 102, 0.1);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      padding: 1rem;
+      background: transparent;
+      /* Sin fondo */
+      border: none;
+      /* Sin borde */
+      box-shadow: none;
+      /* Sin sombra de caja */
+      transition: transform 0.3s ease;
     }
 
     .team-member:hover {
       transform: translateY(-10px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     }
 
     .member-image {
@@ -703,15 +604,17 @@
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      border: 4px solid var(--accent-color); /* Borde azul */
+      border: none;
     }
 
 
     .flip-container {
       perspective: 1000px;
-      width: 220px;
-      height: 220px;
-      margin-bottom: 1.5rem;
+      width: 300px;
+      /* Tamaño aumentado */
+      height: 300px;
+      /* Tamaño aumentado */
+      margin-bottom: 2rem;
     }
 
     .flipper {
@@ -726,7 +629,8 @@
       transform: rotateY(180deg);
     }
 
-    .front, .back {
+    .front,
+    .back {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -746,26 +650,37 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(50%); /* Efecto gris */
-      border: 4px solid var(--accent-color); /* Borde azul */
+      border: none;
     }
 
 
     .back-content {
       position: absolute;
-      text-align: center;
+      top: 12%;
+      right: 12%;
     }
 
     .ver-mas-btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      background: white;
+      color: var(--accent-color);
+      border: none;
+      border-radius: 50%;
       text-decoration: none;
-      font-weight: 600;
+      font-size: 1.8rem;
+      font-weight: bold;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .ver-mas-btn:hover {
+      transform: scale(1.1) rotate(90deg);
+      background: #f0f0f0;
+      color: var(--highlight-color);
     }
 
     .ver-mas-btn:hover {
@@ -773,23 +688,26 @@
       color: var(--accent-color);
     }
 
-    
+
 
     .member-name {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
+      /* Aumentado */
       color: var(--accent-color);
       margin-bottom: 0.5rem;
     }
 
     .member-title {
-      color: var(--pink-color);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
+      /* Aumentado */
+      color: var(--highlight-color);
+      font-weight: bold;
       margin-bottom: 0.5rem;
     }
 
     .member-role {
       color: var(--text-color-secondary);
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       margin-bottom: 1rem;
     }
 
@@ -800,7 +718,105 @@
       text-align: justify;
     }
 
-    /* Ocultar descripción en dispositivos móviles */
+    /* SECCIÓN BLOG */
+    .blog-section {
+      position: relative;
+      /* CRUCIAL para las partículas */
+      background: var(--primary-color);
+      /* Blanco */
+      padding: 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .blog-card {
+      background: #e9f2f1;
+      /* Verde suave */
+      padding: 4.5rem 2.5rem 3rem 2.5rem;
+      /* Más espacio arriba para la fecha y el + */
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(2, 89, 81, 0.1);
+      position: relative;
+      min-height: 250px;
+      /* Un poco más de altura mínima */
+      justify-content: flex-start;
+      /* Alinear arriba */
+      text-decoration: none;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(2, 89, 81, 0.1);
+      border-color: var(--accent-color);
+    }
+
+    .blog-year {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      /* Movido a la izquierda */
+      color: var(--text-color);
+      /* Gris */
+      font-weight: normal;
+      /* Sin negrita */
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .blog-title {
+      color: var(--text-color);
+      /* Gris */
+      font-size: 1.6rem;
+      font-weight: normal;
+      /* No negrita */
+      margin-bottom: 0;
+      line-height: 1.3;
+      padding-right: 2rem;
+      /* Espacio para el + */
+    }
+
+    .blog-plus {
+      position: absolute;
+      top: 1.2rem;
+      /* Movido arriba */
+      right: 1.5rem;
+      width: 45px;
+      height: 45px;
+      background: white;
+      color: var(--accent-color) !important;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-card:hover .blog-plus {
+      transform: scale(1.1) rotate(90deg);
+      background: #f0f0f0;
+      color: var(--highlight-color) !important;
+    }
+
+    @media (max-width: 768px) {
+      .blog-section {
+        padding: 4rem 2rem;
+      }
+    }
+
     @media (max-width: 1000px) {
       .member-description {
         display: none;
@@ -808,49 +824,182 @@
     }
 
 
-    /* CONTACTO */
-    .contact-section {
-      /* Fondo celeste (secondary) nuevamente */
-      background: var(--secondary-color);
-      padding: 8rem 4rem;
+    .blog-source-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 0;
     }
 
-    .contact-container {
-      max-width: 1200px;
-      margin: 0 auto;
+    .blog-source-img {
+      max-width: 120px;
+      height: auto;
+      opacity: 0.85;
+      transition: opacity 0.3s ease;
+    }
+
+    .blog-source-img:hover {
+      opacity: 1;
+    }
+
+    /* CONTACTO */
+    .contact-section {
+      position: relative;
+      background: var(--primary-color);
+      padding: 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .contact-layout-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
-      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: stretch;
+      /* Estirar columnas para igualar altura */
+      text-align: left;
     }
 
-    /* Cambiar el título "Información de Contacto" a blanco */
-    .contact-info .section-title {
-        color: var(--primary-color); /* Cambiar a blanco */
-        font-weight: bold; /* Mantenerlo más grueso */
-        text-align: center; /* Opcional: para centrarlo */
+    .contact-info-new {
+      color: var(--accent-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-info-new p {
+      font-size: 1.5rem;
+      /* Igualado a Nosotras */
+      margin-bottom: 0.8rem;
+      /* Reducido */
+      color: var(--text-color);
+      /* Color estándar del resto del sitio */
+      line-height: 1.6;
+    }
+
+    .contact-info-new p strong {
+      color: var(--accent-color);
+      /* Verde */
+      font-weight: bold;
+      /* Negrita */
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-info-new p a {
+      color: var(--text-color);
+      /* Igualado al texto normal */
+      text-decoration: none;
+      font-weight: normal;
+    }
+
+    .social-links-contact {
+      margin-top: 0.5rem;
+      /* Reducido */
+      font-size: 2rem;
+    }
+
+    .social-links-contact a {
+      color: var(--accent-color);
+      transition: all 0.3s ease;
+    }
+
+    .social-links-contact a:hover {
+      color: var(--highlight-color);
+      transform: scale(1.1);
+    }
+
+    .map-container-new {
+      margin-top: 2rem;
+      border: 2px solid rgba(2, 89, 81, 0.2);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      flex-grow: 1;
+      /* Crecer para llenar el espacio */
+      display: flex;
+    }
+
+    .map-container-new iframe {
+      flex-grow: 1;
+      height: 100% !important;
+    }
+
+    .contact-form {
+      background: #f4f9f8;
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid rgba(2, 89, 81, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: normal;
+      font-size: 1.5rem;
+      /* Aumentado para igualar al resto */
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1.2rem;
+      border: 1px solid rgba(2, 89, 81, 0.2);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1.5rem;
+      /* Igualado a las etiquetas */
+      color: var(--text-color);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      font-size: 1.5rem;
+      color: #888;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--highlight-color);
+      box-shadow: 0 0 0 3px rgba(2, 89, 81, 0.1);
     }
 
     /* Cambiar los títulos "Dirección:", "Email:" y "Teléfono:" */
     .contact-info p strong {
-        color: var(--primary-color); /* Cambiar a blanco */
-        font-weight: bold; /* Mantenerlo más grueso */
-        font-size: 1.5rem; /* Asegurar que mantenga el tamaño original */
+      color: var(--primary-color);
+      /* Cambiar a blanco */
+      font-weight: bold;
+      /* Mantenerlo más grueso */
+      font-size: 1.5rem;
+      /* Asegurar que mantenga el tamaño original */
     }
 
     /* Cambiar el texto después del ":" y subrayarlo */
-    .contact-info p a, .contact-info p span {
-        color: var(--primary-color); /* Cambiar todo a blanco */
-        text-decoration: underline; /* Subrayar solo el contenido después del ":" */
-        font-size: 1.5rem; /* Igualar el tamaño al original */
-        font-weight: normal; /* Mantener texto normal */
+    .contact-info p a,
+    .contact-info p span {
+      color: var(--primary-color);
+      /* Cambiar todo a blanco */
+      text-decoration: underline;
+      /* Subrayar solo el contenido después del ":" */
+      font-size: 1.5rem;
+      /* Igualar el tamaño al original */
+      font-weight: normal;
+      /* Mantener texto normal */
     }
 
     .contact-form {
       background: var(--primary-color);
       padding: 3rem;
       border-radius: 20px;
-      border: 1px solid rgba(25,63,102, 0.1);
+      border: 1px solid rgba(25, 63, 102, 0.1);
     }
 
     .form-group {
@@ -869,7 +1018,7 @@
       width: 100%;
       padding: 1rem;
       background: var(--primary-color);
-      border: 1px solid rgba(25,63,102, 0.2);
+      border: 1px solid rgba(25, 63, 102, 0.2);
       border-radius: 8px;
       color: var(--text-color);
       font-size: 1rem;
@@ -882,7 +1031,10 @@
       color: var(--accent-color);
       text-decoration: none;
       border-radius: 8px;
-      font-size: 1.1rem;
+      font-family: inherit;
+      /* Heredar Garamond */
+      font-size: 1.5rem;
+      /* Aumentado para igualar a las etiquetas */
       font-weight: 600;
       transition: all 0.3s ease;
       cursor: pointer;
@@ -914,29 +1066,83 @@
         flex-direction: column;
         align-items: center;
       }
+
       .team-member {
         max-width: 100%;
       }
+
       .contact-container {
         grid-template-columns: 1fr;
       }
+
       .carousel-cards {
         width: 100%;
       }
     }
 
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 3rem;
+
+      /* Ajuste de rellenos para móviles */
+      .section,
+      .nosotros-section,
+      .area_de_practica-section,
+      .team-section,
+      .blog-section,
+      .contact-section {
+        padding: 3rem 1.5rem !important;
       }
+
+      .nav-container {
+        padding: 0 1.5rem;
+      }
+
       .section-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
-      .hero {
-        padding: 0 2rem;
+
+      /* CONTACTO MOBILE */
+      .contact-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
-      .arrow {
-        font-size: 2rem;
+
+      /* Primero la info, luego el formulario */
+      .contact-layout-grid .contact-info-new {
+        order: -1;
+      }
+
+      .contact-form {
+        padding: 1.8rem 1.5rem;
+        border-radius: 16px;
+      }
+
+      .contact-info-new p {
+        font-size: 1.3rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .map-container-new {
+        margin-top: 1.2rem;
+      }
+
+      .map-container-new iframe {
+        height: 200px !important;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        font-size: 1.3rem;
+        padding: 1rem;
+      }
+
+      .form-group label {
+        font-size: 1.3rem;
+      }
+
+      button.btn {
+        width: 100%;
+        font-size: 1.4rem;
+        padding: 1rem;
       }
     }
 
@@ -946,25 +1152,27 @@
     /* FOOTER STYLES */
     .footer-section {
       background: var(--accent-color);
-      padding: 3rem 4rem;
+      padding: 1.5rem 4rem;
       color: var(--primary-color);
     }
 
-    .footer-content {
+    .blog-source-logo {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-top: auto;
+      padding-top: 0.8rem;
     }
 
     .footer-links {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      justify-content: center;
+      gap: 0.8rem;
     }
 
     .copyright {
-      font-size: 1rem;
+      font-size: 1.3rem;
     }
 
     .footer-link {
@@ -972,17 +1180,20 @@
       border: none;
       color: var(--primary-color);
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.3rem;
       transition: color 0.3s ease;
+      font-family: inherit;
     }
 
     .footer-link:hover {
-      color: var(--secondary-color);
+      color: white;
+      text-decoration: underline;
     }
 
     .separator {
-      color: var(--pink-color);
-      margin: 0 0.5rem;
+      color: var(--primary-color);
+      margin: 0 0.3rem;
+      font-size: 1.3rem;
     }
 
     .social-links {
@@ -1004,14 +1215,15 @@
     /* Línea separadora */
     .footer-divider {
       height: 1px;
-      background-color: var(--pink-color);
-      margin: 2rem auto;
+      background: white;
+      margin: 0.8rem auto;
+      opacity: 0.3;
       width: 80%;
     }
 
     .footer-credits {
       text-align: center;
-      font-size: 1rem;
+      font-size: 1.2rem;
       opacity: 0.8;
     }
 
@@ -1021,11 +1233,11 @@
         text-align: center;
         gap: 1rem;
       }
-      
+
       .separator {
         display: none;
       }
-      
+
       .social-links {
         margin-top: 1rem;
         justify-content: center;
@@ -1073,15 +1285,14 @@
     body {
       font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
     }
-
-
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="#" class="logo">§ Vértice <span style="color: var(--pink-color)">|</span> Legal</a>
+      <a href="/index.html" class="logo">§ Vértice <span style="color: var(--accent-color)">|</span> Legal</a>
       <div class="menu-toggle">
         <i class="fas fa-bars"></i>
       </div>
@@ -1089,17 +1300,17 @@
         <a href="#nosotros">Nosotras</a>
         <a href="#area_de_practica">Áreas de Práctica</a>
         <a href="#equipo">Equipo</a>
+        <a href="#blog">Blog</a>
         <a href="#contacto">Contacto</a>
-        <a href="asistente.html">Asistente IA</a>
+
       </div>
     </div>
   </nav>
-    <!-- Nuevo slider de imágenes -->
+  <!-- Imagen de portada principal -->
   <div class="image-slider">
-    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal.webp')"></div>
-    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_2.webp')"></div>
-    <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_3.webp')"></div>
-    <!-- <div class="slide" style="background-image: url('/fotos_pagina_web/webp/portada_vértice_legal_4.webp')"></div>-->
+    <div id="particles-js-hero"></div>
+    <div class="slide active" style="background-image: url('/fotos_pagina_web/webp/Pili y Ale Vertice Legal.png')">
+    </div>
   </div>
 
   <!-- Hero  
@@ -1110,101 +1321,134 @@
       <a href="#contacto" class="btn">Contáctanos</a>
     </div>
   </section>-->
- 
+
 
   <!-- Sección Nosotras -->
   <!-- Sección Nosotras con Hero -->
-  <section id="nosotros" class="nosotros-section fade-in">
+  <section id="nosotros" class="nosotros-section">
     <div class="nosotros-content">
-          <!-- Fondo de partículas -->
+      <!-- Fondo de partículas -->
       <div id="particles-js-nosotras"></div>
       <h2 class="section-title">Nosotras</h2>
-      <p>
-        Vértice Legal es un estudio jurídico líder en Chile, dedicado a la representación de personas y empresas, con perspectiva de género. Nos guía el compromiso con la justicia, el trabajo colaborativo y la construcción de un entorno laboral inclusivo y respetuoso.
-      </p>
-      <div class="nosotros-image-container">
-        <img src="/fotos_pagina_web/webp/portada_vértice_legal_4.webp" alt="Equipo Vértice Legal" class="nosotros-image">
-      </div>
+      <p>En Vértice Legal, transformamos el <span class="highlight-text">cumplimiento normativo en una ventaja
+          competitiva</span>.</p>
+      <p>Como estudio <span class="highlight-text">jurídico</span> boutique líder en Chile, acompañamos a directorios,
+        empresas y grupos empresariales en la
+        gestión de sus riesgos más críticos. Creemos en la excelencia impulsada por la interdisciplinariedad, por lo que
+        combinamos el rigor jurídico con la visión técnica de la <span class="highlight-text">ingeniería</span> y el uso
+        de nuevas <span class="highlight-text">tecnologías</span>.</p>
+
     </div>
   </section>
 
 
   <!-- Sección Áreas de Práctica (carrusel) -->
   <section id="area_de_practica" class="area_de_practica-section">
+    <div id="particles-js-area_de_practica"></div>
     <div class="section-container">
-      <div id="particles-js-area_de_practica"></div>
       <h2 class="section-title">Áreas de Práctica</h2>
-      <div class="carousel-container">
-        <div class="carousel">
-            <div class="carousel-track">
-                <!-- Tarjetas generadas dinámicamente -->
+      <div class="practice-areas-grid">
+        <!-- Tarjetas de Áreas de Práctica -->
+        <div class="practice-card">
+          <div class="practice-header">
+            <h3 class="practice-title">Datos Personales</h3>
+            <div class="practice-icon-container">
+              <img src="/fotos_pagina_web/png/datos_personales_huella_digital.png" alt="Datos Personales"
+                class="practice-mini-img">
             </div>
-            <button class="carousel-button left">&lt;</button>
-            <button class="carousel-button right">&gt;</button>
+          </div>
+          <div class="practice-content">
+            <p>Implementamos modelos de cumplimiento alineados con la nueva ley <span
+                class="highlight-text">chilena</span>. Nuestra consultoría se fundamenta en nuestra experiencia <span
+                class="highlight-text">trabajando con la ley europea y alemana</span>, con especialización en el
+              tratamiento de datos sensibles y transnacionales.</p>
+          </div>
+        </div>
+
+        <div class="practice-card">
+          <div class="practice-header">
+            <h3 class="practice-title">Responsabilidad Penal<br>Persona Jurídica</h3>
+            <div class="practice-icon-container">
+              <img src="/fotos_pagina_web/png/maletin.png" alt="Responsabilidad Penal" class="practice-mini-img">
+            </div>
+          </div>
+          <div class="practice-content">
+            <p>Diseñamos e <span class="highlight-text">implementamos</span> Modelos de Prevención de Delitos (“MPD”)
+              <span class="highlight-text">adaptados</span> a la cultura de cada organización, promoviendo “sistemas
+              <span class="highlight-text">vivos</span>” de compliance. Apoyamos en la reacción ante <span
+                class="highlight-text">incidentes</span> e <span class="highlight-text">investigaciones</span> internas.
+              Además, <span class="highlight-text">evaluamos</span> MPD existentes, detectando brechas y proponiendo
+              mejoras concretas.
+            </p>
+          </div>
+        </div>
+
+        <div class="practice-card">
+          <div class="practice-header">
+            <h3 class="practice-title">Capacitaciones</h3>
+            <div class="practice-icon-container">
+              <img src="/fotos_pagina_web/png/capacitaciones_grupo_de_personas.png" alt="Capacitaciones"
+                class="practice-mini-img">
+            </div>
+          </div>
+          <div class="practice-content">
+            <p>Brindamos instancias de formación para socios, directores, trabajadores y terceros relevantes. Traducimos
+              la complejidad de la normativa en estructuras <span class="highlight-text">comprensibles</span> y <span
+                class="highlight-text">resumidas</span>, ayudando a los equipos para gestionar con éxito los riesgos
+              legales que se enfrentan día a día.</p>
+          </div>
+        </div>
+
+        <div class="practice-card">
+          <div class="practice-header">
+            <h3 class="practice-title">Litigación Penal</h3>
+            <div class="practice-icon-container">
+              <img src="/fotos_pagina_web/png/litigación_penal_martillo_judicial.png" alt="Litigación Penal"
+                class="practice-mini-img">
+            </div>
+          </div>
+          <div class="practice-content">
+            <p>Ofrecemos <span class="highlight-text">defensa</span> y <span class="highlight-text">asesoría</span>
+              estratégica ante incidentes, riesgos e investigaciones penales complejas, articulando equipos
+              multidisciplinarios que se adaptan a la escala y sensibilidad de cada caso.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  
 
-    <!-- Sección EQUIPO -->
-  <section id="equipo" class="team-section fade-in">
+
+  <!-- Sección EQUIPO -->
+  <section id="equipo" class="team-section">
     <div id="particles-js-equipo"></div>
     <div class="team-container">
       <h2 class="section-title">Equipo</h2>
       <div class="team-grid">
-  
+
         <!-- Miembro 2 -->
         <div class="team-member" onclick="handleClick(event, '/equipo/alejandra-castillo.html')">
           <div class="flip-container">
             <div class="flipper">
               <!-- Frente -->
               <div class="front">
-                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo" class="member-image">
+                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo"
+                  class="member-image">
               </div>
               <!-- Reverso -->
               <div class="back">
-                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo" class="member-image">
+                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo"
+                  class="member-image">
                 <div class="back-content">
-                  <a href="/equipo/alejandra-castillo.html" class="ver-mas-btn">
-                    Ver Más
-                    <i class="fas fa-arrow-right"></i>
-                  </a>
+                  <a href="/equipo/alejandra-castillo.html" class="ver-mas-btn">+</a>
                 </div>
               </div>
             </div>
           </div>
           <h3 class="member-name">Alejandra Castillo</h3>
           <p class="member-title">Directora</p>
-          <p class="member-role">Especialista en derecho penal y datos personales</p>
-          <p class="member-description">Abogada titulada con distinción máxima de la Universidad Adolfo Ibáñez. LLM y Doctorado en Universidad de Freiburg. Experiencia en compliance penal y protección de datos personales en DKMS Alemania.</p>
-        </div>
-  
-        <!-- Miembro 3 -->
-        <div class="team-member" onclick="handleClick(event, '/equipo/maria-eugeneia.html')">
-          <div class="flip-container">
-            <div class="flipper">
-              <div class="front">
-                <img src="/fotos_pagina_web/webp/María Eugenia Raggi .webp" alt="María Eugenia Raggi" class="member-image">
-              </div>
-              <div class="back">
-                <img src="/fotos_pagina_web/webp/María Eugenia Raggi .webp" alt="María Eugenia Raggi" class="member-image">
-                <div class="back-content">
-                  <a href="/equipo/maria-eugeneia.html" class="ver-mas-btn">
-                    Ver Más
-                    <i class="fas fa-arrow-right"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h3 class="member-name">María Eugenia Raggi</h3>
-          <p class="member-title">Socia Fundadora</p>
-          <p class="member-role">Especialista en derecho penal y litigación</p>
-          <p class="member-description">Abogada titulada con distinción de la Universidad Diego Portales, con un Magíster en Derecho Penal y Procesal Penal. Diplomada en Criminología Aplicada y Justicia Penal. Experiencia en la Defensoría Penal Pública.</p>
         </div>
 
-        <!-- Miembro 1 -->
+        <!-- Miembro 1 (Pilar) -->
         <div class="team-member" onclick="handleClick(event, '/equipo/pilar-carrasco.html')">
           <div class="flip-container">
             <div class="flipper">
@@ -1214,84 +1458,129 @@
               <div class="back">
                 <img src="/fotos_pagina_web/webp/Pilar Carrasco.webp" alt="Pilar Carrasco" class="member-image">
                 <div class="back-content">
-                  <a href="/equipo/pilar-carrasco.html" class="ver-mas-btn">
-                    Ver Más
-                    <i class="fas fa-arrow-right"></i>
-                  </a>
+                  <a href="/equipo/pilar-carrasco.html" class="ver-mas-btn">+</a>
                 </div>
               </div>
             </div>
           </div>
           <h3 class="member-name">Pilar Carrasco</h3>
           <p class="member-title">Socia Fundadora</p>
-          <p class="member-role">Especialista en derecho penal</p>
-          <p class="member-description">Abogada titulada con distinción de la Universidad Diego Portales, ayudante del departamento de derecho penal y procesal penal, y cursos en la Universidad de Leiden y Edimburgo.</p>
         </div>
-        
+
+        <!-- Miembro 3 (Pablo) -->
+        <div class="team-member" onclick="handleClick(event, '/equipo/pablo-carrasco.html')">
+          <div class="flip-container">
+            <div class="flipper">
+              <div class="front">
+                <img src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
+              </div>
+              <div class="back">
+                <img src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
+                <div class="back-content">
+                  <a href="/equipo/pablo-carrasco.html" class="ver-mas-btn">+</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="member-name">Pablo Carrasco</h3>
+          <p class="member-title">Consultor Compliance</p>
+        </div>
+
       </div>
     </div>
   </section>
-  
+
+
+  <!-- Sección BLOG -->
+  <section id="blog" class="blog-section">
+    <div id="particles-js-blog"></div>
+    <div class="section-container">
+      <h2 class="section-title">Blog</h2>
+      <div class="blog-grid">
+        <!-- Post 1 -->
+        <a href="https://actualidadjuridica.doe.cl/alejandra-castillo-sobre-proteccion-de-datos-el-interes-legitimo-exige-estandares-estrictos-de-aplicacion/"
+          target="_blank" class="blog-card">
+          <div class="blog-year">Abril 2026</div>
+          <h3 class="blog-title">Alejandra Castillo sobre protección de datos: "El interés legítimo exige estándares
+            estrictos de aplicación"</h3>
+          <div class="blog-source-logo">
+            <img src="/fotos_pagina_web/png/doe.png" alt="DOE - Actualidad Jurídica" class="blog-source-img"
+              style="max-width: 180px;">
+          </div>
+          <div class="blog-plus">+</div>
+        </a>
+
+        <!-- Post 2 -->
+        <a href="https://www.linkedin.com/posts/centro-estudios-derecho-tecnologia-sociedad_protecciondedatospersonales-privacidaddedatos-activity-7315810738432802816--67l/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAXYuX8BWaVpj5mLZPyctu7LW1qOLLkzPrs"
+          target="_blank" class="blog-card">
+          <div class="blog-year">Mayo 2025</div>
+          <h3 class="blog-title">Alejandra Castillo se incorpora al cuerpo docente Diplomado Datos Personales UCh</h3>
+          <div class="blog-source-logo">
+            <img src="/fotos_pagina_web/png/Uchile.png" alt="Universidad de Chile" class="blog-source-img"
+              style="max-width: 200px;">
+          </div>
+          <div class="blog-plus">+</div>
+        </a>
+        <!-- Post 3 -->
+        <a href="https://derecho.udp.cl/alejandra-castillo-ara-presento-ponencia-sobre-sharenting-y-afectacion-de-la-indemnidad-informativa-en-la-u-complutense-de-madrid/"
+          target="_blank" class="blog-card">
+          <div class="blog-year">Marzo 2025</div>
+          <h3 class="blog-title">&ldquo;Sharenting y afectación de la indemnidad informativa&rdquo; en la U. Complutense
+            de Madrid</h3>
+          <div class="blog-source-logo">
+            <img src="/fotos_pagina_web/png/UniComplutense.png" alt="Universidad Complutense de Madrid"
+              class="blog-source-img">
+          </div>
+          <div class="blog-plus">+</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Sección Contacto -->
-  <section id="contacto" class="contact-section fade-in">
+  <section id="contacto" class="contact-section">
     <div id="particles-js-contacto"></div>
-    <div class="contact-container">
-      <!-- Formulario -->
-      <form class="contact-form" action="https://formspree.io/f/xannzloa" method="post">
-        <h2 class="section-title">Contáctanos</h2>
-        <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input name="Nombre" id="nombre" type="text" placeholder="Ingresa tu nombre" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input name="Email" id="email" type="email" placeholder="Ingresa tu correo" required>
-        </div>
-        <div class="form-group">
-          <label for="mensaje">Mensaje</label>
-          <input name="Mensaje" id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí" required>
-        </div>
-        <button type="submit" class="btn">Enviar</button>
-      </form>
-  
-      <!-- Información de contacto -->
-      <!-- Información de contacto -->
-      <div class="contact-info">
-        <h2 class="section-title">Información de Contacto</h2>
-        
-        <!-- Mapa -->
-        <div class="map-container" style="margin: 2rem 0;">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11983.518405110435!2d-70.55368108062595!3d-33.4090869437642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662ce9569ad04e7%3A0xa6e9757d0f89deac!2sAv.%20Apoquindo%207935%2C%20Of.%20B718%2C%20Las%20Condes%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1736822717088!5m2!1ses-419!2scl" 
-                width="100%"
-                height="300"
-                style="border: 4px solid var(--accent-color); border-radius: 8px;"
-                allowfullscreen
-                loading="lazy">
+    <div class="section-container">
+      <h2 class="section-title">Contacto</h2>
+
+      <div class="contact-layout-grid">
+        <!-- Columna Izquierda: Formulario WhatsApp -->
+        <form class="contact-form" id="whatsapp-form" onsubmit="sendToWhatsApp(event)">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input name="Nombre" id="nombre" type="text" placeholder="Ingresa tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea name="Mensaje" id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+          </div>
+          <button type="submit" class="btn">Enviar</button>
+        </form>
+
+        <!-- Columna Derecha: Info + Mapa -->
+        <div class="contact-info-new">
+          <p><strong>Teléfono</strong> <a href="tel:+56989029993">+56 9 890 29 993</a></p>
+          <p><strong>Dirección</strong> <a
+              href="https://www.google.com/maps/search/Avenida+Apoquindo+7935,+Las+Condes,+Santiago,+Chile"
+              target="_blank">Av. Apoquindo N° 7935 oficina B 718<br>Las Condes, Santiago, Chile</a></p>
+
+          <div class="social-links-contact">
+            <a href="https://www.linkedin.com/company/v%C3%A9rtice-legal/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          </div>
+
+          <div class="map-container-new">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11983.518405110435!2d-70.55368108062595!3d-33.4090869437642!2m3!1f0!2f0!3f0!3m2!i1024!2i768!4f13.1!3m3!1m2!1s0x9662ce9569ad04e7%3A0xa6e9757d0f89deac!2sAv.%20Apoquindo%207935%2C%20Of.%20B718%2C%20Las%20Condes%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1736822717088!5m2!1ses-419!2scl"
+              width="100%" height="250" style="border:0;" allowfullscreen loading="lazy">
             </iframe>
-        </div>
-        
-        <!-- Detalles de contacto -->
-        <div style="text-align: center;">
-            <p><strong>Dirección:</strong> 
-                <a href="https://www.google.com/maps/search/Avenida+Apoquindo+7935,+Of.+B718,+Las+Condes,+Santiago,+Chile" 
-                  target="_blank">
-                  📍 Las Condes, Santiago, Chile
-                </a>
-            </p>
-            <p><strong>Email:</strong> 
-                <a href="mailto:contacto@verticelegal.cl"> contacto@verticelegal.cl</a>
-            </p>
-            <p><strong>Teléfono:</strong><span> +56 9 8902 9993</span></p>
+          </div>
         </div>
       </div>
-
-      
     </div>
   </section>
-  
 
-    <!-- Footer Section -->
+
+  <!-- Footer Section -->
   <section class="footer-section">
     <div class="section-container">
       <div class="footer-content">
@@ -1301,26 +1590,15 @@
           <button class="footer-link" onclick="openModal('disclaimer')">Disclaimer</button>
           <span class="separator">|</span>
           <button class="footer-link" onclick="openModal('privacy')">Políticas de privacidad y cookies</button>
-          <span class="separator">|</span>
-          <div class="social-links">
-            <a href="https://instagram.com/crcabogadas" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://tiktok.com/@crcabogadas" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://linkedin.com/company/crcabogadas" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </div>
+
         </div>
       </div>
-  
+
       <!-- Línea separadora -->
       <div class="footer-divider"></div>
-  
+
       <div class="footer-credits">
-        Sitio creado por ayoproduction7@gmail.com y matias@databam.cl, Santiago, Chile
+        Sitio creado por ayoproduction7@gmail.com y matias@databam.cl
       </div>
     </div>
 
@@ -1329,7 +1607,13 @@
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal('disclaimer')">&times;</span>
         <h2>Disclaimer Legal</h2>
-        <p>La información contenida en este sitio web se proporciona únicamente a título informativo y no constituye asesoramiento legal. Vértice Legal no se responsabiliza por la exactitud, integridad o utilidad de la información proporcionada. Para obtener asesoramiento legal adaptado a sus necesidades particulares, le recomendamos ponerse en contacto directo con nuestras profesionales. Los enlaces a sitios web de terceros se proporcionan únicamente como una conveniencia para nuestros usuarios y no implican ningún respaldo a los contenidos de dichos sitios. Vértice Legal no se hace responsable del contenido, la exactitud o las opiniones expresadas en dichos sitios. La información proporcionada por herramientas de inteligencia artificial, como Asistente IA Legal, es generada automáticamente y puede no ser precisa o completa. El uso de esta información es bajo su propio riesgo. Al acceder a este sitio web, usted acepta estos términos y condiciones.</p>
+        <p>La información contenida en este sitio web se proporciona únicamente a título informativo y no constituye
+          asesoramiento legal. Vértice Legal no se responsabiliza por la exactitud, integridad o utilidad de la
+          información proporcionada. Para obtener asesoramiento legal adaptado a sus necesidades particulares, le
+          recomendamos ponerse en contacto directo con nuestras profesionales. Los enlaces a sitios web de terceros se
+          proporcionan únicamente como una conveniencia para nuestros usuarios y no implican ningún respaldo a los
+          contenidos de dichos sitios. Vértice Legal no se hace responsable del contenido, la exactitud o las opiniones
+          expresadas en dichos sitios. Al acceder a este sitio web, usted acepta estos términos y condiciones.</p>
       </div>
     </div>
 
@@ -1338,7 +1622,9 @@
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal('privacy')">&times;</span>
         <h2>Políticas de Privacidad y Cookies</h2>
-        <p>Este sitio web utiliza cookies para mejorar su experiencia de navegación. Al continuar navegando, usted acepta nuestra política de privacidad y el uso de cookies. Recopilamos datos personales únicamente con su consentimiento y los tratamos de acuerdo con la legislación vigente de protección de datos personales.</p>
+        <p>Este sitio web utiliza cookies para mejorar su experiencia de navegación. Al continuar navegando, usted
+          acepta nuestra política de privacidad y el uso de cookies. Recopilamos datos personales únicamente con su
+          consentimiento y los tratamos de acuerdo con la legislación vigente de protección de datos personales.</p>
       </div>
     </div>
   </section>
@@ -1346,99 +1632,125 @@
   <!-- Configuración de particles.js + Lógica del carrusel (JS) -->
   <script>
 
-    
-  // Referencias a los elementos
+
+    // Referencias a los elementos
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const navItems = document.querySelectorAll('.nav-links a');
 
+    // WHATSAPP CONTACT FORM
+    const WHATSAPP_NUMBER = '56989029993';
+
+    function sendToWhatsApp(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+      const texto = `Hola, soy *${nombre}*.\n\n${mensaje}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
     // Función para alternar el menú
     menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
+      navLinks.classList.toggle('show');
     });
 
     // Función para cerrar el menú al hacer clic en un enlace
     navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            navLinks.classList.remove('show');
-        });
+      item.addEventListener('click', (e) => {
+        navLinks.classList.remove('show');
+
+        // Scroll con offset para compensar la navbar fija
+        const href = item.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 10;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        }
+      });
     });
-    
+
     /*****************************/
     /*  PARTICLES.JS (FONDO)    */
     /*****************************/
     function initParticles(containerId, particleColor) {
-        particlesJS(containerId, {
-          "particles": {
-            "number": {
-              "value": 80,
-              "density": { "enable": true, "value_area": 800 }
-            },
-            "color": { "value": particleColor },
-            "shape": { "type": "circle" },
-            "opacity": { "value": 0.4 },
-            "size": { "value": 3, "random": true },
-            "line_linked": {
-              "enable": true,
-              "distance": 150,
-              "color": particleColor,
-              "opacity": 0.3,
-              "width": 1
-            },
-            "move": {
-              "enable": true,
-              "speed": 2,
-              "direction": "none",
-              "random": false,
-              "straight": false,
-              "out_mode": "out",
-              "bounce": false
-            }
+      particlesJS(containerId, {
+        "particles": {
+          "number": {
+            "value": 80,
+            "density": { "enable": true, "value_area": 800 }
           },
-          "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-              "onhover": { "enable": true, "mode": "repulse" },
-              "onclick": { "enable": true, "mode": "push" },
-              "resize": true
-            }
+          "color": { "value": particleColor },
+          "shape": { "type": "circle" },
+          "opacity": { "value": 0.4 },
+          "size": { "value": 3, "random": true },
+          "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": particleColor,
+            "opacity": 0.3,
+            "width": 1
           },
-          "retina_detect": true
-        });
+          "move": {
+            "enable": true,
+            "speed": 2,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": { "enable": true, "mode": "repulse" },
+            "onclick": { "enable": true, "mode": "push" },
+            "resize": true
+          }
+        },
+        "retina_detect": true
+      });
     }
 
-        // Ejecuta esto cuando el contenido del DOM esté completamente cargado
-    document.addEventListener('DOMContentLoaded', function() {
-        //initParticles('particles-js', '#ffffff'); // Partículas blancas en la sección Hero
-        initParticles('particles-js-nosotras', '#025951'); // Partículas verdes en la sección Nosotras
-        initParticles('particles-js-area_de_practica', '#ffffff'); // Partículas verdes en la sección practica
-        initParticles('particles-js-equipo', '#025951'); // Partículas verdes en la sección Equipo
-        initParticles('particles-js-contacto', '#ffffff');
+    // Ejecuta esto cuando el contenido del DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function () {
+      initParticles('particles-js-hero', '#025951'); // Partículas en la sección Hero
+      //initParticles('particles-js-nosotras', '#025951'); // Oculto para efecto intercalado
+      initParticles('particles-js-area_de_practica', '#025951'); // Partículas verdes en la sección practica
+      //initParticles('particles-js-equipo', '#025951'); // Oculto para efecto intercalado
+      initParticles('particles-js-blog', '#025951'); // Partículas verdes en la sección Blog
+      //initParticles('particles-js-contacto', '#ffffff'); // Oculto para efecto intercalado
     });
 
 
-      //PORTADA Lógica del slider
-      document.addEventListener('DOMContentLoaded', function() {
+    //PORTADA Lógica del slider
+    document.addEventListener('DOMContentLoaded', function () {
       const slides = document.querySelectorAll('.slide');
       let currentSlide = 0;
-      
+
       // Asegurarse de que la primera imagen esté visible inmediatamente
       slides[0].classList.add('active');
-      
+
       function nextSlide() {
         // Desactivar slide actual
         slides[currentSlide].classList.remove('active');
-        
+
         // Calcular siguiente slide
         currentSlide = (currentSlide + 1) % slides.length;
-        
+
         // Activar nuevo slide
         slides[currentSlide].classList.add('active');
       }
-      
+
       // Iniciar el temporizador para cambiar slides
       setInterval(nextSlide, 2700);
-      
+
       // Precargar las imágenes para evitar parpadeos
       slides.forEach(slide => {
         const bgImage = slide.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)[1];
@@ -1446,7 +1758,7 @@
         img.src = bgImage;
       });
     });
-  
+
     /*********************************************************/
     /*  INTERSECTION OBSERVER PARA ANIMACIONES FADE-IN       */
     /*********************************************************/
@@ -1462,210 +1774,25 @@
       observer.observe(element);
     });
 
-      /****************************************************/
-    /*  CARRUSEL DE ÁREAS DE PRÁCTICA (JS PURO)         */
     /****************************************************/
-    /*****************************************************************
-     * 1. Datos del carrusel
-     *****************************************************************/
-    // Datos del carrusel
-    const areas = [
-        { 
-            title: "Litigación Penal", 
-            desc: "Asesoría y representación legal en delitos penales.", 
-            img: "/fotos_pagina_web/png/litigación_penal_martillo_judicial.png"
-        },
-        { 
-            title: "Compliance", 
-            desc: "Ley de Delitos Económicos. \n Lean Management. \n Ley Karin.", 
-            img: "/fotos_pagina_web/png/compliance_checklist.png" 
-        },
-        { 
-            title: "Datos Personales", 
-            desc: "Asesoría para enfrentar la nueva Ley de Datos Personales. Especialidad en datos sensibles transnacionales.", 
-            img: "/fotos_pagina_web/png/datos_personales_huella_digital.png" 
-        },
-        {
-            title: "Capacitaciones Legales", 
-            desc: "Educación y formación para grupos y empresas sobre leyes, derechos y cumplimiento normativo.", 
-            img: "/fotos_pagina_web/png/capacitaciones_grupo_de_personas.png"
-        },
-        {
-            title: "Chatbots Legales",
-            desc: "Inteligencia artificial y agentes entrenados para responder cualquier duda sobre la ley chilena.",
-            img: "/fotos_pagina_web/png/Chatbot_ai_legal_chileno.png"
-        },
-    ];
+    /*  LÓGICA DE ÁREAS DE PRÁCTICA (GRILLA)            */
+    /****************************************************/
+    function togglePracticeDetail(cardNumber) {
+      const cards = document.querySelectorAll('.practice-card');
+      const targetCard = cards[cardNumber - 1];
 
-    const track = document.querySelector('.carousel-track');
-    const leftButton = document.querySelector('.carousel-button.left');
-    const rightButton = document.querySelector('.carousel-button.right');
-    let isTransitioning = false;
-
-    // Crear los ítems del carrusel dinámicamente
-    areas.forEach((area) => {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item');
-        item.innerHTML = `
-            <div class="image-container">
-                <img src="${area.img}" alt="${area.title}">
-            </div>
-            <h3>${area.title}</h3>
-            <p>${area.desc}</p>
-        `;
-        track.appendChild(item);
-    });
-
-    const items = Array.from(track.querySelectorAll('.carousel-item'));
-    let currentIndex = 0;
-
-    function updateCarousel(direction = null, exitingIndex = null) {
-        const totalItems = items.length;
-
-        // Limpiar clases previas
-        items.forEach(item => {
-            item.classList.remove(
-                'active', 
-                'prev', 
-                'next', 
-                'exit-left', 
-                'exit-right', 
-                'interactive'
-            );
-            item.style.display = 'block';
-        });
-
-        // Calcular prevIndex y nextIndex
-        const prevIndex = (currentIndex - 1 + totalItems) % totalItems;
-        const nextIndex = (currentIndex + 1) % totalItems;
-
-        // Animación de salida
-        if (exitingIndex !== null) {
-            // Si movemos a la derecha, sale por la izquierda; si movemos a la izquierda, sale por la derecha
-            items[exitingIndex].classList.add(
-                direction === 'right' ? 'exit-left' : 'exit-right'
-            );
-            // Quitar del flujo tras la animación
-            setTimeout(() => {
-                items[exitingIndex].style.display = 'none';
-            }, 600);
-        }
-
-        // Asignar clases (prev, active, next)
-        items[prevIndex].classList.add('prev');
-        items[currentIndex].classList.add('active', 'interactive');
-        items[nextIndex].classList.add('next');
+      // Si la tarjeta ya está expandida, la cerramos
+      if (targetCard.classList.contains('expanded')) {
+        targetCard.classList.remove('expanded');
+      } else {
+        // Cerramos cualquier otra tarjeta expandida
+        cards.forEach(card => card.classList.remove('expanded'));
+        // Expandimos la tarjeta seleccionada
+        targetCard.classList.add('expanded');
+        // Scroll suave a la tarjeta
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
-
-    function moveLeft() {
-        if (isTransitioning) return;
-        isTransitioning = true;
-
-        // El que sale es el next actual
-        const exitingIndex = (currentIndex + 1) % items.length;
-        // Actualizamos currentIndex al prev
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-
-        updateCarousel('left', exitingIndex);
-
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 600);
-    }
-
-    function moveRight() {
-        if (isTransitioning) return;
-        isTransitioning = true;
-
-        // El que sale es el prev actual
-        const exitingIndex = (currentIndex - 1 + items.length) % items.length;
-        // Actualizamos currentIndex al next
-        currentIndex = (currentIndex + 1) % items.length;
-
-        updateCarousel('right', exitingIndex);
-
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 600);
-    }
-
-    // Eventos de los botones
-    leftButton.addEventListener('click', moveLeft);
-    rightButton.addEventListener('click', moveRight);
-
-    // Inicializar
-    updateCarousel();
-
-
-    // ========== CÓDIGO PARA ARRASTRAR CON MOUSE Y DEDO ==========
-
-    // Variables para almacenar la posición inicial de arrastre y el estado
-    let startX = 0;
-    let isDragging = false;
-    // Distancia mínima de arrastre para cambiar de tarjeta (ajusta a tu gusto)
-    let threshold = 50;
-
-    // Referencia al contenedor principal del carrusel (o al track, según prefieras)
-    const carouselElement = document.querySelector('.carousel');
-
-    // Funciones para normalizar los eventos de mouse/touch
-    function getPointerPosition(e) {
-        return e.type.includes('mouse') 
-            ? e.pageX 
-            : e.touches[0].clientX;
-    }
-
-    // Evento de inicio de arrastre (mousedown / touchstart)
-    function handleDragStart(e) {
-        e.preventDefault();
-        isDragging = true;
-        startX = getPointerPosition(e);
-    }
-
-    // Evento durante el arrastre (mousemove / touchmove) [opcional para animar en tiempo real]
-    function handleDragMove(e) {
-        if (!isDragging) return;
-        // Si quisieras animar el movimiento, podrías hacerlo aquí
-        // const currentX = getPointerPosition(e);
-        // const moved = currentX - startX;
-        // track.style.transform = `translateX(${moved}px)`; // Ejemplo
-    }
-
-    // Evento de fin de arrastre (mouseup / touchend)
-    function handleDragEnd(e) {
-        if (!isDragging) return;
-        isDragging = false;
-
-        const endX = e.type.includes('mouse')
-            ? e.pageX
-            : e.changedTouches[0].clientX;
-
-        // Distancia total arrastrada
-        const diff = endX - startX;
-
-        // Determina si se arrastró suficientemente a la izquierda o a la derecha
-        if (diff > threshold) {
-            // Se arrastró a la derecha (ir a la tarjeta previa)
-            moveLeft();
-        } else if (diff < -threshold) {
-            // Se arrastró a la izquierda (ir a la tarjeta siguiente)
-            moveRight();
-        }
-    }
-
-    // Listeners para mouse
-    carouselElement.addEventListener('mousedown', handleDragStart);
-    carouselElement.addEventListener('mousemove', handleDragMove);
-    carouselElement.addEventListener('mouseup', handleDragEnd);
-    carouselElement.addEventListener('mouseleave', () => {
-        // Para asegurar que si se sale del elemento, se detenga el arrastre
-        isDragging = false;
-    });
-
-    // Listeners para touch
-    carouselElement.addEventListener('touchstart', handleDragStart);
-    carouselElement.addEventListener('touchmove', handleDragMove);
-    carouselElement.addEventListener('touchend', handleDragEnd);
 
     //EQUIPOOOOO click redirigir no foto
     function handleClick(event, url) {
@@ -1688,7 +1815,7 @@
     }
 
     // Close modal when clicking outside
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
         document.body.style.overflow = 'auto';
@@ -1696,4 +1823,5 @@
     }
   </script>
 </body>
+
 </html>
