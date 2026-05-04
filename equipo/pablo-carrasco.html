@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <!-- Particles.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <title>Pablo Carrasco - Vértice Legal | Consultoría en Compliance y Tecnologías.</title>
+  <meta name="description"
+    content="Conoce a Pablo Carrasco, Consultor en Compliance en Vértice Legal. Experto en tecnologías de la información y regulación tecnológica.">
+  <meta property="og:title" content="Pablo Carrasco - Vértice Legal">
+  <meta property="og:description"
+    content="Consultor en Compliance en Vértice Legal. Especialista en tecnologías de la información y ISO 27.001.">
+  <meta property="og:type" content="profile">
+  <meta property="og:image" content="https://verticelegal.cl/fotos_pagina_web/webp/Pablo Carrasco.webp">
+
+  <style>
+    :root {
+      --primary-color: #ffffff;
+      --secondary-color: #027368;
+      --accent-color: #025951;
+      --highlight-color: #027368;
+      --text-color: #4b4647;
+      --text-color-secondary: #555555;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Garamond', 'Baskerville', 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--highlight-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+      transform: scale(1.02);
+      text-shadow: 0.5px 0 currentColor, -0.5px 0 currentColor;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      position: relative;
+      min-height: 25vh;
+      background: var(--accent-color);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 8rem 10% 2rem 10%;
+      text-align: center;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-name {
+      font-size: 3rem;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-role {
+      font-size: 1.8rem;
+      color: #ffffff;
+      font-weight: 400;
+      margin-top: 0.5rem;
+      display: block;
+      opacity: 0.9;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 10%;
+      display: flex;
+      gap: 4rem;
+      align-items: stretch;
+      /* Cambiado de flex-start para permitir scroll de imagen */
+      background: white;
+    }
+
+    .profile-content {
+      flex: 1;
+    }
+
+    .profile-image-container {
+      width: 400px;
+      flex-shrink: 0;
+    }
+
+    .profile-image {
+      position: sticky;
+      top: 120px;
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .profile-section h2 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      /* Aumentado */
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+
+    .profile-section ul {
+      list-style: none;
+    }
+
+    .profile-section li {
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.6;
+      color: var(--text-color);
+      text-align: justify;
+      font-size: 1.3rem;
+      /* Aumentado */
+    }
+
+    .profile-section li::before {
+      content: "•";
+      color: var(--highlight-color);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    /* NAV ARROWS */
+    .navigation-arrows {
+      margin-top: 2rem;
+      margin-bottom: 4rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .arrow-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .arrow-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+      border-color: #fff;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: auto;
+        padding-bottom: 2rem;
+      }
+
+      .main-content {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+      }
+
+      .profile-image-container {
+        width: 100%;
+        order: -1; /* Imagen primero en mobile */
+      }
+
+      .profile-image {
+        position: static;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        transform: none;
+      }
+
+      .profile-content {
+        margin-top: 0;
+        margin-right: 0;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.show {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .profile-name {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/index.html" class="logo">§ Vértice <span style="color: var(--accent-color)">|</span> Legal</a>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="nav-links">
+        <a href="/#nosotros">Nosotras</a>
+        <a href="/#area_de_practica">Áreas de Práctica</a>
+        <a href="/#equipo">Equipo</a>
+        <a href="/#contacto">Contacto</a>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <div class="profile-header">
+        <a href="/equipo/pilar-carrasco.html" class="arrow-btn">&lt;</a>
+        <h1 class="profile-name">Pablo Carrasco</h1>
+        <a href="/equipo/alejandra-castillo.html" class="arrow-btn">&gt;</a>
+      </div>
+      <span class="profile-role">Consultor Compliance <a href="https://www.linkedin.com/in/pcarrascom/" target="_blank"
+          style="color: #ffffff; margin-left: 0.5rem; vertical-align: middle; font-size: 1.5rem;"><i
+            class="fab fa-linkedin"></i></a></span>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="profile-content">
+      <div class="profile-section">
+        <h2>Formación</h2>
+        <ul>
+          <li>Ingeniero Civil Industrial, Universidad Adolfo Ibáñez (2015), especializado en Tecnologías de la
+            Información.</li>
+          <li>Diplomado en regulación tecnológica, Universidad del Desarrollo (2025): Protección de Datos Personales,
+            Ciberseguridad, Propiedad Intelectual, Contratación y Tecnologías Emergentes.</li>
+          <li>Diplomado auditor líder y calidad, Universidad de Chile (2016): ISO 9.001, ISO 14.001 y OHSAS 18.001.</li>
+          <li>Intercambio Semestral Carleton University, Canadá (2012).</li>
+        </ul>
+      </div>
+
+      <div class="profile-section">
+        <h2>Experiencia Profesional</h2>
+        <ul>
+          <li>Co-fundador y Auditor interno cadena gastronómica Don Marún (2025-actualidad)</li>
+          <li>Co-fundador y Director Financiero del centro deportivo y médico You, Just Better (2017-actualidad).</li>
+          <li>Co-fundador y exGerente Gobernanza Tecnología Financiera con sede en Chile y Perú Fapro (2018-2025):
+            implementación ISO 27.001, Ley Fintec.</li>
+          <li>Docente Tecnologías, Universidad Adolfo Ibáñez (2016-2020).</li>
+          <li>Gerente de Proyectos en consultora en sostenibilidad, huella de carbono y eficiencia energética ProyectaE
+            (2015-2018).</li>
+        </ul>
+      </div>
+
+      <div class="profile-section">
+        <h2>Idiomas</h2>
+        <ul>
+          <li>Español</li>
+          <li>Inglés</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="profile-image-container">
+      <img src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="profile-image" />
+    </div>
+  </main>
+
+
+
+  <!-- Scripts -->
+  <script>
+    // Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // Particles.js
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4 },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+
+</html>
