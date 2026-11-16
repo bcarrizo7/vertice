@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <title>Vértice Legal - Datos Personales y Compliance.</title>
   <meta name="description"
     content="Vértice Legal - Especialistas en protección de datos personales y compliance legal en Chile. Asesoría experta para empresas y organizaciones.">
@@ -137,6 +142,30 @@
       width: 100%;
     }
 
+    /* Acceso destacado al autodiagnóstico MPD (/mpd) */
+    .nav-links a.nav-cta {
+      color: var(--accent-color);
+      font-weight: 600;
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      padding: 0.35rem 1rem;
+    }
+
+    .nav-links a.nav-cta::after {
+      display: none;
+    }
+
+    /* En escritorio el botón dice solo "MPD"; el texto completo se muestra en el menú móvil */
+    .nav-cta-extra {
+      display: none;
+    }
+
+    .nav-links a.nav-cta:hover {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      text-shadow: none;
+    }
+
 
     /* MENU HAMBURGUESA */
     .menu-toggle {
@@ -146,8 +175,8 @@
       cursor: pointer;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 1000px) {
+    /* RESPONSIVE — el menú pasa a hamburguesa bajo 1120px: con el botón "MPD" ya no cabe en una línea antes */
+    @media (max-width: 1120px) {
       .nav-links {
         display: none;
         position: absolute;
@@ -164,84 +193,107 @@
         display: flex;
       }
 
+      .nav-links a.nav-cta {
+        align-self: flex-start;
+      }
+
+      .nav-cta-extra {
+        display: inline;
+      }
+
       .menu-toggle {
         display: block;
       }
 
     }
 
-    /* IMAGEN PORTADAS SLIDER */
-    .image-slider {
+    /* PORTADA: foto a todo el ancho */
+    .portada {
       position: relative;
       width: 100%;
       height: 100vh;
+      min-height: 520px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: white;
-      /* Para que combine con el fondo de la foto */
+      background: #e9e6e1;
+      /* color de fondo mientras carga la foto */
     }
 
-    .slide {
-      position: absolute;
-      width: 80%;
-      height: 80%;
-      top: 10%;
-      left: 10%;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      background-size: contain;
-      /* Cambiado de cover a contain para ver la foto completa */
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: 2;
-    }
-
-    #particles-js-hero {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .portada picture {
+      display: block;
       width: 100%;
       height: 100%;
-      z-index: 1;
+    }
+
+    .portada-foto {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      /* entrada suave: aparece con un leve acercamiento */
+      animation: portada-entrada 1.8s ease-out both;
+    }
+
+    /* Difuminado inferior: la foto se funde con la sección siguiente */
+    .portada::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 14%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--primary-color));
       pointer-events: none;
     }
 
-    /* Cambio a contain y ajuste de altura para tablets y móviles */
-    @media (max-width: 1024px) {
-      .slide {
-        background-size: contain;
+    @keyframes portada-entrada {
+      from {
+        opacity: 0;
+        transform: scale(1.05);
       }
 
-      .image-slider {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portada-foto {
+        animation: none;
+      }
+    }
+
+    /* Celular, tablet y pantallas casi cuadradas: foto con recorte cerrado, bajo la barra de navegación */
+    @media (max-width: 1120px),
+    (max-aspect-ratio: 4/3) {
+      .portada {
         height: auto;
-        /* Altura automática basada en el contenido */
-        aspect-ratio: 16/9;
-        /* Mantiene una proporción consistente */
-        min-height: 300px;
-        /* Altura mínima para evitar que sea muy pequeño */
-        max-height: 80vh;
-        /* Altura máxima para evitar que sea muy grande */
+        min-height: 0;
+        padding-top: 92px;
+        background: var(--primary-color);
+      }
+
+      .portada picture {
+        height: auto;
+      }
+
+      .portada-foto {
+        height: auto;
+        aspect-ratio: 1170 / 944;
+        max-height: 75vh;
+        object-position: center 20%;
+      }
+
+      .portada::after {
+        height: 8%;
       }
     }
 
-    /* Ajustes adicionales para móviles */
-    @media (max-width: 480px) {
-      .image-slider {
-        aspect-ratio: 3/3;
-        /* Proporción más cuadrada para móviles */
-        min-height: 250px;
-        margin-bottom: -90px;
+    @media (max-width: 1120px) {
+      .portada {
+        padding-top: 82px;
       }
-    }
-
-    .slide:first-child {
-      opacity: 1;
-    }
-
-    .slide.active {
-      opacity: 1;
     }
 
     /* HERO SECTION */
@@ -527,6 +579,27 @@
     .highlight-text {
       color: var(--highlight-color);
       font-weight: bold;
+    }
+
+    /* Botón dentro de una tarjeta de área de práctica (ej. enlace al autodiagnóstico /mpd) */
+    .practice-link {
+      align-self: flex-start;
+      margin-top: 1.2rem;
+      padding: 0.7rem 1.6rem;
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      color: var(--accent-color);
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .practice-link:hover {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      transform: translateY(-2px);
     }
 
     .practice-icon-container {
@@ -1292,7 +1365,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="/index.html" class="logo">§ Vértice <span style="color: var(--accent-color)">|</span> Legal</a>
+      <a href="/index.html" class="logo">§ Vértice <span style="color: #A88449">|</span> Legal</a>
       <div class="menu-toggle">
         <i class="fas fa-bars"></i>
       </div>
@@ -1302,16 +1375,20 @@
         <a href="#equipo">Equipo</a>
         <a href="#blog">Blog</a>
         <a href="#contacto">Contacto</a>
-
+        <a href="/mpd/" class="nav-cta" title="Autodiagnóstico MPD gratuito" aria-label="Autodiagnóstico MPD"><span class="nav-cta-extra">Autodiagnóstico </span>MPD</a>
       </div>
     </div>
   </nav>
   <!-- Imagen de portada principal -->
-  <div class="image-slider">
-    <div id="particles-js-hero"></div>
-    <div class="slide active" style="background-image: url('/fotos_pagina_web/webp/Pili y Ale Vertice Legal.png')">
-    </div>
-  </div>
+  <section class="portada">
+    <picture>
+      <source media="(max-width: 1120px), (max-aspect-ratio: 4/3)" srcset="/fotos_pagina_web/webp/portada-movil.jpg">
+      <img class="portada-foto" src="/fotos_pagina_web/webp/portada-1672.jpg"
+        srcset="/fotos_pagina_web/webp/portada-1200.jpg 1200w, /fotos_pagina_web/webp/portada-1672.jpg 1672w"
+        sizes="100vw" width="1672" height="941" fetchpriority="high"
+        alt="Pilar Carrasco y Alejandra Castillo, de Vértice Legal">
+    </picture>
+  </section>
 
   <!-- Hero  
   <section class="hero">
@@ -1381,6 +1458,7 @@
               mejoras concretas.
             </p>
           </div>
+          <a href="/mpd/" class="practice-link">Haz tu autodiagnóstico gratuito &rarr;</a>
         </div>
 
         <div class="practice-card">
@@ -1720,7 +1798,6 @@
 
     // Ejecuta esto cuando el contenido del DOM esté completamente cargado
     document.addEventListener('DOMContentLoaded', function () {
-      initParticles('particles-js-hero', '#025951'); // Partículas en la sección Hero
       //initParticles('particles-js-nosotras', '#025951'); // Oculto para efecto intercalado
       initParticles('particles-js-area_de_practica', '#025951'); // Partículas verdes en la sección practica
       //initParticles('particles-js-equipo', '#025951'); // Oculto para efecto intercalado
@@ -1728,36 +1805,6 @@
       //initParticles('particles-js-contacto', '#ffffff'); // Oculto para efecto intercalado
     });
 
-
-    //PORTADA Lógica del slider
-    document.addEventListener('DOMContentLoaded', function () {
-      const slides = document.querySelectorAll('.slide');
-      let currentSlide = 0;
-
-      // Asegurarse de que la primera imagen esté visible inmediatamente
-      slides[0].classList.add('active');
-
-      function nextSlide() {
-        // Desactivar slide actual
-        slides[currentSlide].classList.remove('active');
-
-        // Calcular siguiente slide
-        currentSlide = (currentSlide + 1) % slides.length;
-
-        // Activar nuevo slide
-        slides[currentSlide].classList.add('active');
-      }
-
-      // Iniciar el temporizador para cambiar slides
-      setInterval(nextSlide, 2700);
-
-      // Precargar las imágenes para evitar parpadeos
-      slides.forEach(slide => {
-        const bgImage = slide.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)[1];
-        const img = new Image();
-        img.src = bgImage;
-      });
-    });
 
     /*********************************************************/
     /*  INTERSECTION OBSERVER PARA ANIMACIONES FADE-IN       */
@@ -1820,7 +1867,14 @@
         event.target.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
-    }
+    };
+
+    // Abre los modales legales desde un enlace externo (ej. verticelegal.cl/#disclaimer, usado por /mpd)
+    (function () {
+      var modales = { '#disclaimer': 'disclaimer', '#privacidad': 'privacy' };
+      var tipo = modales[window.location.hash];
+      if (tipo) openModal(tipo);
+    })();
   </script>
 </body>
 
