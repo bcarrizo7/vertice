@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<title>Estadísticas delictuales de Chile por comuna | Vértice Legal</title>
+<meta name="description" content="Explora denuncias, detenciones y aprehendidos por región, provincia y comuna de Chile desde 2005, con datos oficiales del CEAD. Gráficos, rankings y descarga en CSV.">
+<meta property="og:title" content="Estadísticas delictuales de Chile por comuna | Vértice Legal">
+<meta property="og:description" content="Denuncias, detenciones y aprehendidos por comuna desde 2005, con datos oficiales del CEAD. Filtra, compara y descarga.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://verticelegal.cl/estadisticas-delictuales/">
+<meta property="og:image" content="https://verticelegal.cl/estadisticas-delictuales/imagen-compartir.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://verticelegal.cl/estadisticas-delictuales/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --verde:#0E4D40; --verde-osc:#0A3B31; --verde-claro:#E7F0EC; --borde:#D3DFDA; --borde-2:#B8C9C3;
+    --fondo:#F7F9F8; --superficie:#FFFFFF; --texto:#13211D; --texto-2:#44544F; --apagado:#6B7A75;
+    --oro:#A88449; --oro-claro:#D9C08F; --crema:#FBF6EC; --cafe:#6B5023;
+    --serie:#1F6B57; --resalte:#A88449; --grilla:#E6EDEA;
+    --serif:'Cormorant Garamond', Georgia, serif; --sans:'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--sans);font-size:17px;line-height:1.5}
+  a{color:var(--verde)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+  button,select{font-family:var(--sans);font-size:15px}
+
+  /* Encabezado (igual a la landing MPD) */
+  .top{background:#fff;border-bottom:1px solid var(--borde)}
+  .top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--verde)}
+  .logo b{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1}
+  .logo span{font-family:var(--serif);font-size:25px;font-weight:600}
+  .logo i{font-style:normal;color:var(--oro)}
+  .menu{display:flex;flex-wrap:wrap;align-items:center;gap:20px}
+  .menu a{text-decoration:none;color:var(--texto-2);font-size:16px}
+  .menu a.btn{background:var(--verde);color:#fff;padding:10px 18px;border-radius:6px;font-weight:500}
+  .menu a.btn:hover{background:var(--verde-osc)}
+
+  /* Intro */
+  .intro{padding:36px 0 20px}
+  .eyebrow{margin:0 0 8px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--verde);font-weight:600}
+  h1{margin:0 0 10px;font-family:var(--serif);font-size:48px;line-height:1.05;font-weight:600}
+  .intro p.sub{margin:0;max-width:760px;color:var(--texto-2);font-size:18px}
+  .actualizado{margin-top:10px;font-size:14px;color:var(--apagado)}
+
+  /* Filtros: una fila sobre todo lo que filtran */
+  .filtros{position:sticky;top:0;z-index:10;background:rgba(247,249,248,.97);border-bottom:1px solid var(--borde);padding:12px 0;backdrop-filter:blur(6px)}
+  .filtros .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px 12px;align-items:end}
+  .campo{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .campo label,.campo .lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--apagado)}
+  .campo select{width:100%;height:40px;border:1px solid var(--borde-2);border-radius:6px;background:#fff;color:var(--texto);padding:0 10px}
+  .campo select:disabled{background:#F1F4F3;color:var(--apagado)}
+  .c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}
+  .seg{display:flex;border:1px solid var(--borde-2);border-radius:6px;overflow:hidden;background:#fff;height:40px}
+  .seg button{flex:1;border:0;background:transparent;color:var(--texto-2);padding:0 8px;cursor:pointer;white-space:nowrap;border-left:1px solid var(--borde)}
+  .seg button:first-child{border-left:0}
+  .seg button[aria-pressed="true"]{background:var(--verde);color:#fff;font-weight:500}
+  .seg button:focus-visible,.campo select:focus-visible,.acciones button:focus-visible{outline:2px solid var(--oro);outline-offset:1px}
+  .rango{display:flex;gap:6px;align-items:center}
+  .rango select{flex:1}
+  .rango span{color:var(--apagado);font-size:14px}
+
+  /* Indicadores */
+  main{padding:20px 0 40px}
+  .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+  .kpi{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;min-width:0}
+  .kpi .t{margin:0 0 6px;font-size:13px;color:var(--texto-2);font-weight:500}
+  .kpi .v{margin:0;font-size:30px;font-weight:600;line-height:1.1;color:var(--texto);overflow-wrap:anywhere}
+  .kpi .n{margin:6px 0 0;font-size:13px;color:var(--apagado)}
+  .kpi .v small{font-size:15px;font-weight:500;color:var(--texto-2)}
+
+  /* Tarjetas de gráfico */
+  .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+  .tarjeta{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:18px 18px 12px;margin-bottom:18px;min-width:0}
+  .tarjeta h2{margin:0;font-size:19px;font-weight:600;line-height:1.3}
+  .tarjeta .bajada{margin:4px 0 12px;font-size:14px;color:var(--apagado)}
+  .lienzo{position:relative;height:340px}
+  .lienzo.alto{height:auto}
+  .pie-tarjeta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-top:10px;font-size:13px;color:var(--apagado)}
+  .acciones{display:flex;flex-wrap:wrap;gap:8px}
+  .acciones button{border:1px solid var(--borde-2);background:#fff;color:var(--verde);border-radius:6px;padding:7px 12px;cursor:pointer;font-size:14px}
+  .acciones button:hover{background:var(--verde-claro)}
+  details.tabla{margin-top:8px}
+  details.tabla summary{cursor:pointer;color:var(--verde);font-size:14px}
+  .tabla-cont{max-height:320px;overflow:auto;margin-top:8px;border:1px solid var(--borde);border-radius:6px}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{padding:6px 10px;border-bottom:1px solid var(--grilla);text-align:left}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  thead th{position:sticky;top:0;background:#F3F7F5;font-weight:600}
+  .estado{opacity:1;transition:opacity .2s}
+  .cargando .estado{opacity:.45}
+  .aviso{background:var(--crema);color:var(--cafe);border-radius:8px;padding:10px 14px;font-size:14px;margin-bottom:16px}
+
+  .acciones button.principal{background:var(--verde);border-color:var(--verde);color:#fff}
+  .acciones button.principal:hover{background:var(--verde-osc)}
+  .acciones button:disabled{opacity:.6;cursor:wait}
+
+  /* Ventana de compartir */
+  dialog#dlg{border:0;border-radius:12px;padding:0;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 32px);box-shadow:0 20px 60px rgba(10,59,49,.35)}
+  dialog#dlg::backdrop{background:rgba(19,33,29,.55)}
+  .dlg-cab{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--borde)}
+  .dlg-cab h2{margin:0;font-size:18px;font-weight:600}
+  .dlg-cab button{border:0;background:transparent;font-size:28px;line-height:1;cursor:pointer;color:var(--texto-2);padding:0 4px}
+  .dlg-cuerpo{padding:16px 18px 18px;overflow:auto;max-height:calc(100vh - 110px)}
+  .dlg-cuerpo img{display:block;width:100%;max-height:52vh;object-fit:contain;border:1px solid var(--borde);border-radius:8px;background:var(--fondo)}
+  .dlg-acc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .dlg-acc button{flex:1 1 140px;border:1px solid var(--borde-2);background:#fff;color:var(--verde);border-radius:6px;padding:10px 12px;cursor:pointer;font-size:15px}
+  .dlg-acc button.principal{background:var(--verde);border-color:var(--verde);color:#fff}
+  .dlg-redes{margin:14px 0 0;font-size:14px;color:var(--texto-2)}
+  .dlg-redes a{font-weight:500}
+  .dlg-nota{margin:6px 0 0;font-size:13px;color:var(--apagado)}
+
+  /* Notas y llamado */
+  .notas{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:22px 24px;margin-bottom:18px}
+  .notas h2{margin:0 0 10px;font-family:var(--serif);font-size:30px;font-weight:600}
+  .notas dl{margin:0;display:grid;grid-template-columns:200px 1fr;gap:8px 18px;font-size:15px}
+  .notas dt{font-weight:600}
+  .notas dd{margin:0;color:var(--texto-2)}
+  .cita{margin-top:16px;background:var(--fondo);border-left:3px solid var(--oro);padding:10px 14px;font-size:14px;color:var(--texto-2)}
+  .cta{background:var(--verde);color:#fff;border-radius:10px;padding:28px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+  .cta h2{margin:0 0 6px;font-family:var(--serif);font-size:32px;font-weight:600}
+  .cta p{margin:0;color:#D6E4DF;max-width:640px}
+  .cta a{background:#fff;color:var(--verde-osc);text-decoration:none;font-weight:600;padding:13px 22px;border-radius:6px;border:1px solid #fff;text-align:center}
+  .cta a.cta-sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.55);font-weight:500}
+  .cta a.cta-sec:hover{background:rgba(255,255,255,.1)}
+  .cta-eyebrow{margin:0 0 6px !important;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro-claro) !important;font-weight:600}
+  .cta-botones{display:flex;flex-wrap:wrap;gap:10px}
+  footer{background:var(--texto);color:#C9D6D1;font-size:15px;margin-top:30px}
+  footer .wrap{padding-top:28px;padding-bottom:28px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+  footer a{color:#fff}
+
+  @media (max-width:1100px){
+    .filtros{position:static}
+    .c2,.c3,.c4,.c5{grid-column:span 6}
+    .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:760px){
+    h1{font-size:36px}
+    .intro{padding:24px 0 12px}
+    .intro p.sub{font-size:16px}
+    .filtros .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}
+    .c2{grid-column:span 1}
+    .c3,.c4,.c5,.c6{grid-column:span 2}
+    .campo select{height:38px;font-size:14px;padding:0 6px}
+    #f-tipo{height:auto;flex-wrap:wrap}
+    #f-tipo button{flex:1 1 50%;height:38px;border-left:0;border-top:1px solid var(--borde)}
+    #f-tipo button:nth-child(-n+2){border-top:0}
+    #f-tipo button:nth-child(even){border-left:1px solid var(--borde)}
+    .seg button{font-size:14px;padding:0 4px}
+    .grid2{grid-template-columns:minmax(0,1fr)}
+    .kpi .v{font-size:24px}
+    .lienzo{height:280px}
+    .notas dl{grid-template-columns:1fr}
+    .menu a:not(.btn){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/"><b>§</b><span>Vértice <i>|</i> Legal</span></a>
+    <nav class="menu" aria-label="Navegación">
+      <a href="/">Inicio</a>
+      <a href="/mpd/">Autodiagnóstico MPD</a>
+      <a class="btn" href="https://calendar.app.google/aYSFTKFos2NbFKos8" target="_blank" rel="noopener" data-evento="agendar">Agendar reunión</a>
+    </nav>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <p class="eyebrow">Datos abiertos · Fuente CEAD</p>
+    <h1>Estadísticas delictuales de Chile</h1>
+    <p class="sub">Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y descarga lo que necesites.</p>
+    <p class="actualizado" id="actualizado">Cargando datos…</p>
+  </div>
+</section>
+
+<section class="filtros" aria-label="Filtros">
+  <div class="wrap">
+    <div class="campo c2"><label for="f-region">Región</label><select id="f-region"></select></div>
+    <div class="campo c2"><label for="f-provincia">Provincia</label><select id="f-provincia"></select></div>
+    <div class="campo c2"><label for="f-comuna">Comuna</label><select id="f-comuna"></select></div>
+    <div class="campo c2"><label for="f-familia">Familia de delito</label><select id="f-familia"></select></div>
+    <div class="campo c2"><label for="f-grupo">Grupo</label><select id="f-grupo"></select></div>
+    <div class="campo c2"><label for="f-subgrupo">Subgrupo</label><select id="f-subgrupo"></select></div>
+    <div class="campo c5"><span class="lbl" id="l-tipo">Tipo de dato</span>
+      <div class="seg" role="group" aria-labelledby="l-tipo" id="f-tipo">
+        <button type="button" data-v="cp" title="Denuncias + detenciones en flagrancia">Casos policiales</button>
+        <button type="button" data-v="d">Denuncias</button>
+        <button type="button" data-v="t">Detenciones</button>
+        <button type="button" data-v="a" title="Personas aprehendidas">Aprehendidos</button>
+      </div></div>
+    <div class="campo c3"><span class="lbl" id="l-medida">Medida</span>
+      <div class="seg" role="group" aria-labelledby="l-medida" id="f-medida">
+        <button type="button" data-v="frec">Cantidad</button>
+        <button type="button" data-v="tasa">Tasa x 100 mil hab.</button>
+      </div></div>
+    <div class="campo c2"><span class="lbl">Período</span>
+      <div class="rango"><select id="f-desde" aria-label="Desde el año"></select><span>a</span><select id="f-hasta" aria-label="Hasta el año"></select></div></div>
+    <div class="campo c2"><span class="lbl" id="l-agrupar">Ver por</span>
+      <div class="seg" role="group" aria-labelledby="l-agrupar" id="f-agrupar">
+        <button type="button" data-v="mes">Mes</button>
+        <button type="button" data-v="trim">Trim.</button>
+        <button type="button" data-v="anio">Año</button>
+      </div></div>
+  </div>
+</section>
+
+<main class="wrap estado" id="contenido">
+  <div class="aviso" id="aviso" hidden></div>
+
+  <div class="kpis" aria-live="polite">
+    <div class="kpi"><p class="t" id="k1t">Total en el período</p><p class="v" id="k1v">–</p><p class="n" id="k1n"></p></div>
+    <div class="kpi"><p class="t">Tasa anual por 100 mil hab.</p><p class="v" id="k2v">–</p><p class="n" id="k2n"></p></div>
+    <div class="kpi"><p class="t">Últimos 12 meses vs. 12 anteriores</p><p class="v" id="k3v">–</p><p class="n" id="k3n"></p></div>
+    <div class="kpi"><p class="t">Delito más frecuente</p><p class="v" id="k4v" style="font-size:20px">–</p><p class="n" id="k4n"></p></div>
+  </div>
+
+  <article class="tarjeta">
+    <h2 id="t-evol">Evolución</h2>
+    <p class="bajada" id="b-evol"></p>
+    <div class="lienzo"><canvas id="g-evol" role="img" aria-label="Gráfico de evolución en el tiempo"></canvas></div>
+    <div class="pie-tarjeta">
+      <span id="n-evol"></span>
+      <div class="acciones"><button type="button" class="principal" data-compartir="evol">Compartir</button><button type="button" data-imagen="evol">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div>
+    </div>
+    <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-evol"></div></details>
+  </article>
+
+  <div class="grid2">
+    <article class="tarjeta">
+      <h2 id="t-del">¿Qué delitos?</h2>
+      <p class="bajada" id="b-del"></p>
+      <div class="lienzo alto"><canvas id="g-del" role="img" aria-label="Gráfico de delitos"></canvas></div>
+      <div class="pie-tarjeta"><span></span><div class="acciones"><button type="button" class="principal" data-compartir="del">Compartir</button><button type="button" data-imagen="del">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-del"></div></details>
+    </article>
+    <article class="tarjeta">
+      <h2 id="t-terr">Comparación territorial</h2>
+      <p class="bajada" id="b-terr"></p>
+      <div class="lienzo alto"><canvas id="g-terr" role="img" aria-label="Gráfico de comparación territorial"></canvas></div>
+      <div class="pie-tarjeta"><span id="n-terr"></span><div class="acciones"><button type="button" id="ver-todas" hidden>Ver todas</button><button type="button" class="principal" data-compartir="terr">Compartir</button><button type="button" data-imagen="terr">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-terr"></div></details>
+    </article>
+  </div>
+
+  <section class="notas" id="metodologia">
+    <h2>Cómo leer estos datos</h2>
+    <dl>
+      <dt>Casos policiales</dt><dd>Suma de las denuncias que hace la comunidad y las detenciones que hacen las policías ante delitos flagrantes. Es la cifra que el CEAD usa como indicador principal.</dd>
+      <dt>Denuncias</dt><dd>Delitos denunciados por la comunidad en Carabineros y la PDI.</dd>
+      <dt>Detenciones</dt><dd>Delitos en que las policías detienen a alguien en flagrancia.</dd>
+      <dt>Aprehendidos</dt><dd>Personas aprehendidas (cuenta personas, no casos).</dd>
+      <dt>Tasa por 100 mil hab.</dt><dd>Casos divididos por la población del territorio, multiplicado por 100.000. Usa la misma población que publica el CEAD para cada año. La tasa anual del período considera los meses incluidos, así un año incompleto no se ve artificialmente bajo.</dd>
+      <dt>Casos sin comuna</dt><dd>El total de Chile incluye casos que el CEAD no asigna a ninguna comuna (entre 0,05% y 2% según el año). Por eso la suma de las regiones puede ser levemente menor que el total nacional.</dd>
+      <dt>Período y actualización</dt><dd id="nota-periodo">–</dd>
+      <dt>Fuente</dt><dd>Centro de Estudios y Análisis del Delito (CEAD), Subsecretaría de Prevención del Delito, <a href="https://cead.minsegpublica.gob.cl/estadisticas-delictuales/" target="_blank" rel="noopener">cead.minsegpublica.gob.cl</a>. Vértice Legal recopila y ordena estas cifras públicas; no las modifica. El CEAD puede corregir cifras en publicaciones posteriores.</dd>
+    </dl>
+    <p class="cita"><strong>Cómo citar:</strong> <span id="cita">Vértice Legal, Estadísticas delictuales de Chile, a partir de datos del CEAD.</span></p>
+  </section>
+
+  <section class="cta">
+    <div>
+      <p class="cta-eyebrow">Sobre este proyecto</p>
+      <h2>Datos públicos, ordenados por Vértice Legal</h2>
+      <p>Somos un estudio jurídico boutique especialista en protección de datos personales y compliance. Acompañamos a directorios y empresas en la gestión de sus riesgos más críticos.</p>
+    </div>
+    <div class="cta-botones">
+      <a href="/" class="cta-sec">Conoce Vértice Legal</a>
+      <a href="/mpd/" data-evento="cta-mpd">Autodiagnóstico MPD para empresas</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>§ Vértice | Legal · Av. Apoquindo N° 7935, of. B 718, Las Condes</span>
+    <span><a href="/">verticelegal.cl</a> · <a href="https://wa.me/56989029993" target="_blank" rel="noopener">WhatsApp</a> · <a href="/#privacidad">Privacidad</a></span>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-t">
+  <div class="dlg-cab"><h2 id="dlg-t">Compartir este gráfico</h2><button type="button" id="dlg-cerrar" aria-label="Cerrar">&times;</button></div>
+  <div class="dlg-cuerpo">
+    <img id="dlg-img" alt="Vista previa de la imagen para compartir">
+    <div class="dlg-acc">
+      <button type="button" class="principal" id="dlg-nativo" data-evento="compartir-imagen">Compartir imagen…</button>
+      <button type="button" id="dlg-bajar" data-evento="descargar-imagen">Descargar imagen</button>
+      <button type="button" id="dlg-copiar">Copiar enlace</button>
+    </div>
+    <p class="dlg-redes">Enviar el enlace por:
+      <a id="dlg-wa" target="_blank" rel="noopener" data-evento="compartir-whatsapp">WhatsApp</a> ·
+      <a id="dlg-li" target="_blank" rel="noopener" data-evento="compartir-linkedin">LinkedIn</a> ·
+      <a id="dlg-x" target="_blank" rel="noopener" data-evento="compartir-x">X</a> ·
+      <a id="dlg-fb" target="_blank" rel="noopener" data-evento="compartir-facebook">Facebook</a></p>
+    <p class="dlg-nota">Para Instagram: descarga la imagen y súbela desde la app.</p>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+  const BASE = 'datos/';
+  const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const TIPO = {
+    cp: { n: 'Casos policiales', u: 'casos' },
+    d: { n: 'Denuncias', u: 'denuncias' },
+    t: { n: 'Detenciones', u: 'detenciones' },
+    a: { n: 'Aprehendidos', u: 'personas aprehendidas' }
+  };
+  const nf0 = new Intl.NumberFormat('es-CL', { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const $ = (id) => document.getElementById(id);
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+  let META, PAIS, ANUAL = null, N, A0, ANIOS;
+  const REG = {};
+  const S = { r: 0, p: 0, c: 0, f: 0, g: 0, s: 0, tipo: 'cp', medida: 'frec', desde: 0, hasta: 0, agrupar: 'mes' };
+  const IDX = {};
+  let verTodas = false;
+
+  const cargar = (n) => fetch(BASE + n).then((r) => { if (!r.ok) throw new Error(n + ' ' + r.status); return r.json(); });
+  const region = (r) => (REG[r] = REG[r] || cargar('region-' + r + '.json'));
+  const anual = () => (ANUAL = ANUAL || cargar('anual.json'));
+
+  // ---------- catálogo
+  function indexar() {
+    IDX.reg = new Map(META.regiones.map((x) => [x.c, x]));
+    IDX.prov = new Map(META.provincias.map((x) => [x.c, x]));
+    IDX.com = new Map(META.comunas.map((x) => [x.c, x]));
+    IDX.fam = new Map(META.familias.map((x) => [x.c, x]));
+    IDX.gru = new Map(META.grupos.map((x) => [x.c, x]));
+    IDX.sub = new Map(META.subgrupos.map((x) => [x.c, x]));
+  }
+  const famDeSub = (s) => IDX.gru.get(IDX.sub.get(s).g).f;
+
+  function subsSel() {
+    if (S.s) return [S.s];
+    if (S.g) return META.subgrupos.filter((x) => x.g === S.g).map((x) => x.c);
+    if (S.f) return META.subgrupos.filter((x) => famDeSub(x.c) === S.f).map((x) => x.c);
+    return META.subgrupos.map((x) => x.c);
+  }
+  function nombreDelito() {
+    if (S.s) return IDX.sub.get(S.s).n;
+    if (S.g) return IDX.gru.get(S.g).n;
+    if (S.f) return IDX.fam.get(S.f).n;
+    return 'Todos los delitos';
+  }
+  function unidad() {
+    if (S.c) return { nivel: 'comuna', cod: S.c, n: IDX.com.get(S.c).n };
+    if (S.p) return { nivel: 'provincia', cod: S.p, n: IDX.prov.get(S.p).n };
+    if (S.r) return { nivel: 'region', cod: S.r, n: IDX.reg.get(S.r).n };
+    return { nivel: 'pais', cod: 0, n: 'Chile' };
+  }
+  function comunasDe(u) {
+    return META.comunas.filter((c) => u.nivel === 'pais' || (u.nivel === 'region' && c.r === u.cod) ||
+      (u.nivel === 'provincia' && c.p === u.cod) || (u.nivel === 'comuna' && c.c === u.cod));
+  }
+  function poblacion(u) {
+    const pob = new Array(ANIOS.length).fill(0);
+    for (const c of comunasDe(u)) c.pob.forEach((v, i) => { pob[i] += v; });
+    return pob;
+  }
+
+  // ---------- series
+  function sumar(destino, uobj, tipos, subs) {
+    if (!uobj) return;
+    for (const t of tipos) {
+      const m = uobj[t]; if (!m) continue;
+      for (const s of subs) { const a = m[s]; if (a) for (let i = 0; i < a.length; i++) destino[i] += a[i]; }
+    }
+  }
+  const tiposDe = (tipo) => (tipo === 'cp' ? ['d', 't'] : [tipo]);
+
+  async function serie(u, subs, tipo) {
+    const out = new Float64Array(N);
+    const tipos = tiposDe(tipo);
+    if (u.nivel === 'pais') {
+      for (const r of META.regiones) sumar(out, PAIS.u[r.c], tipos, subs);
+      sumar(out, PAIS.u['0'], tipos, subs); // casos sin comuna asignada: cuentan en el total país, no en una región
+    }
+    else if (u.nivel === 'region') { sumar(out, PAIS.u[u.cod], tipos, subs); }
+    else {
+      const R = await region(Math.floor(u.cod / (u.nivel === 'comuna' ? 1000 : 10)));
+      for (const c of comunasDe(u)) sumar(out, R.u[c.c], tipos, subs);
+    }
+    return out;
+  }
+
+  function rango() {
+    const k0 = (S.desde - A0) * 12;
+    const k1 = Math.min((S.hasta - A0) * 12 + 11, N - 1);
+    return [k0, k1];
+  }
+  // meses incluidos por año (para anualizar tasas cuando un año está incompleto)
+  function mesesPorAnio(k0, k1) {
+    const m = new Array(ANIOS.length).fill(0);
+    for (let k = k0; k <= k1; k++) m[Math.floor(k / 12)]++;
+    return m;
+  }
+  function tasaAnual(total, pob, k0, k1) {
+    const m = mesesPorAnio(k0, k1);
+    let personaAnios = 0;
+    m.forEach((n, i) => { personaAnios += pob[i] * n / 12; });
+    return personaAnios > 0 ? total / personaAnios * 1e5 : NaN;
+  }
+
+  function cubetas(arr, pob) {
+    const [k0, k1] = rango();
+    const out = [];
+    const ultimoMes = (N - 1) % 12;
+    const add = (etq, val, ai, meses, parcial) => out.push({ etq, frec: val, tasa: pob[ai] ? val / pob[ai] * 1e5 : NaN, parcial, meses, anio: ANIOS[ai] });
+    if (S.agrupar === 'mes') {
+      for (let k = k0; k <= k1; k++) add(MES[k % 12] + ' ' + ANIOS[Math.floor(k / 12)], arr[k], Math.floor(k / 12), 1, false);
+    } else if (S.agrupar === 'trim') {
+      for (let k = k0; k <= k1; k += 3) {
+        const fin = Math.min(k + 2, k1);
+        let v = 0; for (let j = k; j <= fin; j++) v += arr[j];
+        add('T' + (Math.floor((k % 12) / 3) + 1) + ' ' + ANIOS[Math.floor(k / 12)], v, Math.floor(k / 12), fin - k + 1, fin - k + 1 < 3);
+      }
+    } else {
+      for (let k = k0; k <= k1; k += 12) {
+        const fin = Math.min(k + 11, k1);
+        let v = 0; for (let j = k; j <= fin; j++) v += arr[j];
+        const parcial = fin - k + 1 < 12;
+        add(String(ANIOS[Math.floor(k / 12)]) + (parcial ? '*' : ''), v, Math.floor(k / 12), fin - k + 1, parcial);
+      }
+    }
+    return { cub: out, parcialNota: S.agrupar !== 'mes' && out.some((x) => x.parcial) ? '* ' + ANIOS[ANIOS.length - 1] + ' incluye solo enero a ' + ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][ultimoMes] + '.' : '' };
+  }
+
+  // ---------- gráficos
+  Chart.defaults.font.family = css('--sans');
+  Chart.defaults.font.size = 13;
+  Chart.defaults.color = css('--texto-2');
+  const cruz = {
+    id: 'cruz',
+    afterDatasetsDraw(chart) {
+      const act = chart.tooltip && chart.tooltip.getActiveElements();
+      if (!act || !act.length || chart.config.type !== 'line') return;
+      const x = act[0].element.x, { top, bottom } = chart.chartArea, ctx = chart.ctx;
+      ctx.save(); ctx.strokeStyle = css('--borde-2'); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke(); ctx.restore();
+    }
+  };
+  const etiquetasBarra = {
+    id: 'etiquetasBarra',
+    afterDatasetsDraw(chart, args, opts) {
+      if (chart.config.options.indexAxis !== 'y') return;
+      const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0), tam = (opts && opts.tam) || 12;
+      ctx.save(); ctx.font = '500 ' + tam + 'px ' + css('--sans'); ctx.fillStyle = css('--texto-2'); ctx.textBaseline = 'middle';
+      meta.data.forEach((b, i) => { ctx.fillText(fmt(ds.data[i]), b.x + tam / 2, b.y); });
+      ctx.restore();
+    }
+  };
+  const fmt = (v) => (S.medida === 'tasa' ? nf1.format(v) : nf0.format(v));
+  const unidadMedida = () => (S.medida === 'tasa' ? 'por 100 mil hab.' : TIPO[S.tipo].u);
+  let gEvol, gDel, gTerr;
+
+  function grafEvol(c) {
+    const vals = c.cub.map((x) => (S.medida === 'tasa' ? x.tasa : x.frec));
+    const barras = S.agrupar === 'anio';
+    const colores = c.cub.map((x) => (x.parcial ? css('--oro-claro') : css('--serie')));
+    const data = {
+      labels: c.cub.map((x) => x.etq),
+      datasets: [{ data: vals, borderColor: css('--serie'), backgroundColor: barras ? colores : css('--serie'),
+        borderWidth: barras ? 0 : 2, pointRadius: 0, pointHoverRadius: 4, pointHoverBackgroundColor: css('--serie'),
+        tension: 0, borderRadius: barras ? 4 : 0, maxBarThickness: 36 }]
+    };
+    const opciones = {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: (it) => fmt(it.raw) + ' ' + unidadMedida() } } },
+      scales: {
+        x: { grid: { display: false }, border: { color: css('--borde') }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+        y: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: { callback: (v) => nf0.format(v) } }
+      }
+    };
+    if (gEvol && gEvol.config.type === (barras ? 'bar' : 'line')) { gEvol.data = data; gEvol.options = opciones; gEvol.update(); }
+    else { if (gEvol) gEvol.destroy(); gEvol = new Chart($('g-evol'), { type: barras ? 'bar' : 'line', data, options: opciones, plugins: [cruz] }); }
+  }
+
+  // En pantallas angostas los nombres largos van en dos líneas (si no, el gráfico los corta)
+  function etiquetaBarra(t, angosto) {
+    const lim = angosto ? 18 : 34;
+    if (t.length <= lim) return t;
+    if (!angosto) return t.slice(0, lim - 1) + '…';
+    let a = '', b = '';
+    for (const w of t.split(' ')) { if (!b && (a + ' ' + w).trim().length <= lim) a = (a + ' ' + w).trim(); else b = (b + ' ' + w).trim(); }
+    return [a, b.length > lim ? b.slice(0, lim - 1) + '…' : b];
+  }
+  function grafBarras(prev, canvas, filas, resaltar) {
+    const angosto = canvas.parentNode.clientWidth < 520;
+    const alto = Math.max(160, filas.length * (angosto ? 38 : 26) + 40);
+    canvas.parentNode.style.height = alto + 'px';
+    const max = Math.max(...filas.map((f) => f.v), 1);
+    const data = {
+      labels: filas.map((f) => f.n),
+      datasets: [{ data: filas.map((f) => f.v), backgroundColor: filas.map((f) => (resaltar(f) ? css('--resalte') : css('--serie'))),
+        borderRadius: 4, borderSkipped: 'start', barThickness: 16 }]
+    };
+    const opciones = {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+      layout: { padding: { right: 70 } },
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: (it) => fmt(it.raw) + ' ' + unidadMedida() } } },
+      scales: {
+        x: { beginAtZero: true, suggestedMax: max * 1.02, grid: { color: css('--grilla') }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: (v) => nf0.format(v) } },
+        y: { grid: { display: false }, border: { color: css('--borde') }, ticks: { autoSkip: false, font: { size: angosto ? 12 : 13 }, callback(v) { return etiquetaBarra(this.getLabelForValue(v), angosto); } } }
+      }
+    };
+    if (angosto) opciones.layout.padding.right = 62;
+    if (prev) { prev.data = data; prev.options = opciones; prev.update(); return prev; }
+    return new Chart(canvas, { type: 'bar', data, options: opciones, plugins: [etiquetasBarra] });
+  }
+
+  // ---------- tablas y CSV
+  function tabla(cont, encabezados, filas) {
+    const th = encabezados.map((h, i) => '<th' + (i ? ' class="num"' : '') + '>' + h + '</th>').join('');
+    const tr = filas.map((f) => '<tr>' + f.map((v, i) => (i ? '<td class="num">' + v + '</td>' : '<td>' + v + '</td>')).join('') + '</tr>').join('');
+    cont.innerHTML = '<table><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table>';
+  }
+  // ---------- imagen para compartir: el gráfico elegido, con la marca y los filtros (1080 x 1350, formato 4:5)
+  const IMG_W = 1080, IMG_H = 1350, MARGEN = 64;
+  const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Outfit, "Segoe UI", sans-serif';
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const minus = (s) => s.charAt(0).toLowerCase() + s.slice(1);
+
+  function envolver(ctx, texto, ancho) {
+    const lineas = []; let l = '';
+    for (const p of texto.split(' ')) {
+      const prueba = l ? l + ' ' + p : p;
+      if (ctx.measureText(prueba).width > ancho && l) { lineas.push(l); l = p; } else l = prueba;
+    }
+    if (l) lineas.push(l);
+    return lineas;
+  }
+  function textoAjustado(ctx, texto, x, y, ancho, peso, tam, fam) {
+    let t = tam; ctx.font = peso + ' ' + t + 'px ' + fam;
+    while (ctx.measureText(texto).width > ancho && t > 14) { t--; ctx.font = peso + ' ' + t + 'px ' + fam; }
+    ctx.fillText(texto, x, y);
+  }
+
+  function textosImagen(cual) {
+    const u = unidad(), del = nombreDelito(), tipo = TIPO[S.tipo].n;
+    const per = S.desde === S.hasta ? String(S.desde) : S.desde + '–' + S.hasta;
+    const todos = del === 'Todos los delitos';
+    const sujeto = todos ? tipo : del;
+    const enTipo = todos ? '' : tipo + ' · ';
+    const medida = S.medida === 'tasa' ? 'tasa por 100 mil habitantes' : 'cantidad';
+    const base = { archivo: sujeto + ' ' + u.n + ' ' + per };
+    if (cual === 'evol') {
+      const k3 = $('k3v').textContent;
+      return Object.assign(base, {
+        titulo: sujeto + ' en ' + u.n + ', ' + per,
+        subtitulo: enTipo + cap(medida) + ' por ' + { mes: 'mes', trim: 'trimestre', anio: 'año' }[S.agrupar],
+        destacado: 'Total del período: ' + $('k1v').textContent + ' ' + TIPO[S.tipo].u + (k3 && k3 !== '–' ? '  ·  Últimos 12 meses: ' + k3 : ''),
+        nota: ultimo.evol.c.parcialNota,
+        compartir: sujeto + ' en ' + u.n + ', ' + per + ', según datos del CEAD.'
+      });
+    }
+    if (cual === 'del') {
+      const nivel = { familias: 'familia de delito', grupos: 'grupo de delito', subgrupos: 'subgrupo de delito' }[ultimo.del.nivel];
+      return Object.assign(base, {
+        titulo: (S.f ? del + ' en ' + u.n + ', por tipo' : 'Delitos más frecuentes en ' + u.n) + ', ' + per,
+        subtitulo: tipo + ' · ' + (S.medida === 'tasa' ? 'Tasa anual por 100 mil habitantes' : 'Cantidad') + ' por ' + nivel,
+        destacado: '', nota: '',
+        compartir: (S.f ? del + ' en ' + u.n : 'Delitos más frecuentes en ' + u.n) + ', ' + per + ', según datos del CEAD.'
+      });
+    }
+    const T = ultimo.terr;
+    const sel = T.unidades.find((x) => x.c === S.c);
+    return Object.assign(base, {
+      titulo: T.titulo + ' con más ' + minus(sujeto) + ', ' + per,
+      subtitulo: enTipo + (S.medida === 'tasa' ? 'Tasa anual por 100 mil habitantes' : 'Cantidad'),
+      destacado: sel ? sel.n + ': lugar ' + sel.rank + ' de ' + T.unidades.length : '',
+      nota: S.medida === 'tasa' && u.nivel !== 'pais' ? 'En comunas con poca población la tasa varía mucho de un año a otro.' : '',
+      compartir: T.titulo + ' con más ' + minus(sujeto) + ', ' + per + ', según datos del CEAD.',
+      archivo: 'ranking ' + T.titulo + ' ' + sujeto + ' ' + per
+    });
+  }
+
+  // Dibuja el gráfico en un lienzo aparte, con letra grande para redes sociales
+  function graficoParaImagen(cual, ancho, alto) {
+    const cv = document.createElement('canvas'); cv.width = ancho; cv.height = alto;
+    const ejes = { color: css('--texto-2'), font: { size: 26, family: SANS } };
+    // rótulo del último valor al final de la línea (el dato que más se comenta)
+    const ultimoValor = {
+      id: 'ultimoValor',
+      afterDatasetsDraw(chart) {
+        if (chart.config.type !== 'line') return;
+        const pts = chart.getDatasetMeta(0).data, ds = chart.data.datasets[0].data;
+        const i = ds.length - 1; if (i < 0 || !pts[i]) return;
+        const ctx = chart.ctx, p = pts[i], txt = fmt(ds[i]);
+        ctx.save();
+        ctx.fillStyle = css('--serie'); ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.font = '600 28px ' + SANS; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+        ctx.lineJoin = 'round'; ctx.lineWidth = 8; ctx.strokeStyle = '#FFFFFF'; ctx.strokeText(txt, p.x - 6, p.y - 16);
+        ctx.fillStyle = css('--texto'); ctx.fillText(txt, p.x - 6, p.y - 16);
+        ctx.restore();
+      }
+    };
+    let config;
+    if (cual === 'evol') {
+      const c = ultimo.evol.c, barras = S.agrupar === 'anio';
+      config = {
+        type: barras ? 'bar' : 'line',
+        data: { labels: c.cub.map((x) => x.etq), datasets: [{ data: c.cub.map((x) => (S.medida === 'tasa' ? x.tasa : x.frec)),
+          borderColor: css('--serie'), backgroundColor: barras ? c.cub.map((x) => (x.parcial ? css('--oro-claro') : css('--serie'))) : css('--serie'),
+          borderWidth: barras ? 0 : 5, pointRadius: 0, tension: 0, borderRadius: barras ? 6 : 0, maxBarThickness: 60 }] },
+        options: { layout: { padding: { top: 40 } }, plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          scales: { x: { grid: { display: false }, border: { color: css('--borde') }, ticks: Object.assign({ maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }, ejes) },
+                    y: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 6, callback: (v) => nf0.format(v) }, ejes) } } }
+      };
+    } else {
+      let filas, resaltar;
+      if (cual === 'del') { filas = ultimo.del.filas; resaltar = (f) => f.c === S.s; }
+      else {
+        const validas = ultimo.terr.unidades.filter((x) => !isNaN(x.v));
+        const MAX = 18;
+        filas = validas.slice(0, MAX);
+        const sel = validas.find((x) => x.c === S.c);
+        if (sel && sel.rank > MAX) filas = filas.concat([sel]);
+        filas = filas.map((x) => Object.assign({}, x, { n: x.rank + '. ' + x.n }));
+        resaltar = (f) => f.c === S.c;
+      }
+      const pocas = filas.length <= 4;
+      const grosor = Math.max(16, Math.min(pocas ? 90 : 56, Math.floor((alto - 70) / filas.length * 0.6)));
+      // con pocas categorías el gráfico usa solo la altura necesaria (se centra al componer la imagen)
+      alto = Math.min(alto, Math.round(filas.length * grosor / 0.6 + 80));
+      cv.height = alto;
+      const holgado = (alto - 80) / filas.length >= 60; // hay espacio para nombres en dos líneas
+      const partir = (t) => {
+        if (!holgado) return t.length > 26 ? t.slice(0, 25) + '…' : t;
+        if (t.length <= 22) return t;
+        const p = t.split(' '); let a = '', b = '';
+        for (const w of p) { if (!b && (a + ' ' + w).trim().length <= 22) a = (a + ' ' + w).trim(); else b = (b + ' ' + w).trim(); }
+        return [a, b.length > 24 ? b.slice(0, 23) + '…' : b];
+      };
+      config = {
+        type: 'bar',
+        data: { labels: filas.map((f) => f.n), datasets: [{ data: filas.map((f) => f.v), barThickness: grosor, borderRadius: 6, borderSkipped: 'start',
+          backgroundColor: filas.map((f) => (resaltar(f) ? css('--resalte') : css('--serie'))) }] },
+        options: { indexAxis: 'y', layout: { padding: { right: 150 } },
+          plugins: { legend: { display: false }, tooltip: { enabled: false }, etiquetasBarra: { tam: pocas ? 32 : 24 } },
+          scales: { x: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 4, callback: (v) => nf0.format(v) }, ejes) },
+                    y: { grid: { display: false }, border: { color: css('--borde') }, ticks: Object.assign({ autoSkip: false, callback(v) { return partir(this.getLabelForValue(v)); } }, ejes) } } }
+      };
+    }
+    Object.assign(config.options, { responsive: false, maintainAspectRatio: false, animation: false, devicePixelRatio: 1, events: [] });
+    const g = new Chart(cv, Object.assign(config, { plugins: [etiquetasBarra, ultimoValor] }));
+    g.update('none');
+    const copia = document.createElement('canvas'); copia.width = ancho; copia.height = cv.height;
+    copia.getContext('2d').drawImage(cv, 0, 0);
+    g.destroy();
+    return copia;
+  }
+
+  async function componerImagen(cual) {
+    try {
+      await Promise.all(['700 60px "Cormorant Garamond"', '600 44px "Cormorant Garamond"', '400 28px Outfit', '600 30px Outfit']
+        .map((f) => document.fonts.load(f)));
+    } catch (e) { /* si las fuentes no cargan se usan las de respaldo */ }
+    const W = IMG_W, H = IMG_H, M = MARGEN, info = textosImagen(cual);
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+    // Franja superior con la marca
+    ctx.fillStyle = '#0E4D40'; ctx.fillRect(0, 0, W, 132);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = '700 60px ' + SERIF; ctx.fillText('§', M, 88);
+    ctx.font = '600 46px ' + SERIF;
+    let x = M + 46; ctx.fillText('Vértice', x, 84); x += ctx.measureText('Vértice ').width;
+    ctx.fillStyle = '#C9A563'; ctx.fillText('|', x, 84); x += ctx.measureText('| ').width;
+    ctx.fillStyle = '#FFFFFF'; ctx.fillText('Legal', x, 84);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#D6E4DF'; ctx.font = '400 24px ' + SANS; ctx.fillText('Estadísticas delictuales de Chile', W - M, 80);
+    ctx.textAlign = 'left';
+    // Título, bajada y dato destacado
+    let y = 132 + 82;
+    ctx.fillStyle = '#13211D'; ctx.font = '700 60px ' + SERIF;
+    envolver(ctx, info.titulo, W - 2 * M).slice(0, 3).forEach((l) => { ctx.fillText(l, M, y); y += 64; });
+    y += 2;
+    ctx.fillStyle = '#44544F'; ctx.font = '400 28px ' + SANS;
+    envolver(ctx, info.subtitulo, W - 2 * M).slice(0, 2).forEach((l) => { ctx.fillText(l, M, y); y += 38; });
+    if (info.destacado) { y += 12; ctx.fillStyle = '#0E4D40'; textoAjustado(ctx, info.destacado, M, y, W - 2 * M, '600', 30, SANS); y += 10; }
+    y += 30;
+    // Gráfico
+    const PIE = 132, nota = info.nota ? 44 : 0;
+    const altoG = H - PIE - nota - y - 18;
+    const g = graficoParaImagen(cual, W - 2 * M + 28, altoG);
+    ctx.drawImage(g, M - 14, y + Math.round((altoG - g.height) / 2));
+    if (info.nota) { ctx.fillStyle = '#6B7A75'; textoAjustado(ctx, info.nota, M, y + altoG + 32, W - 2 * M, '400', 22, SANS); }
+    // Pie: dónde verlo y fuente
+    ctx.fillStyle = '#E7F0EC'; ctx.fillRect(0, H - PIE, W, PIE);
+    ctx.fillStyle = '#C9A563'; ctx.fillRect(0, H - PIE, W, 4);
+    ctx.fillStyle = '#0E4D40'; textoAjustado(ctx, 'verticelegal.cl/estadisticas-delictuales', M, H - PIE + 58, W - 2 * M, '600', 32, SANS);
+    ctx.fillStyle = '#44544F'; textoAjustado(ctx, 'Fuente: CEAD, Subsecretaría de Prevención del Delito · Elaborado por Vértice Legal', M, H - PIE + 98, W - 2 * M, '400', 22, SANS);
+    const blob = await new Promise((res) => cv.toBlob(res, 'image/png'));
+    return { blob, nombre: 'vertice-legal_' + slug(info.archivo) + '.png', texto: info.compartir };
+  }
+
+  function bajarArchivo(blob, nombre) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+  async function copiarEnlace(boton) {
+    const original = boton.textContent;
+    try { await navigator.clipboard.writeText(location.href); boton.textContent = 'Enlace copiado'; }
+    catch (e) { boton.textContent = 'Copia la dirección del navegador'; }
+    setTimeout(() => { boton.textContent = original; }, 2500);
+  }
+
+  let compartiendo = null; // { blob, nombre, texto, url, archivo }
+  async function abrirCompartir(cual, boton) {
+    const original = boton.textContent; boton.disabled = true; boton.textContent = 'Preparando…';
+    try {
+      const img = await componerImagen(cual);
+      const url = location.href;
+      if (compartiendo && compartiendo.vista) URL.revokeObjectURL(compartiendo.vista);
+      compartiendo = Object.assign(img, { url, vista: URL.createObjectURL(img.blob), archivo: new File([img.blob], img.nombre, { type: 'image/png' }) });
+      $('dlg-img').src = compartiendo.vista;
+      const txt = encodeURIComponent(img.texto + ' ' + url), u = encodeURIComponent(url);
+      $('dlg-wa').href = 'https://wa.me/?text=' + txt;
+      $('dlg-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + u;
+      $('dlg-x').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(img.texto) + '&url=' + u;
+      $('dlg-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+      $('dlg-nativo').hidden = !(navigator.canShare && navigator.canShare({ files: [compartiendo.archivo] }));
+      $('dlg').showModal();
+    } catch (e) { console.error(e); alert('No se pudo preparar la imagen. Intenta de nuevo.'); }
+    finally { boton.disabled = false; boton.textContent = original; }
+  }
+  async function descargarImagen(cual, boton) {
+    const original = boton.textContent; boton.disabled = true; boton.textContent = 'Preparando…';
+    try { const img = await componerImagen(cual); bajarArchivo(img.blob, img.nombre); }
+    catch (e) { console.error(e); alert('No se pudo preparar la imagen. Intenta de nuevo.'); }
+    finally { boton.disabled = false; boton.textContent = original; }
+  }
+  const slug = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // ---------- render
+  let ultimo = { evol: null, del: null, terr: null };
+  let pedido = 0;
+
+  async function render() {
+    const id = ++pedido;
+    document.body.classList.add('cargando');
+    const u = unidad(), subs = subsSel(), pob = poblacion(u), [k0, k1] = rango();
+    const arr = await serie(u, subs, S.tipo);
+    if (id !== pedido) return;
+    const tit = TIPO[S.tipo].n + (nombreDelito() === 'Todos los delitos' ? '' : ' · ' + nombreDelito());
+    const per = S.desde === S.hasta ? String(S.desde) : S.desde + '–' + S.hasta;
+
+    // Indicadores
+    let total = 0; for (let k = k0; k <= k1; k++) total += arr[k];
+    $('k1t').textContent = TIPO[S.tipo].n + ' en el período';
+    $('k1v').textContent = nf0.format(total);
+    $('k1n').textContent = u.n + ' · ' + per;
+    const ta = tasaAnual(total, pob, k0, k1);
+    $('k2v').textContent = isNaN(ta) ? '–' : nf1.format(ta);
+    $('k2n').textContent = 'Promedio anual del período';
+    if (k1 - k0 + 1 >= 24) {
+      let a = 0, b = 0; for (let k = k1 - 11; k <= k1; k++) a += arr[k]; for (let k = k1 - 23; k <= k1 - 12; k++) b += arr[k];
+      const pct = b > 0 ? (a / b - 1) * 100 : NaN;
+      $('k3v').textContent = isNaN(pct) ? '–' : (pct > 0 ? '▲ +' : pct < 0 ? '▼ ' : '') + nf1.format(pct) + '%';
+      const kf = k1, ki = k1 - 11;
+      $('k3n').textContent = MES[ki % 12] + ' ' + ANIOS[Math.floor(ki / 12)] + ' – ' + MES[kf % 12] + ' ' + ANIOS[Math.floor(kf / 12)] + ': ' + nf0.format(a);
+    } else { $('k3v').textContent = '–'; $('k3n').textContent = 'Elige un período de al menos 2 años'; }
+
+    // Delito más frecuente (subgrupo) dentro de la selección
+    const porSub = await Promise.all(subs.map(async (s) => { const a = await serie(u, [s], S.tipo); let v = 0; for (let k = k0; k <= k1; k++) v += a[k]; return { s, v }; }));
+    if (id !== pedido) return;
+    porSub.sort((x, y) => y.v - x.v);
+    // La familia 99 ("Otros delitos o faltas") es residual: no se muestra como "más frecuente" salvo que se elija
+    const candidatos = S.f === 99 ? porSub : porSub.filter((x) => famDeSub(x.s) !== 99);
+    if (porSub.length > 1 && candidatos.length && candidatos[0].v > 0) {
+      $('k4v').textContent = IDX.sub.get(candidatos[0].s).n;
+      $('k4n').textContent = nf0.format(candidatos[0].v) + ' (' + nf1.format(candidatos[0].v / Math.max(total, 1) * 100) + '% del total)';
+    } else { $('k4v').textContent = porSub.length === 1 ? IDX.sub.get(porSub[0].s).n : '–'; $('k4n').textContent = ''; }
+
+    // Evolución
+    const c = cubetas(arr, pob);
+    $('t-evol').textContent = tit + ' en ' + u.n;
+    $('b-evol').textContent = (S.medida === 'tasa' ? 'Tasa por 100 mil habitantes' : 'Cantidad') + ' por ' + { mes: 'mes', trim: 'trimestre', anio: 'año' }[S.agrupar] + ', ' + per + '.';
+    $('n-evol').textContent = c.parcialNota;
+    grafEvol(c);
+    const filasEvol = c.cub.map((x) => [x.etq, nf0.format(x.frec), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]);
+    tabla($('tb-evol'), ['Período', 'Cantidad', 'Tasa x 100 mil'], filasEvol);
+    ultimo.evol = { u, c, tit, per };
+
+    // ¿Qué delitos?: el nivel siguiente al elegido
+    let nivelDel, cats;
+    if (S.g) { nivelDel = 'subgrupos'; cats = META.subgrupos.filter((x) => x.g === S.g).map((x) => ({ n: x.n, c: x.c, subs: [x.c] })); }
+    else if (S.f) { nivelDel = 'grupos'; cats = META.grupos.filter((x) => x.f === S.f).map((x) => ({ n: x.n, c: x.c, subs: META.subgrupos.filter((y) => y.g === x.c).map((y) => y.c) })); }
+    else { nivelDel = 'familias'; cats = META.familias.map((x) => ({ n: x.n, c: x.c, subs: META.subgrupos.filter((y) => famDeSub(y.c) === x.c).map((y) => y.c) })); }
+    const mapaSub = new Map(porSub.map((x) => [x.s, x.v]));
+    const subsTodos = new Set(subs);
+    let filasDel = [];
+    for (const cat of cats) {
+      let v = 0;
+      if (cat.subs.every((s) => subsTodos.has(s))) cat.subs.forEach((s) => { v += mapaSub.get(s) || 0; });
+      else { const a = await serie(u, cat.subs, S.tipo); for (let k = k0; k <= k1; k++) v += a[k]; }
+      filasDel.push({ n: cat.n, c: cat.c, frec: v, v: S.medida === 'tasa' ? tasaAnual(v, pob, k0, k1) : v });
+    }
+    if (id !== pedido) return;
+    filasDel.sort((a, b) => b.v - a.v);
+    $('t-del').textContent = '¿Qué delitos? (' + nivelDel + ')';
+    $('b-del').textContent = TIPO[S.tipo].n + ' en ' + u.n + ', ' + per + (S.medida === 'tasa' ? ' · tasa anual por 100 mil hab.' : '') + '.';
+    gDel = grafBarras(gDel, $('g-del'), filasDel, (f) => f.c === S.s);
+    ultimo.del = { filas: filasDel, nivel: nivelDel };
+    tabla($('tb-del'), ['Delito', 'Cantidad', 'Tasa anual x 100 mil'], filasDel.map((f) => [f.n, nf0.format(f.frec), nf1.format(tasaAnual(f.frec, pob, k0, k1))]));
+
+    // Comparación territorial
+    await renderTerritorial(id, u, subs, k0, k1);
+    document.body.classList.remove('cargando');
+    escribirHash();
+  }
+
+  async function renderTerritorial(id, u, subs, k0, k1) {
+    let unidades, titulo, resaltar;
+    const tipos = tiposDe(S.tipo);
+    const ia = ANIOS.indexOf(S.desde), ib = ANIOS.indexOf(S.hasta);
+    if (u.nivel === 'pais') {
+      titulo = 'Regiones';
+      unidades = META.regiones.map((r) => {
+        const a = new Float64Array(N); sumar(a, PAIS.u[r.c], tipos, subs);
+        let v = 0; for (let k = k0; k <= k1; k++) v += a[k];
+        return { n: r.n.replace('Región de ', '').replace('Región del ', '').replace('Región ', ''), c: r.c, frec: v, pob: poblacion({ nivel: 'region', cod: r.c }) };
+      });
+      resaltar = () => false;
+    } else {
+      const AN = await anual();
+      if (id !== pedido) return;
+      const r = u.nivel === 'region' ? u.cod : u.nivel === 'provincia' ? Math.floor(u.cod / 10) : Math.floor(u.cod / 1000);
+      const lista = u.nivel === 'provincia' ? META.comunas.filter((c) => c.p === u.cod) : META.comunas.filter((c) => c.r === r);
+      titulo = 'Comunas de la ' + (u.nivel === 'provincia' ? u.n : IDX.reg.get(r).n);
+      unidades = lista.map((c) => {
+        let v = 0; const o = AN.u[c.c];
+        if (o) for (const t of tipos) { const m = o[t]; if (!m) continue; for (const s of subs) { const a = m[s]; if (a) for (let i = ia; i <= ib; i++) v += a[i]; } }
+        return { n: c.n, c: c.c, frec: v, pob: c.pob };
+      });
+      resaltar = (f) => f.c === S.c;
+    }
+    unidades.forEach((x) => { x.tasa = tasaAnual(x.frec, x.pob, k0, k1); x.v = S.medida === 'tasa' ? x.tasa : x.frec; });
+    // sin población conocida (tasa no calculable): fuera del gráfico, al final de la tabla
+    unidades.sort((a, b) => (isNaN(b.v) ? -Infinity : b.v) - (isNaN(a.v) ? -Infinity : a.v));
+    unidades.forEach((x, i) => { x.rank = i + 1; });
+    let mostrar = unidades.filter((x) => !isNaN(x.v));
+    const LIM = u.nivel === 'pais' ? 99 : 15; // las 16 regiones caben completas
+    $('ver-todas').hidden = unidades.length <= LIM;
+    $('ver-todas').textContent = verTodas ? 'Ver solo las primeras ' + LIM : 'Ver todas (' + unidades.length + ')';
+    if (!verTodas && mostrar.length > LIM) {
+      const sel = mostrar.find(resaltar);
+      mostrar = mostrar.slice(0, LIM);
+      if (sel && sel.rank > LIM) mostrar = mostrar.concat([sel]);
+    }
+    const filas = mostrar.map((x) => ({ ...x, n: (x.rank > LIM && !verTodas ? x.rank + '. ' : '') + x.n }));
+    $('t-terr').textContent = 'Comparación: ' + titulo;
+    $('b-terr').textContent = (S.medida === 'tasa' ? 'Tasa anual por 100 mil hab.' : 'Cantidad') + ' de ' + TIPO[S.tipo].n.toLowerCase() + (nombreDelito() === 'Todos los delitos' ? '' : ' (' + nombreDelito() + ')') + ', ' + (S.desde === S.hasta ? S.desde : S.desde + '–' + S.hasta) + '.';
+    $('n-terr').textContent = S.medida === 'tasa' ? 'En comunas con poca población la tasa varía mucho de un año a otro.' : 'Para comparar territorios de distinto tamaño, usa la tasa.';
+    gTerr = grafBarras(gTerr, $('g-terr'), filas, resaltar);
+    const filasT = unidades.map((x) => [x.rank + '. ' + x.n, nf0.format(x.frec), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]);
+    tabla($('tb-terr'), ['Territorio', 'Cantidad', 'Tasa anual x 100 mil'], filasT);
+    ultimo.terr = { unidades, titulo };
+  }
+
+  // ---------- filtros
+  function opciones(sel, lista, todos, valor) {
+    sel.innerHTML = '<option value="0">' + todos + '</option>' + lista.map((x) => '<option value="' + x.c + '">' + x.n + '</option>').join('');
+    sel.value = String(valor || 0);
+  }
+  function pintarFiltros() {
+    opciones($('f-region'), META.regiones, 'Todo Chile', S.r);
+    opciones($('f-provincia'), S.r ? META.provincias.filter((p) => p.r === S.r) : [], S.r ? 'Todas' : '—', S.p);
+    $('f-provincia').disabled = !S.r;
+    const comunas = S.p ? META.comunas.filter((c) => c.p === S.p) : S.r ? META.comunas.filter((c) => c.r === S.r) : META.comunas.slice().sort((a, b) => a.n.localeCompare(b.n, 'es'));
+    opciones($('f-comuna'), comunas, S.r ? 'Todas' : 'Todas (o busca una)', S.c);
+    opciones($('f-familia'), META.familias, 'Todos los delitos', S.f);
+    opciones($('f-grupo'), S.f ? META.grupos.filter((g) => g.f === S.f) : [], S.f ? 'Todos' : '—', S.g);
+    $('f-grupo').disabled = !S.f;
+    opciones($('f-subgrupo'), S.g ? META.subgrupos.filter((s) => s.g === S.g) : [], S.g ? 'Todos' : '—', S.s);
+    $('f-subgrupo').disabled = !S.g;
+    const anios = ANIOS.map((a) => ({ c: a, n: String(a) }));
+    $('f-desde').innerHTML = anios.map((a) => '<option' + (a.c > S.hasta ? ' disabled' : '') + '>' + a.n + '</option>').join(''); $('f-desde').value = String(S.desde);
+    $('f-hasta').innerHTML = anios.map((a) => '<option' + (a.c < S.desde ? ' disabled' : '') + '>' + a.n + '</option>').join(''); $('f-hasta').value = String(S.hasta);
+    for (const [grupo, clave] of [['f-tipo', 'tipo'], ['f-medida', 'medida'], ['f-agrupar', 'agrupar']]) {
+      $(grupo).querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === S[clave])));
+    }
+  }
+  function enlazar() {
+    const num = (v) => parseInt(v, 10) || 0;
+    $('f-region').onchange = (e) => { S.r = num(e.target.value); S.p = 0; S.c = 0; verTodas = false; cambio(); };
+    $('f-provincia').onchange = (e) => { S.p = num(e.target.value); S.c = 0; verTodas = false; cambio(); };
+    $('f-comuna').onchange = (e) => { S.c = num(e.target.value); if (S.c) { const c = IDX.com.get(S.c); S.r = c.r; S.p = c.p; } verTodas = false; cambio(); };
+    $('f-familia').onchange = (e) => { S.f = num(e.target.value); S.g = 0; S.s = 0; cambio(); };
+    $('f-grupo').onchange = (e) => { S.g = num(e.target.value); S.s = 0; cambio(); };
+    $('f-subgrupo').onchange = (e) => { S.s = num(e.target.value); cambio(); };
+    $('f-desde').onchange = (e) => { S.desde = num(e.target.value); if (S.hasta < S.desde) S.hasta = S.desde; cambio(); };
+    $('f-hasta').onchange = (e) => { S.hasta = num(e.target.value); if (S.desde > S.hasta) S.desde = S.hasta; cambio(); };
+    for (const [grupo, clave] of [['f-tipo', 'tipo'], ['f-medida', 'medida'], ['f-agrupar', 'agrupar']]) {
+      $(grupo).addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S[clave] = b.dataset.v; cambio(); });
+    }
+    $('ver-todas').onclick = () => { verTodas = !verTodas; render(); };
+    // Botones de cada tarjeta: compartir, descargar imagen, copiar enlace
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-compartir],[data-imagen],[data-copiar]');
+      if (!b || b.disabled) return;
+      if (b.dataset.compartir) abrirCompartir(b.dataset.compartir, b);
+      else if (b.dataset.imagen) descargarImagen(b.dataset.imagen, b);
+      else copiarEnlace(b);
+    });
+    // Ventana de compartir
+    $('dlg-cerrar').onclick = () => $('dlg').close();
+    $('dlg').addEventListener('click', (e) => { if (e.target === $('dlg')) $('dlg').close(); });
+    $('dlg-bajar').onclick = () => { if (compartiendo) bajarArchivo(compartiendo.blob, compartiendo.nombre); };
+    $('dlg-copiar').onclick = (e) => copiarEnlace(e.currentTarget);
+    $('dlg-nativo').onclick = async () => {
+      if (!compartiendo) return;
+      try { await navigator.share({ files: [compartiendo.archivo], title: 'Estadísticas delictuales · Vértice Legal', text: compartiendo.texto + ' ' + compartiendo.url }); }
+      catch (err) { if (err.name !== 'AbortError') bajarArchivo(compartiendo.blob, compartiendo.nombre); }
+    };
+  }
+  function cambio() { pintarFiltros(); render().catch(error); }
+
+  // ---------- estado en el enlace (para compartir una vista exacta)
+  const CLAVES = ['r', 'p', 'c', 'f', 'g', 's', 'tipo', 'medida', 'desde', 'hasta', 'agrupar'];
+  function escribirHash() {
+    const q = new URLSearchParams();
+    CLAVES.forEach((k) => { if (S[k] && S[k] !== DEF[k]) q.set(k, S[k]); });
+    history.replaceState(null, '', q.toString() ? '#' + q.toString() : location.pathname);
+  }
+  function leerHash() {
+    const q = new URLSearchParams(location.hash.slice(1));
+    const ints = ['r', 'p', 'c', 'f', 'g', 's', 'desde', 'hasta'];
+    CLAVES.forEach((k) => { if (q.has(k)) S[k] = ints.includes(k) ? parseInt(q.get(k), 10) || 0 : q.get(k); });
+    if (!TIPO[S.tipo]) S.tipo = 'cp';
+    if (!['frec', 'tasa'].includes(S.medida)) S.medida = 'frec';
+    if (!['mes', 'trim', 'anio'].includes(S.agrupar)) S.agrupar = 'mes';
+    if (S.c && !IDX.com.has(S.c)) S.c = 0;
+    if (S.c) { const c = IDX.com.get(S.c); S.r = c.r; S.p = c.p; }
+    if (S.p && !IDX.prov.has(S.p)) S.p = 0;
+    if (S.r && !IDX.reg.has(S.r)) { S.r = 0; S.p = 0; S.c = 0; }
+    if (S.s && IDX.sub.has(S.s)) { S.g = IDX.sub.get(S.s).g; S.f = IDX.gru.get(S.g).f; } else S.s = 0;
+    if (S.g && IDX.gru.has(S.g)) S.f = IDX.gru.get(S.g).f; else S.g = 0;
+    if (S.f && !IDX.fam.has(S.f)) S.f = 0;
+    if (!ANIOS.includes(S.desde)) S.desde = DEF.desde;
+    if (!ANIOS.includes(S.hasta)) S.hasta = DEF.hasta;
+    if (S.desde > S.hasta) S.desde = S.hasta;
+  }
+  let DEF = {};
+
+  function error(e) {
+    console.error(e);
+    document.body.classList.remove('cargando');
+    $('aviso').hidden = false;
+    $('aviso').textContent = 'No se pudieron cargar los datos. Recarga la página o inténtalo más tarde.';
+  }
+
+  async function iniciar() {
+    [META, PAIS] = await Promise.all([cargar('meta.json'), cargar('pais.json')]);
+    N = META.nMeses; ANIOS = META.anios; A0 = ANIOS[0];
+    indexar();
+    const fin = ANIOS[ANIOS.length - 1];
+    DEF = { r: 0, p: 0, c: 0, f: 0, g: 0, s: 0, tipo: 'cp', medida: 'frec', desde: Math.max(A0, fin - 6), hasta: fin, agrupar: 'mes' };
+    Object.assign(S, DEF);
+    leerHash();
+    const [fy, fm] = META.fin.split('-').map(Number);
+    const mesFin = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][fm - 1];
+    const act = META.actualizado.split('-').reverse().join('-');
+    $('actualizado').textContent = 'Datos desde enero de ' + A0 + ' hasta ' + mesFin + ' de ' + fy + ' · Actualizado el ' + act;
+    $('nota-periodo').textContent = 'Desde enero de ' + A0 + ' hasta ' + mesFin + ' de ' + fy + '. Cifras tal como las publicaba el CEAD al ' + act + '. Los meses sin publicar no se cuentan como cero.';
+    $('cita').textContent = 'Vértice Legal (' + META.actualizado.slice(0, 4) + '). Estadísticas delictuales de Chile, a partir de datos del CEAD, Subsecretaría de Prevención del Delito. https://verticelegal.cl/estadisticas-delictuales/';
+    enlazar();
+    pintarFiltros();
+    await render();
+    anual().catch(() => {}); // precarga para que la comparación de comunas sea instantánea
+  }
+  window.addEventListener('hashchange', () => { if (!META) return; leerHash(); pintarFiltros(); render().catch(error); });
+  iniciar().catch(error);
+})();
+</script>
+</body>
+</html>

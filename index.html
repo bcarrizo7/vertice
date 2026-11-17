@@ -102,7 +102,8 @@
 
     .nav-links {
       display: flex;
-      gap: 3rem;
+      align-items: center;
+      gap: 2rem;
     }
 
     .nav-links a {
@@ -166,6 +167,12 @@
       text-shadow: none;
     }
 
+    /* Botón de estadísticas: ícono + "Delitos" en escritorio; "Estadísticas delictuales" en el menú móvil */
+    .nav-links a.nav-cta i {
+      margin-right: 0.45rem;
+      font-size: 0.85em;
+    }
+
 
     /* MENU HAMBURGUESA */
     .menu-toggle {
@@ -175,8 +182,8 @@
       cursor: pointer;
     }
 
-    /* RESPONSIVE — el menú pasa a hamburguesa bajo 1120px: con el botón "MPD" ya no cabe en una línea antes */
-    @media (max-width: 1120px) {
+    /* RESPONSIVE — el menú pasa a hamburguesa bajo 1190px: con los botones "MPD" y "Delitos" no cabe en una línea antes */
+    @media (max-width: 1190px) {
       .nav-links {
         display: none;
         position: absolute;
@@ -199,6 +206,10 @@
 
       .nav-cta-extra {
         display: inline;
+      }
+
+      .nav-links .solo-escritorio {
+        display: none;
       }
 
       .menu-toggle {
@@ -290,9 +301,9 @@
       }
     }
 
-    @media (max-width: 1120px) {
+    @media (max-width: 1190px) {
       .portada {
-        padding-top: 82px;
+        padding-top: 82px; /* altura de la barra cuando el menú es hamburguesa */
       }
     }
 
@@ -626,6 +637,105 @@
 
       .practice-card.expanded {
         grid-column: span 1;
+      }
+    }
+
+    /* Franja de acceso a las estadísticas delictuales */
+    .banda-datos {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      padding: 3.5rem 2rem;
+    }
+
+    .banda-datos-cont {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .banda-datos-txt {
+      flex: 1 1 460px;
+      min-width: 0;
+    }
+
+    .banda-datos-eyebrow {
+      margin: 0 0 0.6rem;
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #BFE3DC;
+    }
+
+    .banda-datos h2 {
+      margin: 0 0 0.8rem;
+      font-size: 2.6rem;
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+
+    .banda-datos-txt p:not(.banda-datos-eyebrow) {
+      margin: 0 0 1.6rem;
+      font-size: 1.3rem;
+      line-height: 1.5;
+      color: #E2EFEC;
+      max-width: 620px;
+    }
+
+    .banda-datos .banda-datos-btn:hover {
+      background: var(--primary-color);
+      color: var(--accent-color);
+    }
+
+    .banda-datos-cifras {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .banda-datos-cifras li {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .banda-datos-cifras strong {
+      display: block;
+      font-size: 2.2rem;
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+
+    .banda-datos-cifras span {
+      font-size: 1rem;
+      color: #CFE5E0;
+    }
+
+    @media (max-width: 700px) {
+      .banda-datos {
+        padding: 2.5rem 1.25rem;
+      }
+
+      .banda-datos h2 {
+        font-size: 2rem;
+      }
+
+      .banda-datos-cifras {
+        width: 100%;
+      }
+
+      .banda-datos-cifras li {
+        flex: 1;
+        min-width: 0;
+        padding: 0.8rem 0.4rem;
       }
     }
 
@@ -1376,6 +1486,7 @@
         <a href="#blog">Blog</a>
         <a href="#contacto">Contacto</a>
         <a href="/mpd/" class="nav-cta" title="Autodiagnóstico MPD gratuito" aria-label="Autodiagnóstico MPD"><span class="nav-cta-extra">Autodiagnóstico </span>MPD</a>
+        <a href="/estadisticas-delictuales/" class="nav-cta" title="Estadísticas delictuales de Chile por comuna" aria-label="Estadísticas delictuales"><i class="fas fa-chart-bar" aria-hidden="true"></i><span class="solo-escritorio">Delitos</span><span class="nav-cta-extra">Estadísticas delictuales</span></a>
       </div>
     </div>
   </nav>
@@ -1495,6 +1606,22 @@
     </div>
   </section>
 
+  <!-- Acceso a las estadísticas delictuales (dashboard) -->
+  <section class="banda-datos" aria-labelledby="banda-datos-t">
+    <div class="banda-datos-cont">
+      <div class="banda-datos-txt">
+        <p class="banda-datos-eyebrow"><i class="fas fa-chart-bar" aria-hidden="true"></i> Recurso gratuito</p>
+        <h2 id="banda-datos-t">Estadísticas delictuales de Chile</h2>
+        <p>Explora denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con datos oficiales del CEAD. Compara territorios y comparte los gráficos.</p>
+        <a href="/estadisticas-delictuales/" class="btn banda-datos-btn">Explorar las estadísticas</a>
+      </div>
+      <ul class="banda-datos-cifras">
+        <li><strong>346</strong><span>comunas</span></li>
+        <li><strong>+20</strong><span>años de datos</span></li>
+        <li><strong>48</strong><span>tipos de delito</span></li>
+      </ul>
+    </div>
+  </section>
 
   <!-- Sección EQUIPO -->
   <section id="equipo" class="team-section">
