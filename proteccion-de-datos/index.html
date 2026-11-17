@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<title>Multas por protección de datos en Europa y la Ley 21.719 | Vértice Legal</title>
+<meta name="description" content="Multas aplicadas en Europa por infringir el RGPD, por país, sector e infracción, con enlace a cada decisión oficial. Y lo que trae a Chile la Ley 21.719 de protección de datos personales.">
+<meta property="og:title" content="Multas por protección de datos en Europa y la Ley 21.719 | Vértice Legal">
+<meta property="og:description" content="Lo que Europa ya sanciona con el RGPD es lo que llega a Chile con la Ley 21.719. Multas por país, sector e infracción, con fuentes oficiales.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://verticelegal.cl/proteccion-de-datos/">
+<meta property="og:image" content="https://verticelegal.cl/proteccion-de-datos/imagen-compartir.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://verticelegal.cl/proteccion-de-datos/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --verde:#0E4D40; --verde-osc:#0A3B31; --verde-claro:#E7F0EC; --borde:#D3DFDA; --borde-2:#B8C9C3;
+    --fondo:#F7F9F8; --superficie:#FFFFFF; --texto:#13211D; --texto-2:#44544F; --apagado:#6B7A75;
+    --oro:#A88449; --oro-claro:#D9C08F; --crema:#FBF6EC; --cafe:#6B5023;
+    --serie:#1F6B57; --resalte:#A88449; --grilla:#E6EDEA;
+    --leve:#5E8C7E; --grave:#A88449; --gravisima:#8A3B2E;
+    --serif:'Cormorant Garamond', Georgia, serif; --sans:'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--sans);font-size:17px;line-height:1.5}
+  a{color:var(--verde)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+  button,select,input{font-family:var(--sans);font-size:15px}
+
+  /* Encabezado */
+  .top{background:#fff;border-bottom:1px solid var(--borde)}
+  .top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--verde)}
+  .logo b{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1}
+  .logo span{font-family:var(--serif);font-size:25px;font-weight:600}
+  .logo i{font-style:normal;color:var(--oro)}
+  .menu{display:flex;flex-wrap:wrap;align-items:center;gap:20px}
+  .menu a{text-decoration:none;color:var(--texto-2);font-size:16px}
+  .menu a.btn{background:var(--verde);color:#fff;padding:10px 18px;border-radius:6px;font-weight:500}
+  .menu a.btn:hover{background:var(--verde-osc)}
+
+  /* Intro */
+  .intro{padding:30px 0 20px}
+  .intro .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);gap:20px 40px;align-items:center}
+  .eyebrow{margin:0 0 8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--verde);font-weight:600}
+  h1{margin:0 0 10px;font-family:var(--serif);font-size:44px;line-height:1.05;font-weight:600}
+  .intro p.sub{margin:0;max-width:720px;color:var(--texto-2);font-size:17px}
+  .actualizado{margin:8px 0 0;font-size:13px;color:var(--apagado)}
+  .chile{background:var(--verde);color:#fff;border-radius:12px;padding:18px 20px;position:relative;overflow:hidden}
+  .chile::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;border:18px solid rgba(217,192,143,.18)}
+  .chile .et{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro-claro);font-weight:600}
+  .chile .t{margin:4px 0 2px;font-family:var(--serif);font-size:27px;line-height:1.1;font-weight:600}
+  .chile .dias{margin:8px 0 6px;font-size:15px;color:#D6E4DF}
+  .chile .dias b{font-size:34px;color:#fff;font-weight:600;margin-right:6px}
+  .chile .nota{margin:0;font-size:12.5px;color:#BFD3CC}
+  .chile a{color:var(--oro-claro);font-weight:500;font-size:14px}
+
+  /* Filtros */
+  .filtros{position:sticky;top:0;z-index:10;background:rgba(247,249,248,.97);border-bottom:1px solid var(--borde);border-top:1px solid var(--borde);padding:10px 0;backdrop-filter:blur(6px)}
+  .filtros .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px 12px;align-items:end}
+  .campo{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .campo label,.campo .lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--apagado)}
+  .campo select,.campo input{width:100%;height:38px;border:1px solid var(--borde-2);border-radius:6px;background:#fff;color:var(--texto);padding:0 10px}
+  .c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}
+  .rango{display:flex;align-items:center;gap:6px}
+  .rango select{flex:1;min-width:0}
+  .rango span{color:var(--apagado);font-size:14px}
+  .seg{display:flex;border:1px solid var(--borde-2);border-radius:6px;overflow:hidden;background:#fff;height:38px}
+  .seg button{flex:1;border:0;background:transparent;color:var(--texto-2);padding:0 8px;cursor:pointer;white-space:nowrap;border-left:1px solid var(--borde)}
+  .seg button:first-child{border-left:0}
+  .seg button[aria-pressed="true"]{background:var(--verde);color:#fff}
+  .limpiar{grid-column:span 12;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--apagado);min-height:20px}
+  .limpiar button{border:0;background:none;color:var(--verde);cursor:pointer;text-decoration:underline;padding:0;font-size:13.5px}
+
+  main{padding:16px 0 40px}
+  .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+  .kpi{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:14px 16px;min-width:0}
+  .kpi .t{margin:0 0 4px;font-size:13px;color:var(--texto-2);font-weight:500}
+  .kpi .v{margin:0;font-size:28px;font-weight:600;line-height:1.1;color:var(--texto);overflow-wrap:anywhere}
+  .kpi .n{margin:5px 0 0;font-size:13px;color:var(--apagado);overflow-wrap:anywhere}
+  .tarjeta{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:18px 18px 12px;margin-bottom:18px;min-width:0}
+  .tarjeta h2{margin:0;font-size:19px;font-weight:600;line-height:1.3}
+  .tarjeta .bajada{margin:4px 0 12px;font-size:14px;color:var(--apagado)}
+  .cab{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .acciones{display:flex;gap:6px;flex-wrap:wrap}
+  .acciones button{border:1px solid var(--borde-2);background:#fff;color:var(--texto-2);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px}
+  .acciones button.principal{background:var(--verde);border-color:var(--verde);color:#fff}
+  .acciones button:hover{border-color:var(--verde)}
+  .lienzo{position:relative;height:340px}
+  .lienzo.alto{height:420px}
+  .dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;margin-bottom:18px}
+  .hero > .tarjeta{margin-bottom:0}
+  .hero > .kpis{grid-template-columns:1fr;grid-auto-rows:1fr;margin-bottom:0}
+  .hero .kpi{display:flex;flex-direction:column;justify-content:center}
+
+  /* Tabla */
+  .tabla-cont{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--apagado);font-weight:600;border-bottom:1px solid var(--borde-2);padding:8px 8px;white-space:nowrap}
+  td{border-bottom:1px solid var(--grilla);padding:9px 8px;vertical-align:top}
+  td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  td .s{display:block;font-size:12.5px;color:var(--apagado)}
+  td a{white-space:nowrap;font-size:13.5px}
+  .pais{white-space:nowrap}
+  .mas{display:flex;justify-content:center;gap:10px;padding:12px 0 4px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--apagado)}
+  .mas button{border:1px solid var(--borde-2);background:#fff;border-radius:6px;padding:8px 16px;cursor:pointer;color:var(--verde);font-weight:500}
+
+  /* Chile */
+  .sec-chile{background:#fff;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde);padding:44px 0;scroll-margin-top:8px}
+  .sec-chile h2.g{margin:0 0 6px;font-family:var(--serif);font-size:38px;line-height:1.1;font-weight:600}
+  .sec-chile p.d{margin:0 0 22px;max-width:820px;color:var(--texto-2)}
+  .niveles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
+  .nivel{border:1px solid var(--borde);border-radius:12px;padding:18px;border-top:5px solid var(--leve);background:var(--fondo);display:flex;flex-direction:column}
+  .fuente-ley{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:10px;font-size:12.5px;font-weight:500;color:var(--verde);text-decoration:underline;text-underline-offset:2px}
+  .fuente-ley:hover{color:var(--oro)}
+  .caja .fuente-ley{padding-top:8px}
+  .nivel.grave{border-top-color:var(--grave)} .nivel.gravisima{border-top-color:var(--gravisima)}
+  .nivel h3{margin:0;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--texto-2)}
+  .nivel .utm{margin:6px 0 0;font-size:30px;font-weight:600;line-height:1.1}
+  .nivel .clp{margin:2px 0 10px;font-size:15px;color:var(--verde);font-weight:500}
+  .nivel ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--texto-2)}
+  .nivel li{margin-bottom:4px}
+  .extras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:26px}
+  .extra{border:1px solid var(--borde);border-radius:10px;padding:14px;background:#fff;display:flex;flex-direction:column}
+  .extra b{display:block;font-size:20px;line-height:1.2;color:var(--texto)}
+  .extra span{font-size:13.5px;color:var(--texto-2)}
+  .compara{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:stretch;border:1px solid var(--borde-2);border-radius:12px;padding:20px;background:var(--crema)}
+  .compara h3{margin:0 0 6px;font-family:var(--serif);font-size:27px;line-height:1.15}
+  .compara select{width:100%;height:42px;border:1px solid var(--borde-2);border-radius:6px;background:#fff;padding:0 10px;font-size:15px;margin-top:8px}
+  .compara .res{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .caja{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:14px}
+  .caja .et{margin:0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .caja .v{margin:4px 0 2px;font-size:24px;font-weight:600;line-height:1.15}
+  .caja .n{margin:0;font-size:13.5px;color:var(--texto-2)}
+  .gravedad{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12.5px;font-weight:600;color:#fff;background:var(--grave)}
+  .gravedad.leve{background:var(--leve)} .gravedad.gravisima{background:var(--gravisima)}
+  .aviso{font-size:13px;color:var(--apagado);margin:10px 0 0}
+
+  /* España y notas */
+  .notas{font-size:14.5px;color:var(--texto-2)}
+  .notas h2{font-size:19px;margin:0 0 8px;color:var(--texto)}
+  .notas ul{padding-left:18px;margin:6px 0 14px}
+  .notas li{margin-bottom:4px}
+
+  /* CTA */
+  .cta{background:var(--verde-osc);color:#fff;border-radius:14px;padding:34px 30px;margin:26px 0 8px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center}
+  .cta .et{margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro-claro);font-weight:600}
+  .cta h2{margin:0 0 8px;font-family:var(--serif);font-size:34px;line-height:1.1;font-weight:600}
+  .cta p{margin:0;color:#D6E4DF}
+  .cta .acc{display:flex;flex-direction:column;gap:10px}
+  .cta a{display:block;text-align:center;text-decoration:none;border-radius:8px;padding:13px 18px;font-weight:600}
+  .cta a.a1{background:var(--oro);color:#fff} .cta a.a1:hover{background:#957238}
+  .cta a.a2{border:1px solid rgba(255,255,255,.5);color:#fff}
+
+  footer{background:var(--texto);color:#C9D6D1;font-size:15px;margin-top:30px}
+  footer .wrap{padding-top:30px;padding-bottom:30px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between}
+  footer a{color:#fff}
+
+  /* Diálogo compartir */
+  dialog{border:0;border-radius:14px;padding:0;max-width:560px;width:calc(100% - 32px)}
+  dialog::backdrop{background:rgba(10,30,25,.55)}
+  .dlg-cab{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--borde)}
+  .dlg-cab h2{margin:0;font-size:18px}
+  .dlg-cab button{border:0;background:none;font-size:28px;line-height:1;cursor:pointer;color:var(--texto-2)}
+  .dlg-cuerpo{padding:16px 18px 18px}
+  .dlg-cuerpo img{display:block;width:100%;max-height:52vh;object-fit:contain;border:1px solid var(--borde);border-radius:8px;background:#fff}
+  .dlg-acc{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .dlg-acc button{flex:1 1 150px;border:1px solid var(--borde-2);background:#fff;border-radius:8px;padding:10px;cursor:pointer;font-weight:500;color:var(--texto)}
+  .dlg-acc button.principal{background:var(--verde);border-color:var(--verde);color:#fff}
+  .dlg-redes,.dlg-nota{margin:6px 0 0;font-size:14px;color:var(--texto-2)}
+
+  .fuente-ley::after{content:" ↗"}
+  .pila > .tarjeta{margin-bottom:18px}
+
+  .cargando main{opacity:.6}
+
+  @media (max-width:1100px){
+    .intro .wrap{grid-template-columns:1fr}
+    .hero{grid-template-columns:1fr}
+    .hero > .kpis{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;order:-1}
+    .filtros{position:static}
+    .c2,.c3,.c4{grid-column:span 4}
+    .extras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:820px){
+    .dos,.niveles,.compara,.cta{grid-template-columns:1fr}
+    h1{font-size:36px}
+    .sec-chile h2.g{font-size:31px}
+    .c2,.c3,.c4{grid-column:span 6}
+    .lienzo{height:300px}
+    .lienzo.alto{height:380px}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 16px}
+    .menu a:not(.btn){display:none}
+    .filtros .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .c2,.c3,.c4{grid-column:span 1}
+    .campo.ancho{grid-column:span 2}
+    .limpiar{grid-column:span 2}
+    .kpi .v{font-size:23px}
+    .compara .res,.extras{grid-template-columns:1fr}
+    .cta{padding:26px 20px}
+    .cta h2{font-size:28px}
+    .ocultar-movil{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/"><b>§</b><span>Vértice <i>|</i> Legal</span></a>
+    <nav class="menu" aria-label="Navegación">
+      <a href="/">Inicio</a>
+      <a href="/estadisticas-delictuales/">Estadísticas delictuales</a>
+      <a class="btn" href="https://calendar.app.google/aYSFTKFos2NbFKos8" target="_blank" rel="noopener" data-evento="agendar">Agendar reunión</a>
+    </nav>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Protección de datos personales · RGPD y Ley 21.719</p>
+      <h1>Multas por protección de datos en Europa</h1>
+      <p class="sub">Lo que Europa ya sanciona con el Reglamento General de Protección de Datos (RGPD) es lo que llega a Chile con la Ley 21.719. Explora las multas por país, sector e infracción, cada una con su decisión oficial.</p>
+      <p class="actualizado" id="actualizado">Cargando datos…</p>
+    </div>
+    <aside class="chile" aria-label="Ley 21.719 en Chile">
+      <p class="et">Chile · Ley 21.719</p>
+      <p class="t" id="vig-t">Entra en vigencia el 1 de diciembre de 2026</p>
+      <p class="dias" id="vig-dias"></p>
+      <p class="nota" id="vig-nota">Hay un proyecto de ley en trámite (boletín 18.623-07) que propone postergarla al 15 de octubre de 2027.</p>
+      <p style="margin:10px 0 0"><a href="#chile">Ver las multas que trae la ley ↓</a></p>
+    </aside>
+  </div>
+</section>
+
+<div class="zona-filtrada">
+<section class="filtros" aria-label="Filtros">
+  <div class="wrap">
+    <div class="campo c2"><label for="f-pais">País</label><select id="f-pais"></select></div>
+    <div class="campo c3"><label for="f-sector">Sector</label><select id="f-sector"></select></div>
+    <div class="campo c3 ancho"><label for="f-inf">Tipo de infracción</label><select id="f-inf"></select></div>
+    <div class="campo c2"><span class="lbl">Período</span>
+      <div class="rango"><select id="f-desde" aria-label="Desde el año"></select><span>a</span><select id="f-hasta" aria-label="Hasta el año"></select></div></div>
+    <div class="campo c2"><span class="lbl" id="l-medida">Ver</span>
+      <div class="seg" role="group" aria-labelledby="l-medida" id="f-medida">
+        <button type="button" data-v="monto">Monto</button>
+        <button type="button" data-v="cant">Cantidad</button>
+      </div></div>
+    <div class="limpiar"><span id="resumen-filtro"></span><button type="button" id="limpiar" hidden>Quitar filtros</button></div>
+  </div>
+</section>
+
+<main class="wrap" id="contenido">
+  <!-- Oculto por ahora (la muestra crece por año según se suman fuentes): se activa con MOSTRAR.anual = true -->
+  <div class="hero" id="hero" hidden>
+    <article class="tarjeta" id="t-anual">
+      <div class="cab">
+        <div><h2 id="t-anual-h">Multas por año</h2><p class="bajada" id="t-anual-b"></p></div>
+        <div class="acciones"><button type="button" class="principal" data-compartir="anual">Compartir</button><button type="button" data-bajar="anual">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div>
+      </div>
+      <div class="lienzo"><canvas id="g-anual" role="img" aria-label="Gráfico de multas por año"></canvas></div>
+    </article>
+    <div class="kpis">
+      <div class="kpi"><p class="t">Multas registradas</p><p class="v" id="k1v">–</p><p class="n" id="k1n"></p></div>
+      <div class="kpi"><p class="t">Monto total</p><p class="v" id="k2v">–</p><p class="n" id="k2n"></p></div>
+      <div class="kpi"><p class="t">Multa más alta</p><p class="v" id="k3v">–</p><p class="n" id="k3n"></p></div>
+      <div class="kpi"><p class="t">Multa típica (mediana)</p><p class="v" id="k4v">–</p><p class="n" id="k4n"></p></div>
+    </div>
+  </div>
+
+  <article class="tarjeta" id="t-tabla">
+    <div class="cab">
+      <div><h2>Detalle de las multas</h2><p class="bajada" id="t-tabla-b">Cada fila enlaza a la decisión o publicación oficial de la autoridad.</p></div>
+      <div class="acciones">
+        <div class="seg" role="group" aria-label="Ordenar" id="f-orden" style="height:34px">
+          <button type="button" data-v="monto">Más altas</button>
+          <button type="button" data-v="fecha">Más recientes</button>
+        </div>
+      </div>
+    </div>
+    <div class="campo" style="max-width:420px;margin-bottom:10px"><label for="f-buscar">Buscar empresa u organización</label><input id="f-buscar" type="search" placeholder="Ej.: Meta, banco, hospital…" autocomplete="off"></div>
+    <div class="tabla-cont">
+      <table>
+        <thead><tr><th>Fecha</th><th>País</th><th>Sancionado</th><th class="ocultar-movil">Sector</th><th class="ocultar-movil">Infracción</th><th style="text-align:right">Multa</th><th>Fuente</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </div>
+    <div class="mas"><span id="tabla-cuenta"></span><button type="button" id="ver-mas">Ver más</button></div>
+  </article>
+
+  <div class="pila">
+    <article class="tarjeta" id="t-sector">
+      <div class="cab">
+        <div><h2 id="t-sector-h">Por sector</h2><p class="bajada" id="t-sector-b"></p></div>
+        <div class="acciones"><button type="button" class="principal" data-compartir="sector">Compartir</button><button type="button" data-bajar="sector">Descargar imagen</button></div>
+      </div>
+      <div class="lienzo alto"><canvas id="g-sector" role="img" aria-label="Gráfico por sector"></canvas></div>
+    </article>
+    <article class="tarjeta" id="t-inf">
+      <div class="cab">
+        <div><h2 id="t-inf-h">Infracciones más sancionadas</h2><p class="bajada" id="t-inf-b"></p></div>
+        <div class="acciones"><button type="button" class="principal" data-compartir="inf">Compartir</button><button type="button" data-bajar="inf">Descargar imagen</button></div>
+      </div>
+      <div class="lienzo alto"><canvas id="g-inf" role="img" aria-label="Gráfico por tipo de infracción"></canvas></div>
+    </article>
+  </div>
+
+  <!-- Oculto por ahora (pocos países con fuente completa): se activa con MOSTRAR.pais = true -->
+  <article class="tarjeta" id="t-pais" hidden>
+    <div class="cab">
+      <div><h2 id="t-pais-h">Por país</h2><p class="bajada" id="t-pais-b"></p></div>
+      <div class="acciones"><button type="button" class="principal" data-compartir="pais">Compartir</button><button type="button" data-bajar="pais">Descargar imagen</button></div>
+    </div>
+    <div class="lienzo"><canvas id="g-pais" role="img" aria-label="Gráfico por país"></canvas></div>
+  </article>
+
+</main>
+</div>
+
+<section class="sec-chile" id="chile">
+  <div class="wrap">
+    <p class="eyebrow">¿Y en Chile?</p>
+    <h2 class="g">Lo que trae la Ley 21.719 de protección de datos personales</h2>
+    <p class="d">La Ley 21.719 moderniza la Ley 19.628, crea la Agencia de Protección de Datos Personales y fija multas de hasta 20.000 UTM. Al igual que en Europa, la Agencia podrá investigar de oficio o por reclamo, sancionar y publicar a los infractores en un registro nacional de sanciones.</p>
+    <div class="niveles">
+      <div class="nivel leve"><h3>Infracciones leves</h3><p class="utm">Hasta 5.000 UTM</p><p class="clp" id="clp-leve"></p>
+        <ul><li>No cumplir el deber de información y transparencia.</li><li>No tener un canal operativo para que las personas ejerzan sus derechos.</li></ul>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Infracciones leves" data-ley='[{"a":"34 bis","m":["a)","b)"]},{"a":"35","m":["a)"]}]'>Fuente: arts. 34 bis y 35 a) · Ley 21.719</a></div>
+      <div class="nivel grave"><h3>Infracciones graves</h3><p class="utm">Hasta 10.000 UTM</p><p class="clp" id="clp-grave"></p>
+        <ul><li>Tratar datos sin consentimiento o sin base legal.</li><li>Infringir las obligaciones de seguridad.</li><li>Impedir el ejercicio de los derechos de acceso, rectificación, supresión, oposición o portabilidad.</li><li>Transferencias internacionales contrarias a la ley.</li></ul>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Infracciones graves" data-ley='[{"a":"34 ter","m":["a)","e)","j)","m)"]},{"a":"35","m":["b)"]}]'>Fuente: arts. 34 ter y 35 b) · Ley 21.719</a></div>
+      <div class="nivel gravisima"><h3>Infracciones gravísimas</h3><p class="utm">Hasta 20.000 UTM</p><p class="clp" id="clp-gravisima"></p>
+        <ul><li>Tratamiento fraudulento de datos.</li><li>Tratar o ceder a sabiendas datos sensibles o de niños, niñas y adolescentes contra la ley.</li><li>Omitir deliberadamente la comunicación de una vulneración de seguridad.</li></ul>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Infracciones gravísimas" data-ley='[{"a":"34 quáter","m":["a)","e)","f)"]},{"a":"35","m":["c)"]}]'>Fuente: arts. 34 quáter y 35 c) · Ley 21.719</a></div>
+    </div>
+    <div class="extras">
+      <div class="extra"><b>Hasta 3 veces</b><span>el monto de la multa si hay reincidencia.</span>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Reincidencia" data-ley='[{"a":"35","t":["tres veces"]}]'>Fuente: art. 35 · Ley 21.719</a></div>
+      <div class="extra"><b>2% o 4% de los ingresos</b><span>anuales para empresas que no son de menor tamaño y reinciden en infracciones graves o gravísimas.</span>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Empresas reincidentes: 2% o 4% de los ingresos" data-ley='[{"a":"35","t":["2% o 4%"]}]'>Fuente: art. 35 · Ley 21.719</a></div>
+      <div class="extra"><b>Hasta 30 días</b><span>de suspensión del tratamiento de datos ante infracciones gravísimas reiteradas.</span>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Suspensión del tratamiento de datos" data-ley='[{"a":"38","t":["hasta por un término de treinta días"]}]'>Fuente: art. 38 · Ley 21.719</a></div>
+      <div class="extra"><b>+50% de recargo</b><span>si no se corrigen las causas de la sanción en el plazo fijado (hasta 60 días).</span>
+        <a class="fuente-ley" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-titulo="Recargo del 50%" data-ley='[{"a":"35","t":["recargo de 50%"]}]'>Fuente: art. 35 · Ley 21.719</a></div>
+    </div>
+
+    <div class="compara" id="compara">
+      <div>
+        <h3>Compara: lo que se multa en Europa y lo que arriesga en Chile</h3>
+        <p style="margin:0;color:var(--texto-2);font-size:15px">Elige un tipo de infracción para ver cuánto se ha multado en Europa y la multa máxima que contempla la Ley 21.719.</p>
+        <select id="c-inf" aria-label="Tipo de infracción para comparar"></select>
+        <p class="aviso">Comparación referencial: la calificación como leve, grave o gravísima depende de los hechos de cada caso y de la interpretación de la Agencia.</p>
+      </div>
+      <div class="res">
+        <div class="caja"><p class="et">En Europa (muestra)</p><p class="v" id="c-eu-v">–</p><p class="n" id="c-eu-n"></p></div>
+        <div class="caja"><p class="et">En Chile (Ley 21.719)</p><p class="v" id="c-cl-v">–</p><p class="n" id="c-cl-n"></p>
+          <a class="fuente-ley" id="c-cl-fuente" href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener" data-ley='[{"a":"35"}]'>Fuente: Ley 21.719</a></div>
+        <div class="caja" style="grid-column:1/-1"><p class="et">Multa europea más alta por esta infracción (en la muestra)</p><p class="v" id="c-max-v" style="font-size:20px">–</p><p class="n" id="c-max-n"></p>
+          <a class="fuente-ley" id="c-max-fuente" href="#" target="_blank" rel="noopener" hidden></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <!-- Oculto por ahora (solo cantidades, sin montos): se activa con MOSTRAR.espana = true -->
+  <article class="tarjeta" id="t-esp" style="margin-top:26px" hidden>
+    <div class="cab">
+      <div><h2>España: procedimientos sancionadores de la AEPD bajo el RGPD</h2><p class="bajada" id="t-esp-b"></p></div>
+      <div class="acciones"><button type="button" class="principal" data-compartir="esp">Compartir</button><button type="button" data-bajar="esp">Descargar imagen</button></div>
+    </div>
+    <div class="dos" style="gap:24px">
+      <div class="lienzo"><canvas id="g-esp" role="img" aria-label="Procedimientos sancionadores de la AEPD por año"></canvas></div>
+      <div class="lienzo"><canvas id="g-esp-s" role="img" aria-label="Procedimientos sancionadores de la AEPD por sector"></canvas></div>
+    </div>
+  </article>
+
+  <section class="cta" aria-labelledby="cta-t">
+    <div>
+      <p class="et">Vértice Legal · Protección de datos</p>
+      <h2 id="cta-t">¿Tu empresa está preparada para la Ley 21.719?</h2>
+      <p>Implementamos modelos de cumplimiento alineados con la nueva ley chilena, con experiencia en la normativa europea y alemana y especialización en datos sensibles y transnacionales.</p>
+    </div>
+    <div class="acc">
+      <a class="a1" href="https://calendar.app.google/aYSFTKFos2NbFKos8" target="_blank" rel="noopener" data-evento="agendar-cta">Agendar una reunión</a>
+      <a class="a2" href="/#area_de_practica">Ver nuestras áreas de práctica</a>
+    </div>
+  </section>
+
+  <section class="tarjeta notas" id="metodologia">
+    <h2>Sobre los datos</h2>
+    <ul>
+      <li>Base propia de Vértice Legal construida <b>solo con fuentes oficiales</b>: las publicaciones de cada autoridad de protección de datos y el registro de decisiones del Comité Europeo de Protección de Datos (EDPB).</li>
+      <li id="m-fuentes"></li>
+      <li>Se incluyen multas impuestas desde la aplicación del RGPD (25 de mayo de 2018). Algunas pueden haber sido reducidas o anuladas después por recursos; el monto es el de la decisión original.</li>
+      <li>El sector y el tipo de infracción son una clasificación de Vértice Legal hecha a partir del tipo de organización, los artículos del RGPD citados y los temas de cada decisión.</li>
+      <li id="m-cambio"></li>
+      <li>La cobertura crece con cada actualización: Italia y otras autoridades se están incorporando. De España se incluyen por ahora los casos transfronterizos del registro del EDPB, porque la AEPD no permite la descarga automatizada de sus resoluciones.</li>
+      <li>Ley 21.719: texto oficial en la <a href="https://www.bcn.cl/leychile/navegar?idNorma=1209272&amp;idParte=10527466" target="_blank" rel="noopener">Biblioteca del Congreso Nacional</a>. Los artículos citados (34 bis a 38) son los que el artículo primero de la Ley 21.719 incorpora a la Ley 19.628. Esta página es informativa y no constituye asesoría legal.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© Vértice Legal · <a href="/">verticelegal.cl</a></span>
+    <span><a href="/estadisticas-delictuales/">Estadísticas delictuales de Chile</a> · <a href="/#disclaimer">Disclaimer</a> · <a href="/#privacidad">Privacidad</a></span>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-t">
+  <div class="dlg-cab"><h2 id="dlg-t">Compartir este gráfico</h2><button type="button" id="dlg-cerrar" aria-label="Cerrar">&times;</button></div>
+  <div class="dlg-cuerpo">
+    <img id="dlg-img" alt="Vista previa de la imagen para compartir">
+    <div class="dlg-acc">
+      <button type="button" class="principal" id="dlg-nativo">Compartir imagen…</button>
+      <button type="button" id="dlg-bajar">Descargar imagen</button>
+      <button type="button" id="dlg-copiar">Copiar enlace</button>
+    </div>
+    <p class="dlg-redes">Enviar el enlace por:
+      <a id="dlg-wa" target="_blank" rel="noopener">WhatsApp</a> ·
+      <a id="dlg-li" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a id="dlg-x" target="_blank" rel="noopener">X</a> ·
+      <a id="dlg-fb" target="_blank" rel="noopener">Facebook</a></p>
+    <p class="dlg-nota">Para Instagram: descarga la imagen y súbela desde la app.</p>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+  // Fecha de entrada en vigencia de la Ley 21.719 (cambiar aquí si se aprueba la postergación)
+  const VIGENCIA = '2026-12-01';
+  const VIGENCIA_TXT = '1 de diciembre de 2026';
+  // Bloques ocultos por ahora (poco representativos con las fuentes actuales). Poner en true para volver a mostrarlos.
+  const MOSTRAR = { anual: false, pais: false, espana: false };
+  // Texto oficial de la Ley 21.719 en la BCN (su artículo primero incorpora los arts. 34 bis a 38 a la Ley 19.628)
+  const LEY = 'https://www.bcn.cl/leychile/navegar?idNorma=1209272&idParte=10527466';
+  const UTM_NIVEL = { leve: 5000, grave: 10000, gravisima: 20000 };
+  // Equivalencia referencial de cada categoría con la Ley 21.719
+  const CHILE = {
+    'Tratamiento sin base legal o sin consentimiento válido': ['grave', 'art. 34 ter a): tratar datos sin consentimiento o sin fundamento legal'],
+    'Medidas de seguridad insuficientes': ['grave', 'art. 34 ter j): infringir las obligaciones de seguridad'],
+    'Brecha de datos no notificada': ['grave', 'art. 34 ter k): omitir las comunicaciones de una vulneración (gravísima si la omisión es deliberada)'],
+    'Derechos de las personas no atendidos': ['grave', 'art. 34 ter e): impedir el ejercicio de los derechos del titular'],
+    'Falta de información o transparencia': ['leve', 'art. 34 bis a): incumplir el deber de información y transparencia'],
+    'Incumplimiento de principios (minimización, conservación, exactitud)': ['grave', 'art. 34 ter c) y d): datos innecesarios o inexactos'],
+    'Cookies y rastreo en internet': ['grave', 'art. 34 ter a): tratamiento sin consentimiento válido'],
+    'Marketing y comunicaciones no solicitadas': ['grave', 'art. 34 ter a) y b): tratar o ceder datos sin consentimiento'],
+    'Videovigilancia': ['grave', 'art. 34 ter a) y c): tratamiento sin base legal o excesivo'],
+    'Datos sensibles o de menores de edad': ['gravisima', 'art. 34 quáter e): tratar o ceder a sabiendas datos sensibles o de niños, niñas y adolescentes contra la ley (grave si no es a sabiendas, art. 34 ter g)'],
+    'Falta de cooperación con la autoridad': ['grave', 'art. 34 ter n): incumplir un requerimiento de la Agencia'],
+    'Privacidad desde el diseño y evaluaciones de impacto': ['grave', 'art. 34 ter j): obligaciones de seguridad y prevención de riesgos'],
+    'Contratos con encargados y corresponsables': ['grave', 'art. 34 ter b) y j): comunicación de datos y seguridad'],
+    'Delegado de protección de datos (DPO)': ['leve', 'art. 34 bis: incumplimientos formales'],
+    'Transferencias internacionales de datos': ['grave', 'art. 34 ter m): transferencias contrarias a la ley (gravísima si es a sabiendas)'],
+    'Otras infracciones': ['leve', 'según el caso concreto']
+  };
+  const NIVEL_TXT = { leve: 'Leve', grave: 'Grave', gravisima: 'Gravísima' };
+
+  const $ = (id) => document.getElementById(id);
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const nf0 = new Intl.NumberFormat('es-CL', { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat('es-CL', { maximumFractionDigits: 1 });
+  const ANIMAR = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+  function eur(v, corto) {
+    if (v == null || isNaN(v)) return '–';
+    if (v >= 1e9) return '€ ' + nf1.format(v / 1e9).replace(/,0$/, '') + (corto ? ' mil M' : ' mil millones');
+    if (v >= 1e6) return '€ ' + (v >= 1e7 ? nf0 : nf1).format(v / 1e6) + (corto ? ' M' : ' millones');
+    return '€ ' + nf0.format(v);
+  }
+  function clp(v) {
+    if (v == null || isNaN(v)) return '–';
+    if (v >= 1e12) return '$ ' + nf1.format(v / 1e12) + ' billones';
+    if (v >= 1e6) return '$ ' + nf0.format(v / 1e6) + ' millones';
+    return '$ ' + nf0.format(v);
+  }
+  const fechaTxt = (f) => { const [a, m, d] = f.split('-'); return +d + ' ' + MES[+m - 1].slice(0, 3) + ' ' + a; };
+  const mediana = (a) => { if (!a.length) return null; const s = a.slice().sort((x, y) => x - y), k = s.length >> 1; return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2; };
+
+  let D = null, M = [];
+  const S = { p: '', s: -1, i: -1, d: 0, h: 0, m: 'monto', o: 'monto', q: '' };
+  const FILAS_INI = innerWidth < 560 ? 8 : 10;
+  let filas = FILAS_INI;
+
+  // ---------- estado en la URL
+  function leerHash() {
+    const h = new URLSearchParams(location.hash.slice(1));
+    S.p = h.get('p') || ''; S.s = h.has('s') ? +h.get('s') : -1; S.i = h.has('i') ? +h.get('i') : -1;
+    S.d = +(h.get('d') || 0); S.h = +(h.get('h') || 0); S.m = h.get('m') === 'cant' ? 'cant' : 'monto';
+    S.o = h.get('o') === 'fecha' ? 'fecha' : 'monto'; S.q = h.get('q') || '';
+  }
+  function escribirHash() {
+    const h = new URLSearchParams();
+    if (S.p) h.set('p', S.p); if (S.s >= 0) h.set('s', S.s); if (S.i >= 0) h.set('i', S.i);
+    if (S.d && S.d !== D.anioMin) h.set('d', S.d); if (S.h && S.h !== D.anioMax) h.set('h', S.h);
+    if (S.m !== 'monto') h.set('m', S.m); if (S.o !== 'monto') h.set('o', S.o); if (S.q) h.set('q', S.q);
+    const s = h.toString();
+    history.replaceState(null, '', s ? '#' + s : location.pathname + location.search);
+  }
+
+  // ---------- datos filtrados
+  function filtrar(ignorar) {
+    const q = S.q.trim().toLowerCase();
+    return M.filter((r) =>
+      (ignorar === 'p' || !S.p || r.pais === S.p) &&
+      (ignorar === 's' || S.s < 0 || r.sector === S.s) &&
+      (ignorar === 'i' || S.i < 0 || r.inf.includes(S.i)) &&
+      r.anio >= S.d && r.anio <= S.h &&
+      (ignorar === 'q' || !q || r.busca.includes(q)));
+  }
+  const valor = (rs) => (S.m === 'monto' ? rs.reduce((a, r) => a + r.monto, 0) : rs.length);
+  const fmtValor = (v, corto) => (S.m === 'monto' ? eur(v, corto) : nf0.format(v) + (corto ? '' : (v === 1 ? ' multa' : ' multas')));
+  const descFiltro = () => {
+    const p = [];
+    if (S.p) p.push(D.paises[S.p]);
+    if (S.s >= 0) p.push(D.sectores[S.s]);
+    if (S.i >= 0) p.push(D.infracciones[S.i]);
+    return p;
+  };
+  const periodo = () => (S.d === S.h ? String(S.d) : S.d + '–' + S.h);
+  const enDonde = () => (S.p ? 'en ' + D.paises[S.p] : 'en Europa');
+
+  // ---------- gráficos
+  const etiquetasBarra = {
+    id: 'etiquetasBarra',
+    afterDatasetsDraw(chart, args, opts) {
+      if (chart.config.options.indexAxis !== 'y') return;
+      const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0), tam = (opts && opts.tam) || 12;
+      ctx.save(); ctx.font = '500 ' + tam + 'px ' + css('--sans'); ctx.fillStyle = css('--texto-2'); ctx.textBaseline = 'middle';
+      meta.data.forEach((b, i) => { if (ds.data[i] != null) ctx.fillText(opts.fmt(ds.data[i]), b.x + tam / 2, b.y); });
+      ctx.restore();
+    }
+  };
+  const valoresV = {
+    id: 'valoresV',
+    afterDatasetsDraw(chart, args, opts) {
+      if (chart.config.options.indexAxis === 'y' || !opts || !opts.fmt) return;
+      const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0), tam = opts.tam || 12;
+      ctx.save(); ctx.font = '600 ' + tam + 'px ' + css('--sans'); ctx.fillStyle = css('--texto-2'); ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      meta.data.forEach((b, i) => { if (ds.data[i]) ctx.fillText(opts.fmt(ds.data[i]), b.x, b.y - 6); });
+      ctx.restore();
+    }
+  };
+  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+  Chart.defaults.color = '#44544F';
+  const graficos = {};
+  const animar = () => (ANIMAR ? { duration: 700, easing: 'easeOutQuart' } : false);
+
+  // Parte un nombre en líneas de hasta "max" caracteres, sin recortar palabras (para las imágenes)
+  function partirLineas(t, max) {
+    if (t.length <= max) return t;
+    const out = []; let l = '';
+    for (const w of t.split(' ')) { const p = l ? l + ' ' + w : w; if (p.length > max && l) { out.push(l); l = w; } else l = p; }
+    if (l) out.push(l);
+    return out;
+  }
+  // Parte un nombre según el ancho real en pantalla (para los gráficos)
+  const medidor = document.createElement('canvas').getContext('2d');
+  function envolverTexto(t, ancho, fuente) {
+    medidor.font = fuente;
+    const out = []; let l = '';
+    for (const w of t.split(' ')) { const p = l ? l + ' ' + w : w; if (medidor.measureText(p).width > ancho && l) { out.push(l); l = w; } else l = p; }
+    if (l) out.push(l);
+    return out;
+  }
+
+  function grafV(id, etiquetas, valores, resaltar) {
+    const angosto = innerWidth < 560;
+    const data = { labels: etiquetas, datasets: [{ data: valores, borderRadius: 4, maxBarThickness: 46,
+      backgroundColor: etiquetas.map((e, k) => (resaltar && resaltar(k) ? css('--oro-claro') : css('--serie'))) }] };
+    const opciones = {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      layout: { padding: { top: 24 } },
+      plugins: { legend: { display: false }, valoresV: { fmt: (v) => fmtValor(v, true), tam: angosto ? 10 : 12 },
+        tooltip: { displayColors: false, callbacks: { label: (it) => fmtValor(it.raw) } } },
+      scales: { x: { grid: { display: false }, ticks: { maxRotation: 0 } },
+        y: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false },
+          ticks: { maxTicksLimit: 6, callback: (v) => (S.m === 'monto' ? eur(v, true) : nf0.format(v)) } } }
+    };
+    if (graficos[id]) { graficos[id].data = data; graficos[id].options = opciones; graficos[id].update(); return; }
+    graficos[id] = new Chart($(id), { type: 'bar', data, options: Object.assign({}, opciones, { animation: animar() }), plugins: [valoresV] });
+    graficos[id].options.animation = false;
+  }
+
+  // Nombres completos de cada barra, partidos en líneas según el espacio disponible.
+  // En PC van a la izquierda (columna ancha, alineados a la derecha); en celular, encima de cada barra.
+  const etiquetasCat = {
+    id: 'etiquetasCat',
+    afterDatasetsDraw(chart, args, o) {
+      if (!o || !o.lineas) return;
+      const ctx = chart.ctx, meta = chart.getDatasetMeta(0), lh = o.lh;
+      ctx.save(); ctx.font = o.fuente; ctx.fillStyle = css('--texto');
+      meta.data.forEach((b, i) => {
+        const ls = o.lineas[i] || [];
+        if (o.arriba) {
+          ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+          const y0 = b.y - b.height / 2 - 5 - (ls.length - 1) * lh;
+          ls.forEach((l, k) => ctx.fillText(l, chart.chartArea.left, y0 + k * lh));
+        } else {
+          ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+          const y0 = b.y - (ls.length - 1) * lh / 2;
+          ls.forEach((l, k) => ctx.fillText(l, chart.chartArea.left - 12, y0 + k * lh));
+        }
+      });
+      ctx.restore();
+    }
+  };
+
+  function grafH(id, filasG, resaltar) {
+    const angosto = innerWidth < 560;
+    const cont = $(id).parentElement, ancho = cont.clientWidth || 600;
+    const tam = 12, lh = 15, fuente = '500 ' + tam + 'px ' + css('--sans');
+    const derecha = angosto ? 78 : 96;
+    // en celular el nombre va encima de la barra y puede usar todo el ancho
+    const anchoEtq = angosto ? ancho - 4 : Math.round(Math.min(440, Math.max(180, ancho * 0.4)));
+    const lineas = filasG.map((f) => envolverTexto(f.n, angosto ? anchoEtq : anchoEtq - 16, fuente));
+    const maxL = Math.max(1, ...lineas.map((l) => l.length));
+    // Alto según la cantidad de barras y de líneas: cada nombre tiene su espacio y nada se monta
+    const barra = angosto ? 14 : 18;
+    const fila = angosto ? maxL * lh + 5 + barra + 10 : Math.max(30, maxL * lh + 12);
+    const arriba = angosto ? Math.max(0, maxL * lh + 5 - (fila - barra) / 2) + 4 : 0;
+    cont.style.height = Math.max(160, filasG.length * fila + 44 + arriba) + 'px';
+    const data = { labels: filasG.map((f) => f.n),
+      datasets: [{ data: filasG.map((f) => f.v), borderRadius: 4, borderSkipped: 'start', maxBarThickness: barra,
+        categoryPercentage: 0.9, barPercentage: 0.9,
+        backgroundColor: filasG.map((f) => (resaltar && resaltar(f) ? css('--resalte') : css('--serie'))) }] };
+    const opciones = {
+      responsive: true, maintainAspectRatio: false, animation: false, indexAxis: 'y',
+      layout: { padding: { right: derecha, top: arriba, left: angosto ? 0 : anchoEtq } },
+      plugins: { legend: { display: false }, etiquetasBarra: { fmt: (v) => fmtValor(v, true), tam: angosto ? 12 : 12.5 },
+        etiquetasCat: { lineas, lh, fuente, arriba: angosto },
+        tooltip: { displayColors: false, callbacks: { title: (it) => filasG[it[0].dataIndex].n, label: (it) => fmtValor(it.raw) } } },
+      scales: { x: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: { maxTicksLimit: angosto ? 3 : 5, callback: (v) => (S.m === 'monto' ? eur(v, true) : nf0.format(v)) } },
+        y: { grid: { display: false }, border: { display: !angosto, color: css('--borde') }, ticks: { display: false } } }
+    };
+    if (graficos[id]) { graficos[id].data = data; graficos[id].options = opciones; graficos[id].update(); graficos[id].resize(); return; }
+    graficos[id] = new Chart($(id), { type: 'bar', data, options: Object.assign({}, opciones, { animation: animar() }), plugins: [etiquetasBarra, etiquetasCat] });
+    graficos[id].options.animation = false;
+  }
+
+  // ---------- cifras con conteo
+  const contados = new Set();
+  function cifra(id, valor, fmt) {
+    const el = $(id); el.dataset.ficha = '';
+    if (valor == null || isNaN(valor)) { el.textContent = '–'; return; }
+    el.textContent = fmt(valor);
+    if (!ANIMAR || contados.has(id)) return;
+    contados.add(id);
+    const ficha = String(Math.random()); el.dataset.ficha = ficha;
+    let t0 = null;
+    const paso = (t) => {
+      if (el.dataset.ficha !== ficha) return;
+      if (t0 === null) t0 = t;
+      const p = Math.min(1, (t - t0) / 900), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(valor * e);
+      if (p < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  }
+
+  // ---------- render
+  const ultimo = {};
+  function render() {
+    const rs = filtrar();
+    const filtro = descFiltro();
+    const extras = S.p ? filtro.slice(1) : filtro;
+    $('resumen-filtro').textContent = nf0.format(rs.length) + (rs.length === 1 ? ' multa' : ' multas') + ' de la muestra ' + enDonde() + ', ' + periodo() + (extras.length ? ' · ' + extras.join(' · ') : '') + (S.q ? ' · búsqueda: "' + S.q + '"' : '');
+    $('limpiar').hidden = !(S.p || S.s >= 0 || S.i >= 0 || S.q || S.d !== D.anioMin || S.h !== D.anioMax);
+
+    $('hero').hidden = !MOSTRAR.anual;
+    if (MOSTRAR.anual) {
+    // KPIs
+    const montos = rs.map((r) => r.monto);
+    const total = montos.reduce((a, b) => a + b, 0);
+    cifra('k1v', rs.length, (v) => nf0.format(v));
+    $('k1n').textContent = 'en ' + new Set(rs.map((r) => r.pais)).size + ' países · ' + periodo();
+    cifra('k2v', total, (v) => eur(v, true));
+    $('k2n').textContent = total ? '≈ ' + clp(total * D.cambio.eurClp) + ' de pesos chilenos' : '';
+    const max = rs.reduce((a, r) => (!a || r.monto > a.monto ? r : a), null);
+    cifra('k3v', max ? max.monto : null, (v) => eur(v, true));
+    $('k3n').textContent = max ? nombre(max) + ' · ' + D.paises[max.pais] + ', ' + max.anio : '';
+    const med = mediana(montos);
+    cifra('k4v', med, (v) => eur(v));
+    $('k4n').textContent = med ? '≈ ' + clp(med * D.cambio.eurClp) + ' · ' + nf0.format(med * D.cambio.eurClp / D.utm.valor) + ' UTM' : '';
+
+    // Por año
+    const anios = []; for (let a = S.d; a <= S.h; a++) anios.push(a);
+    const porAnio = anios.map((a) => valor(rs.filter((r) => r.anio === a)));
+    const anioActual = +D.actualizado.slice(0, 4);
+    grafV('g-anual', anios.map((a) => (a === anioActual ? a + '*' : String(a))), porAnio, (k) => anios[k] === anioActual);
+    $('t-anual-h').textContent = (S.m === 'monto' ? 'Monto de las multas por año' : 'Cantidad de multas por año') + ' ' + enDonde();
+    $('t-anual-b').textContent = (filtro.length ? filtro.join(' · ') + ' · ' : '') + (anios.includes(anioActual) ? '* ' + anioActual + ' hasta ' + fechaTxt(D.actualizado) + '.' : '');
+    ultimo.anual = { et: anios.map((a) => (a === anioActual ? a + '*' : String(a))), v: porAnio, res: anios.map((a) => a === anioActual) };
+    }
+
+    // Por sector
+    const rsS = filtrar('s');
+    const porSector = D.sectores.map((n, k) => ({ n, k, v: valor(rsS.filter((r) => r.sector === k)) })).filter((f) => f.v > 0).sort((a, b) => b.v - a.v);
+    grafH('g-sector', porSector, (f) => f.k === S.s);
+    $('t-sector-h').textContent = (S.m === 'monto' ? 'Monto de multas por sector' : 'Multas por sector');
+    $('t-sector-b').textContent = 'Muestra de multas ' + enDonde() + ', ' + periodo() + (S.i >= 0 ? ' · ' + D.infracciones[S.i] : '') + '. Toca una barra para filtrar.';
+    ultimo.sector = porSector;
+
+    // Por infracción (una multa puede tener varias)
+    const rsI = filtrar('i');
+    const porInf = D.infracciones.map((n, k) => ({ n, k, v: valor(rsI.filter((r) => r.inf.includes(k))) })).filter((f) => f.v > 0).sort((a, b) => b.v - a.v);
+    grafH('g-inf', porInf, (f) => f.k === S.i);
+    $('t-inf-h').textContent = S.m === 'monto' ? 'Monto de multas por tipo de infracción' : 'Infracciones más sancionadas';
+    $('t-inf-b').textContent = 'Muestra de multas ' + enDonde() + ', ' + periodo() + (S.s >= 0 ? ' · ' + D.sectores[S.s] : '') + '. Una multa puede incluir varias infracciones.';
+    ultimo.inf = porInf;
+
+    // Por país (oculto mientras haya pocos países con fuente completa; ver MOSTRAR)
+    const rsP = filtrar('p');
+    const porPais = Object.keys(D.paises).map((c) => ({ n: D.paises[c], c, v: valor(rsP.filter((r) => r.pais === c)) })).filter((f) => f.v > 0).sort((a, b) => b.v - a.v);
+    $('t-pais').hidden = !MOSTRAR.pais;
+    if (MOSTRAR.pais) grafH('g-pais', porPais, (f) => f.c === S.p);
+    $('t-pais-h').textContent = S.m === 'monto' ? 'Monto de multas por país' : 'Multas por país';
+    $('t-pais-b').textContent = periodo() + (descFiltro().filter((x) => !S.p || x !== D.paises[S.p]).length ? ' · ' + descFiltro().filter((x) => !S.p || x !== D.paises[S.p]).join(' · ') : '') + '. Según las fuentes incorporadas hasta ahora.';
+    ultimo.pais = porPais;
+
+    tabla(rs);
+    escribirHash();
+  }
+
+  function nombre(r) {
+    return r.entidad || r.tipo || 'Caso transfronterizo (' + D.autoridades[r.aut] + ')';
+  }
+
+  function tabla(rs) {
+    const ord = rs.slice().sort((a, b) => (S.o === 'monto' ? b.monto - a.monto : b.fecha.localeCompare(a.fecha)));
+    const vis = ord.slice(0, filas);
+    $('tabla').innerHTML = vis.map((r) => {
+      const inf = r.inf.map((k) => D.infracciones[k]);
+      return '<tr><td style="white-space:nowrap">' + fechaTxt(r.fecha) + '</td>' +
+        '<td class="pais">' + esc(D.paises[r.pais]) + '<span class="s">' + esc(D.autoridades[r.aut]) + '</span></td>' +
+        '<td>' + esc(nombre(r)) + (r.entidad && r.tipo ? '<span class="s">' + esc(r.tipo) + '</span>' : '') + '</td>' +
+        '<td class="ocultar-movil">' + esc(D.sectores[r.sector]) + '</td>' +
+        '<td class="ocultar-movil">' + esc(inf[0] || '') + (inf.length > 1 ? '<span class="s">+ ' + esc(inf.slice(1).join(' · ')) + '</span>' : '') + '</td>' +
+        '<td class="num">' + eur(r.monto) + '</td>' +
+        '<td><a href="' + esc(r.url) + '" target="_blank" rel="noopener">Ver fuente</a></td></tr>';
+    }).join('') || '<tr><td colspan="7" style="color:var(--apagado)">No hay multas con estos filtros.</td></tr>';
+    $('tabla-cuenta').textContent = ord.length ? 'Mostrando ' + nf0.format(vis.length) + ' de ' + nf0.format(ord.length) : '';
+    $('ver-mas').hidden = vis.length >= ord.length;
+  }
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // ---------- comparación Chile
+  function comparar() {
+    const k = +$('c-inf').value;
+    const n = D.infracciones[k];
+    const rs = M.filter((r) => r.inf.includes(k));
+    const med = mediana(rs.map((r) => r.monto));
+    $('c-eu-v').textContent = nf0.format(rs.length) + (rs.length === 1 ? ' multa' : ' multas');
+    $('c-eu-n').textContent = med ? 'Multa típica (mediana): ' + eur(med) + ' ≈ ' + clp(med * D.cambio.eurClp) : '';
+    const [niv, art] = CHILE[n] || ['grave', ''];
+    const utm = UTM_NIVEL[niv];
+    $('c-cl-v').innerHTML = '<span class="gravedad ' + niv + '">' + NIVEL_TXT[niv] + '</span> hasta ' + nf0.format(utm) + ' UTM';
+    // "art. 34 ter j): infringir..." -> referencia (para la fuente) y descripción
+    const m = art.match(/^(art\. [^:]+):\s*(.*)$/);
+    const ref = m ? m[1] : '', desc = m ? m[2] : art;
+    const letra = { leve: 'a)', grave: 'b)', gravisima: 'c)' }[niv];
+    $('c-cl-n').textContent = '≈ ' + clp(utm * D.utm.valor) + ' · ' + desc.charAt(0).toUpperCase() + desc.slice(1) + '. Grandes empresas reincidentes: hasta 2% o 4% de sus ingresos.';
+    // Qué destacar en el texto de la ley: el literal del art. 34 bis/ter/quáter y la multa del art. 35
+    const spec = [];
+    const ma = ref.match(/^art\. (34 (?:bis|ter|quáter))(.*)$/);
+    if (ma) spec.push({ a: ma[1], m: (ma[2].match(/\b[a-z]\)/g) || []) });
+    spec.push({ a: '35', m: [letra] });
+    const fu = $('c-cl-fuente');
+    fu.dataset.ley = JSON.stringify(spec);
+    fu.href = urlLey(spec);
+    fu.textContent = 'Fuente: ' + (ref ? ref.replace(/^art\. /, 'arts. ') + ' y 35 ' + letra : 'art. 35 ' + letra) + ' · Ley 21.719';
+    const max = rs.reduce((a, r) => (!a || r.monto > a.monto ? r : a), null);
+    $('c-max-v').textContent = max ? eur(max.monto) + ' · ' + nombre(max) : '–';
+    $('c-max-n').textContent = max ? D.paises[max.pais] + ', ' + fechaTxt(max.fecha) + ' · ' + D.sectores[max.sector] + ' · ≈ ' + clp(max.monto * D.cambio.eurClp) : '';
+    // Fuente oficial de esa multa (decisión o comunicado de la autoridad, o registro del EDPB)
+    const fm = $('c-max-fuente');
+    fm.hidden = !(max && max.url);
+    if (max && max.url) {
+      const aut = D.autoridades[max.aut];
+      fm.href = max.url;
+      fm.textContent = 'Fuente: ' + (/^Autoridad de /.test(aut) ? 'registro del EDPB · ' + aut : aut + ' (' + D.paises[max.pais] + ')');
+    }
+  }
+
+  // ---------- España
+  function espana() {
+    const e = D.espana; if (!e || !MOSTRAR.espana) return;
+    $('t-esp').hidden = false;
+    const anios = Object.keys(e.porAnio).filter((a) => +a >= 2019);
+    $('t-esp-b').textContent = nf0.format(e.total) + ' resoluciones de procedimientos sancionadores tipificados en el RGPD publicadas por la Agencia Española de Protección de Datos. La mayoría termina en multa; la AEPD no permite descargar sus resoluciones de forma automatizada, por eso aquí se muestran cantidades y no montos.';
+    const prev = S.m; S.m = 'cant';
+    grafV('g-esp', anios.map((a) => (+a === +D.actualizado.slice(0, 4) ? a + '*' : a)), anios.map((a) => e.porAnio[a]), (k) => +anios[k] === +D.actualizado.slice(0, 4));
+    const sect = Object.entries(e.sectoresAEPD).map(([n, v]) => ({ n, v })).sort((a, b) => b.v - a.v).slice(0, 8);
+    grafH('g-esp-s', sect, null);
+    S.m = prev;
+    ultimo.esp = { anios, e, sect };
+  }
+
+  // ---------- vigencia Ley 21.719
+  function vigencia() {
+    const hoy = new Date(), v = new Date(VIGENCIA + 'T00:00:00');
+    const dias = Math.ceil((v - hoy) / 86400000);
+    if (dias > 0) {
+      $('vig-t').textContent = 'Entra en vigencia el ' + VIGENCIA_TXT;
+      $('vig-dias').innerHTML = '<b>' + nf0.format(dias) + '</b>' + (dias === 1 ? 'día' : 'días') + ' para que comience a regir';
+    } else {
+      $('vig-t').textContent = 'Vigente desde el ' + VIGENCIA_TXT;
+      $('vig-dias').textContent = 'La Agencia de Protección de Datos Personales ya puede fiscalizar y sancionar.';
+      $('vig-nota').hidden = true;
+    }
+  }
+
+  // ---------- imágenes para compartir (1080 x 1350)
+  const W = 1080, H = 1350, MG = 72, SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Outfit, Arial, sans-serif';
+  function envolver(ctx, t, ancho) {
+    const out = []; let l = '';
+    for (const w of String(t).split(' ')) { const p = (l + ' ' + w).trim(); if (ctx.measureText(p).width > ancho && l) { out.push(l); l = w; } else l = p; }
+    if (l) out.push(l); return out;
+  }
+  function graficoImagen(cual, ancho, alto) {
+    const cv = document.createElement('canvas'); cv.width = ancho; cv.height = alto;
+    const ejes = { font: { size: 22 }, color: '#44544F' };
+    let config;
+    if (cual === 'anual' || cual === 'esp') {
+      const d = cual === 'anual' ? ultimo.anual : { et: ultimo.esp.anios, v: ultimo.esp.anios.map((a) => ultimo.esp.e.porAnio[a]), res: [] };
+      const fmt = cual === 'esp' ? (v) => nf0.format(v) : (v) => fmtValor(v, true);
+      config = { type: 'bar', data: { labels: d.et, datasets: [{ data: d.v, borderRadius: 6, maxBarThickness: 90, backgroundColor: d.et.map((x, k) => (d.res[k] ? '#D9C08F' : '#1F6B57')) }] },
+        options: { layout: { padding: { top: 48 } }, plugins: { legend: { display: false }, tooltip: { enabled: false }, valoresV: { fmt, tam: d.v.length > 7 ? 19 : 23 } },
+          scales: { x: { grid: { display: false }, ticks: Object.assign({ maxRotation: 0, autoSkip: false }, ejes) }, y: { beginAtZero: true, grid: { color: '#E6EDEA' }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 6, callback: (v) => (cual === 'esp' ? nf0.format(v) : (S.m === 'monto' ? eur(v, true) : nf0.format(v))) }, ejes) } } } };
+    } else {
+      const f = (cual === 'esp-s' ? ultimo.esp.sect : ultimo[cual]).slice(0, 12);
+      const grosor = Math.max(18, Math.min(52, Math.floor((alto - 60) / f.length * 0.62)));
+      config = { type: 'bar', data: { labels: f.map((x) => partirLineas(x.n, 30)), datasets: [{ data: f.map((x) => x.v), barThickness: grosor, borderRadius: 6, borderSkipped: 'start',
+          backgroundColor: f.map((x) => ((cual === 'sector' && x.k === S.s) || (cual === 'inf' && x.k === S.i) || (cual === 'pais' && x.c === S.p) ? '#A88449' : '#1F6B57')) }] },
+        options: { indexAxis: 'y', layout: { padding: { right: 170 } }, plugins: { legend: { display: false }, tooltip: { enabled: false }, etiquetasBarra: { tam: 23, fmt: (v) => fmtValor(v, true) } },
+          scales: { x: { beginAtZero: true, grid: { color: '#E6EDEA' }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 4, callback: (v) => (S.m === 'monto' ? eur(v, true) : nf0.format(v)) }, ejes) },
+            y: { grid: { display: false }, ticks: Object.assign({ autoSkip: false }, ejes) } } } };
+    }
+    Object.assign(config.options, { responsive: false, maintainAspectRatio: false, animation: false, devicePixelRatio: 1, events: [] });
+    const g = new Chart(cv, Object.assign(config, { plugins: [etiquetasBarra, valoresV] }));
+    g.update('none');
+    const copia = document.createElement('canvas'); copia.width = ancho; copia.height = alto;
+    copia.getContext('2d').drawImage(cv, 0, 0); g.destroy();
+    return copia;
+  }
+  function textos(cual) {
+    const f = descFiltro(), donde = enDonde();
+    const det = (f.length ? f.join(' · ') + ' · ' : '') + periodo();
+    if (cual === 'anual') return { t: $('t-anual-h').textContent, s: det, dest: 'Total: ' + eur(valor(filtrar()), false) + ' en ' + nf0.format(filtrar().length) + ' multas', share: 'Multas por protección de datos ' + donde };
+    if (cual === 'sector') return { t: $('t-sector-h').textContent + ' ' + donde, s: periodo() + (S.i >= 0 ? ' · ' + D.infracciones[S.i] : ''), share: 'Multas por protección de datos por sector ' + donde };
+    if (cual === 'inf') return { t: (S.m === 'monto' ? 'Monto por tipo de infracción ' : 'Infracciones más sancionadas ') + donde, s: periodo() + (S.s >= 0 ? ' · ' + D.sectores[S.s] : ''), share: 'Las infracciones de protección de datos más sancionadas ' + donde };
+    if (cual === 'pais') return { t: $('t-pais-h').textContent + ' en Europa', s: periodo(), share: 'Multas por protección de datos por país en Europa' };
+    return { t: 'España: procedimientos sancionadores de la AEPD', s: 'Resoluciones bajo el RGPD por año', share: 'Procedimientos sancionadores de la AEPD bajo el RGPD', fuente: 'Fuente: Agencia Española de Protección de Datos (buscador de resoluciones)' };
+  }
+  async function componer(cual) {
+    try { await Promise.all(['700 60px "Cormorant Garamond"', '600 44px "Cormorant Garamond"', '400 28px Outfit', '600 30px Outfit'].map((f) => document.fonts.load(f))); } catch (e) { /* respaldo */ }
+    const info = textos(cual);
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#0E4D40'; ctx.fillRect(0, 0, W, 132);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = '700 60px ' + SERIF; ctx.fillText('§', MG, 88);
+    ctx.font = '600 46px ' + SERIF; let x = MG + 46; ctx.fillText('Vértice', x, 84); x += ctx.measureText('Vértice ').width;
+    ctx.fillStyle = '#C9A563'; ctx.fillText('|', x, 84); x += ctx.measureText('| ').width; ctx.fillStyle = '#FFFFFF'; ctx.fillText('Legal', x, 84);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#D6E4DF'; ctx.font = '400 24px ' + SANS; ctx.fillText('Protección de datos personales', W - MG, 80); ctx.textAlign = 'left';
+    let y = 132 + 82;
+    ctx.fillStyle = '#13211D'; ctx.font = '700 58px ' + SERIF;
+    envolver(ctx, info.t, W - 2 * MG).slice(0, 3).forEach((l) => { ctx.fillText(l, MG, y); y += 62; });
+    ctx.fillStyle = '#44544F'; ctx.font = '400 28px ' + SANS;
+    envolver(ctx, info.s, W - 2 * MG).slice(0, 2).forEach((l) => { ctx.fillText(l, MG, y); y += 38; });
+    if (info.dest) { y += 8; ctx.fillStyle = '#0E4D40'; ctx.font = '600 30px ' + SANS; ctx.fillText(info.dest, MG, y); y += 10; }
+    y += 28;
+    const PIE = 150, altoG = H - PIE - y - 30;
+    ctx.drawImage(graficoImagen(cual, W - 2 * MG + 28, altoG), MG - 14, y);
+    ctx.fillStyle = '#E7F0EC'; ctx.fillRect(0, H - PIE, W, PIE);
+    ctx.fillStyle = '#C9A563'; ctx.fillRect(0, H - PIE, W, 4);
+    ctx.fillStyle = '#0E4D40'; ctx.font = '600 32px ' + SANS; ctx.fillText('verticelegal.cl/proteccion-de-datos', MG, H - PIE + 56);
+    ctx.fillStyle = '#44544F'; ctx.font = '400 21px ' + SANS;
+    envolver(ctx, (info.fuente || 'Muestra de multas de fuentes oficiales: autoridades de protección de datos y EDPB') + ' · Elaborado por Vértice Legal · Ley 21.719: multas de hasta 20.000 UTM en Chile', W - 2 * MG).slice(0, 2)
+      .forEach((l, k) => ctx.fillText(l, MG, H - PIE + 94 + k * 28));
+    const blob = await new Promise((res) => cv.toBlob(res, 'image/png'));
+    return { blob, nombre: 'vertice-legal_multas-datos_' + cual + '.png', texto: info.share };
+  }
+  function bajar(blob, nombre) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+  async function copiar(boton) {
+    const o = boton.textContent;
+    try { await navigator.clipboard.writeText(location.href); boton.textContent = 'Enlace copiado'; } catch (e) { boton.textContent = 'Copia la dirección del navegador'; }
+    setTimeout(() => { boton.textContent = o; }, 2500);
+  }
+  let comp = null;
+  async function compartir(cual, boton) {
+    const o = boton.textContent; boton.disabled = true; boton.textContent = 'Preparando…';
+    try {
+      const img = await componer(cual);
+      if (comp && comp.vista) URL.revokeObjectURL(comp.vista);
+      comp = Object.assign(img, { url: location.href, vista: URL.createObjectURL(img.blob), archivo: new File([img.blob], img.nombre, { type: 'image/png' }) });
+      $('dlg-img').src = comp.vista;
+      const u = encodeURIComponent(comp.url);
+      $('dlg-wa').href = 'https://wa.me/?text=' + encodeURIComponent(img.texto + ' ' + comp.url);
+      $('dlg-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + u;
+      $('dlg-x').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(img.texto) + '&url=' + u;
+      $('dlg-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+      $('dlg-nativo').hidden = !(navigator.canShare && navigator.canShare({ files: [comp.archivo] }));
+      $('dlg').showModal();
+    } catch (e) { console.error(e); alert('No se pudo preparar la imagen. Intenta de nuevo.'); }
+    finally { boton.disabled = false; boton.textContent = o; }
+  }
+
+  // ---------- filtros
+  function opciones(sel, lista, todos) {
+    sel.innerHTML = (todos ? '<option value="">' + todos + '</option>' : '') + lista.map(([v, t]) => '<option value="' + esc(v) + '">' + esc(t) + '</option>').join('');
+  }
+  function pintarFiltros() {
+    const conteoP = {}; M.forEach((r) => { conteoP[r.pais] = (conteoP[r.pais] || 0) + 1; });
+    opciones($('f-pais'), Object.keys(D.paises).sort((a, b) => D.paises[a].localeCompare(D.paises[b], 'es')).map((c) => [c, D.paises[c] + ' (' + conteoP[c] + ')']), 'Todos los países');
+    opciones($('f-sector'), D.sectores.map((n, k) => [k, n]), 'Todos los sectores');
+    opciones($('f-inf'), D.infracciones.map((n, k) => [k, n]), 'Todas las infracciones');
+    const anios = []; for (let a = D.anioMin; a <= D.anioMax; a++) anios.push([a, a]);
+    opciones($('f-desde'), anios); opciones($('f-hasta'), anios);
+    opciones($('c-inf'), D.infracciones.map((n, k) => [k, n]).filter(([k]) => M.some((r) => r.inf.includes(+k))));
+    sincronizar();
+  }
+  function sincronizar() {
+    $('f-pais').value = S.p; $('f-sector').value = S.s >= 0 ? S.s : ''; $('f-inf').value = S.i >= 0 ? S.i : '';
+    $('f-desde').value = S.d; $('f-hasta').value = S.h; $('f-buscar').value = S.q;
+    document.querySelectorAll('#f-medida button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === S.m)));
+    document.querySelectorAll('#f-orden button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === S.o)));
+  }
+  function enlazar() {
+    const cambio = () => { filas = FILAS_INI; sincronizar(); render(); };
+    $('f-pais').addEventListener('change', (e) => { S.p = e.target.value; cambio(); });
+    $('f-sector').addEventListener('change', (e) => { S.s = e.target.value === '' ? -1 : +e.target.value; cambio(); });
+    $('f-inf').addEventListener('change', (e) => { S.i = e.target.value === '' ? -1 : +e.target.value; cambio(); });
+    $('f-desde').addEventListener('change', (e) => { S.d = +e.target.value; if (S.h < S.d) S.h = S.d; cambio(); });
+    $('f-hasta').addEventListener('change', (e) => { S.h = +e.target.value; if (S.d > S.h) S.d = S.h; cambio(); });
+    document.querySelectorAll('#f-medida button').forEach((b) => b.addEventListener('click', () => { S.m = b.dataset.v; cambio(); }));
+    document.querySelectorAll('#f-orden button').forEach((b) => b.addEventListener('click', () => { S.o = b.dataset.v; cambio(); }));
+    let tq; $('f-buscar').addEventListener('input', (e) => { clearTimeout(tq); tq = setTimeout(() => { S.q = e.target.value; filas = FILAS_INI; render(); }, 220); });
+    $('limpiar').addEventListener('click', () => { Object.assign(S, { p: '', s: -1, i: -1, q: '', d: D.anioMin, h: D.anioMax }); cambio(); });
+    $('ver-mas').addEventListener('click', () => { filas += 20; tabla(filtrar()); });
+    $('c-inf').addEventListener('change', comparar);
+    // clic en las barras filtra
+    const clicBarra = (id, fn) => $(id).addEventListener('click', (ev) => {
+      const g = graficos[id]; const p = g && g.getElementsAtEventForMode(ev, 'nearest', { intersect: true }, false);
+      if (p && p.length) { fn(p[0].index); cambio(); }
+    });
+    clicBarra('g-sector', (k) => { const f = ultimo.sector[k]; S.s = S.s === f.k ? -1 : f.k; });
+    clicBarra('g-inf', (k) => { const f = ultimo.inf[k]; S.i = S.i === f.k ? -1 : f.k; });
+    clicBarra('g-pais', (k) => { const f = ultimo.pais[k]; S.p = S.p === f.c ? '' : f.c; });
+    document.querySelectorAll('[data-compartir]').forEach((b) => b.addEventListener('click', () => compartir(b.dataset.compartir, b)));
+    document.querySelectorAll('[data-bajar]').forEach((b) => b.addEventListener('click', async () => {
+      const o = b.textContent; b.disabled = true; b.textContent = 'Preparando…';
+      try { const img = await componer(b.dataset.bajar); bajar(img.blob, img.nombre); } catch (e) { console.error(e); } finally { b.disabled = false; b.textContent = o; }
+    }));
+    document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => copiar(b)));
+    $('dlg-cerrar').addEventListener('click', () => $('dlg').close());
+    $('dlg').addEventListener('click', (e) => { if (e.target === $('dlg')) $('dlg').close(); });
+    $('dlg-bajar').addEventListener('click', () => comp && bajar(comp.blob, comp.nombre));
+    $('dlg-copiar').addEventListener('click', (e) => copiar(e.currentTarget));
+    $('dlg-nativo').addEventListener('click', async () => {
+      try { await navigator.share({ files: [comp.archivo], title: 'Multas por protección de datos · Vértice Legal', text: comp.texto + ' ' + comp.url }); } catch (e) { /* cancelado */ }
+    });
+    window.addEventListener('hashchange', () => { leerHash(); normalizar(); sincronizar(); render(); });
+    // Al cambiar el ancho, los nombres de las barras se vuelven a repartir en líneas
+    let anchoPrevio = innerWidth, tr;
+    window.addEventListener('resize', () => { clearTimeout(tr); tr = setTimeout(() => { if (Math.abs(innerWidth - anchoPrevio) > 40) { anchoPrevio = innerWidth; render(); } }, 250); });
+  }
+  function normalizar() {
+    if (!S.d || S.d < D.anioMin || S.d > D.anioMax) S.d = D.anioMin;
+    if (!S.h || S.h > D.anioMax || S.h < S.d) S.h = D.anioMax;
+    if (S.p && !D.paises[S.p]) S.p = '';
+    if (S.s >= D.sectores.length) S.s = -1;
+    if (S.i >= D.infracciones.length) S.i = -1;
+  }
+
+  // ---------- "Fuente": abre la ley en la BCN y el navegador subraya el texto exacto
+  // (fragmentos de texto "#:~:text=..." que entienden Chrome, Edge, Safari y Firefox: la página baja
+  // sola hasta la frase y la resalta). Las frases salen del texto oficial (datos/ley21719.json).
+  let LEYTXT = null;
+  function trozo(p, t) {
+    // ~10 palabras exactas del párrafo, empezando y terminando en palabra completa
+    let ini, fin, n = 0;
+    if (t) {
+      const i = p.toLowerCase().indexOf(t.toLowerCase());
+      if (i < 0) return null;
+      ini = i; while (ini > 0 && n < 4) { ini = p.lastIndexOf(' ', ini - 2) + 1; n++; }
+      fin = i + t.length; n = 0; while (fin < p.length && n < 5) { const k = p.indexOf(' ', fin + 1); fin = k < 0 ? p.length : k; n++; }
+    } else {
+      ini = ((p.match(/^[a-z]\)\s*/) || [''])[0]).length;
+      fin = ini; while (fin < p.length && n < 10) { const k = p.indexOf(' ', fin + 1); fin = k < 0 ? p.length : k; n++; }
+    }
+    return p.slice(ini, fin).replace(/[.,;:]+$/, '').trim();
+  }
+  function urlLey(spec) {
+    if (!LEYTXT) return LEY;
+    const textos = [];
+    spec.forEach((s) => {
+      const art = LEYTXT.articulos[s.a]; if (!art) return;
+      (s.m || []).forEach((l) => { const p = art.parrafos.find((x) => x.startsWith(l + ' ')); if (p) textos.push(trozo(p)); });
+      (s.t || []).forEach((t) => { const p = art.parrafos.find((x) => x.toLowerCase().includes(t.toLowerCase())); const z = p && trozo(p, t); if (z) textos.push(z); });
+      if (!(s.m || []).length && !(s.t || []).length) textos.push(art.titulo.replace(/\.$/, ''));
+    });
+    const cod = (t) => encodeURIComponent(t).replace(/-/g, '%2D');
+    return textos.length ? LEY + '#:~:text=' + textos.map(cod).join('&text=') : LEY;
+  }
+  function enlacesLey() {
+    document.querySelectorAll('a.fuente-ley[data-ley]').forEach((a) => {
+      if (a.id !== 'c-cl-fuente') a.href = urlLey(JSON.parse(a.dataset.ley));
+    });
+  }
+
+  // ---------- inicio
+  vigencia();
+  const leyLista = fetch('datos/ley21719.json').then((r) => r.json()).then((l) => { LEYTXT = l; enlacesLey(); }).catch(() => { /* quedan los enlaces simples a la BCN */ });
+  fetch('datos/multas.json').then((r) => r.json()).then(async (d) => {
+    await leyLista;
+    D = d;
+    M = d.multas.map((x) => ({ fecha: x[0], anio: +x[0].slice(0, 4), pais: x[1], sector: x[2], monto: x[3], inf: x[4], entidad: x[5], tipo: x[6], aut: x[7], url: x[8],
+      busca: (x[5] + ' ' + x[6] + ' ' + d.sectores[x[2]] + ' ' + d.paises[x[1]]).toLowerCase() }));
+    D.anioMin = Math.min(...M.map((r) => r.anio)); D.anioMax = Math.max(...M.map((r) => r.anio));
+    const [a, m, dd] = d.actualizado.split('-');
+    $('actualizado').textContent = 'Muestra de ' + nf0.format(M.length) + ' multas de ' + Object.keys(d.paises).length + ' países, tomada de fuentes oficiales: no incluye todas las multas aplicadas en Europa. Actualizado el ' + +dd + ' de ' + MES[+m - 1] + ' de ' + a + '.';
+    ['leve', 'grave', 'gravisima'].forEach((n) => { $('clp-' + n).textContent = '≈ ' + clp(UTM_NIVEL[n] * d.utm.valor) + ' (UTM de ' + d.utm.mes + ': $' + nf0.format(d.utm.valor) + ')'; });
+    $('m-fuentes').innerHTML = 'Fuentes incluidas: ' + d.fuentes.map((f) => esc(f.n) + ' (' + nf0.format(f.casos) + ')').join('; ') + '.';
+    $('m-cambio').textContent = 'Conversión a pesos chilenos referencial: € 1 = $ ' + nf1.format(d.cambio.eurClp) + ' (' + d.cambio.fuente + ', ' + d.cambio.fecha + '); UTM de ' + d.utm.mes + ' = $ ' + nf0.format(d.utm.valor) + ' (SII).';
+    leerHash(); normalizar(); pintarFiltros(); enlazar(); render();
+    const iDef = D.infracciones.indexOf('Medidas de seguridad insuficientes');
+    $('c-inf').value = iDef >= 0 ? iDef : $('c-inf').options[0].value; comparar();
+    espana();
+  }).catch((e) => { console.error(e); $('actualizado').textContent = 'No se pudieron cargar los datos. Recarga la página.'; });
+})();
+</script>
+</body>
+</html>

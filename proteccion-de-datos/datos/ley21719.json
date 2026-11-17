@@ -1,0 +1,80 @@
+{
+ "ley": "Ley 21.719",
+ "url": "https://www.bcn.cl/leychile/navegar?idNorma=1209272&idParte=10527466",
+ "versionBCN": "2026-02-05",
+ "descargado": "2026-11-17",
+ "nota": "Artículos que el artículo primero de la Ley 21.719 incorpora a la Ley 19.628.",
+ "articulos": {
+  "34 bis": {
+   "titulo": "Artículo 34 bis.- Infracciones leves.",
+   "parrafos": [
+    "Se consideran infracciones leves, las siguientes:",
+    "a) Incumplir total o parcialmente el deber de información y transparencia, establecido en el artículo 14 ter.",
+    "b) Carecer de la individualización del domicilio postal, correo electrónico o medio electrónico equivalente que permita comunicarse con el responsable de datos o su representante legal, actualizado y operativo, a través del cual los titulares de datos puedan dirigir sus comunicaciones o ejercer sus derechos.",
+    "c) Omitir la respuesta, responder en forma incompleta o fuera de plazo, las solicitudes formuladas por el titular de datos en conformidad a esta ley.",
+    "d) Omitir el envío a la Agencia de las comunicaciones previstas obligatoriamente en esta ley o sus reglamentos.",
+    "e) Incumplir las instrucciones generales impartidas por la Agencia en los casos que no esté sancionado como infracción grave o gravísima.",
+    "f) Cometer cualquier otra infracción a los derechos y obligaciones establecidos en esta ley, que no sea calificada como una infracción grave o gravísima."
+   ]
+  },
+  "34 ter": {
+   "titulo": "Artículo 34 ter.- Infracciones graves.",
+   "parrafos": [
+    "Se consideran infracciones graves, las siguientes:",
+    "a) Tratar los datos personales sin contar con el consentimiento del titular de datos o sin un antecedente o fundamento legal que otorgue licitud al tratamiento, o tratarlos con una finalidad distinta de aquélla para la cual fueron recolectados.",
+    "b) Comunicar o ceder datos personales, sin el consentimiento del titular, en los casos en que dicho consentimiento sea necesario, o comunicar o ceder los datos para un fin distinto del autorizado.",
+    "c) Efectuar tratamiento de datos personales innecesarios en relación con los fines del tratamiento vulnerando lo dispuesto en el literal c) del artículo 3°.",
+    "d) Tratar datos personales inexactos, incompletos o desactualizados en relación con los fines del tratamiento, salvo que la actualización de estos datos corresponda al titular en virtud de la ley o el contrato.",
+    "e) Impedir u obstaculizar el ejercicio legítimo de los derechos de acceso, rectificación, supresión, oposición o portabilidad del titular.",
+    "f) Omitir la respuesta, responder tardíamente o denegar la petición sin causa justificada, en los casos de solicitudes fundadas de bloqueo temporal del tratamiento de datos personales de un titular.",
+    "g) Realizar tratamiento de datos personales de niños, niñas y adolescentes con infracción a las normas previstas en esta ley.",
+    "h) Realizar tratamiento de datos personales sin cumplir los requisitos establecidos para las personas jurídicas de derecho privado sin fines de lucro y cuya finalidad sea política, filosófica, religiosa, cultural, sindical o gremial, respecto de los datos de sus asociados.",
+    "i) Vulnerar el deber de secreto o confidencialidad establecido en el artículo 14 bis.",
+    "j) Vulnerar o infringir las obligaciones de seguridad en el tratamiento de los datos personales establecidas en el artículo 14 quinquies.",
+    "k) Omitir las comunicaciones o los registros en los casos de vulneración de las medidas de seguridad establecidas en el artículo 14 quinquies.",
+    "l) Adoptar medidas de calidad y seguridad insuficientes o no idóneas para el tratamiento de datos personales con fines históricos, estadísticos o científicos y para estudios o investigaciones que atiendan fines de interés público.",
+    "m) Realizar operaciones de transferencia internacional de datos en contravención a las normas previstas en esta ley.",
+    "n) Incumplir una resolución o un requerimiento específico y directo que haya impartido la Agencia."
+   ]
+  },
+  "34 quáter": {
+   "titulo": "Artículo 34 quáter.- Infracciones gravísimas.",
+   "parrafos": [
+    "Se consideran infracciones gravísimas, las siguientes:",
+    "a) Efectuar tratamiento de datos personales en forma fraudulenta.",
+    "b) Destinar maliciosamente los datos personales a una finalidad distinta de la consentida por el titular o prevista en la ley que autoriza su tratamiento.",
+    "c) Comunicar o ceder, a sabiendas, información no veraz, incompleta, inexacta o desactualizada sobre el titular de datos.",
+    "d) Vulnerar el deber de secreto o confidencialidad sobre los datos personales sensibles y datos personales relativos a la comisión y sanción de infracciones penales, civiles, administrativas y disciplinarias.",
+    "e) Tratar, comunicar o ceder, a sabiendas, datos personales sensibles o datos personales de niños, niñas y adolescentes, en contravención a las normas de esta ley.",
+    "f) Omitir en forma deliberada la comunicación de las vulneraciones a las medidas de seguridad que puedan afectar la confidencialidad, disponibilidad o integridad de los datos personales.",
+    "g) Efectuar tratamiento masivo de datos personales contenidos en registros electrónicos de infracciones penales, civiles, administrativas y disciplinarias, que llevan los organismos públicos, sin contar con autorización legal para ello.",
+    "h) Realizar, a sabiendas, operaciones de transferencia internacional de datos en contravención a las normas previstas en esta ley.",
+    "i) Incumplir una resolución de la Agencia que resuelve la reclamación de un titular sobre el ejercicio de sus derechos de acceso, rectificación, supresión, oposición, portabilidad o bloqueo temporal.",
+    "j) Entregar, a sabiendas, información falsa, incompleta o manifiestamente errónea en el proceso de registro o certificación del modelo de prevención de infracciones.",
+    "k) Incumplir la obligación establecida en el artículo 15 ter, en los casos que corresponda."
+   ]
+  },
+  "35": {
+   "titulo": "Artículo 35.- Sanciones.",
+   "parrafos": [
+    "Las sanciones a las infracciones en que incurran los responsables de datos serán las siguientes:",
+    "a) Las infracciones leves serán sancionadas con amonestación escrita o multa de hasta 5.000 unidades tributarias mensuales.",
+    "b) Las infracciones graves serán sancionadas con multa de hasta 10.000 unidades tributarias mensuales.",
+    "c) Las infracciones gravísimas serán sancionadas con multa de hasta 20.000 unidades tributarias mensuales.",
+    "En cada caso, la Agencia señalará las medidas tendientes a subsanar las causales que dieron motivo a la sanción, las que deberán ser adoptadas en un plazo no mayor a sesenta días, de lo contrario se impondrá un recargo de 50% a la multa cursada, sin perjuicio de lo establecido en el artículo 49.",
+    "En caso de que exista reincidencia, de conformidad al literal a) del inciso segundo del artículo 36, la Agencia podrá aplicar una multa de hasta tres veces el monto asignado a la infracción cometida.",
+    "En caso de que el infractor corresponda a una empresa distinta de aquéllas definidas como empresas de menor tamaño en el artículo segundo de la ley N° 20.416, que reincida en infracción de carácter grave o gravísima en los términos del literal a) del inciso segundo del artículo 36, la multa podrá alcanzar a la más gravosa entre la señalada en el inciso anterior o hasta el monto correspondiente al 2% o 4% de los ingresos anuales por ventas y servicios y otras actividades del giro en el último año calendario, según se trate de infracciones graves o gravísimas, respectivamente."
+   ]
+  },
+  "38": {
+   "titulo": "Artículo 38.- Sanciones accesorias.",
+   "parrafos": [
+    "En caso que se impongan multas por infracciones gravísimas reiteradas, en un período de veinticuatro meses, la Agencia podrá disponer la suspensión de las operaciones y actividades de tratamiento de datos que realiza el responsable de datos, hasta por un término de treinta días. Esta suspensión no afectará el almacenamiento de datos por parte del responsable.",
+    "La suspensión que disponga la Agencia como sanción accesoria podrá ser parcial o total, y no podrá decretarse cuando con ello se afecten los derechos de los titulares.",
+    "Durante este período el responsable deberá adoptar las medidas necesarias con el objeto de adecuar sus operaciones y actividades a las exigencias dispuestas en la resolución que ordenó la suspensión.",
+    "Si el responsable no da cumplimiento a lo dispuesto en la resolución de suspensión temporal, esta medida se podrá prorrogar indefinidamente, por períodos sucesivos de máximo treinta días, hasta que el responsable cumpla con lo ordenado.",
+    "Cuando la suspensión afecte a una entidad sujeta a supervisión por parte de un organismo público de carácter fiscalizador, la Agencia deberá previamente poner los antecedentes en conocimiento de la autoridad regulatoria correspondiente, para los efectos de cautelar los derechos de los usuarios de dicha entidad."
+   ]
+  }
+ }
+}

@@ -8,9 +8,9 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <title>Estadísticas delictuales de Chile por comuna | Vértice Legal</title>
-<meta name="description" content="Explora denuncias, detenciones y aprehendidos por región, provincia y comuna de Chile desde 2005, con datos oficiales del CEAD. Gráficos, rankings y descarga en CSV.">
+<meta name="description" content="Explora denuncias, detenciones y aprehendidos por región, provincia y comuna de Chile desde 2005, con datos oficiales del CEAD. Mapa de calor, rankings y comparador de comunas.">
 <meta property="og:title" content="Estadísticas delictuales de Chile por comuna | Vértice Legal">
-<meta property="og:description" content="Denuncias, detenciones y aprehendidos por comuna desde 2005, con datos oficiales del CEAD. Filtra, compara y descarga.">
+<meta property="og:description" content="Denuncias, detenciones y aprehendidos por comuna desde 2005, con datos oficiales del CEAD. Mapa de calor, rankings y comparador de comunas.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://verticelegal.cl/estadisticas-delictuales/">
 <meta property="og:image" content="https://verticelegal.cl/estadisticas-delictuales/imagen-compartir.png">
@@ -176,6 +176,87 @@
   footer .wrap{padding-top:28px;padding-bottom:28px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
   footer a{color:#fff}
 
+  /* Comparación territorial: mapa de calor + ranking + comparador de comunas */
+  .terr-cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 16px}
+  .terr-cab .seg{height:34px;min-width:250px}
+  .comparar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 16px;padding:9px 12px;background:var(--fondo);border:1px solid var(--borde);border-radius:8px}
+  .comparar .lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--apagado);margin-right:2px}
+  .chips{display:contents}
+  .chip{display:inline-flex;align-items:center;gap:6px;height:32px;border:1px solid var(--verde);background:var(--verde-claro);color:var(--verde-osc);border-radius:999px;padding:0 5px 0 12px;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
+  .chip.nueva{animation:chipEntra .25s ease-out}
+  .chip .x{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:rgba(14,77,64,.12);font-size:16px;line-height:1}
+  .chip:hover .x,.chip:focus-visible .x{background:var(--verde);color:#fff}
+  .chip:focus-visible{outline:2px solid var(--oro);outline-offset:1px}
+  @keyframes chipEntra{from{transform:scale(.8)}to{transform:none}}
+  .buscador{position:relative;flex:0 1 230px;min-width:170px}
+  .buscador input{width:100%;height:32px;border:1px dashed var(--borde-2);border-radius:999px;background:#fff;padding:0 14px;font:inherit;font-size:14px;color:var(--texto)}
+  .buscador input:focus{outline:2px solid var(--oro);outline-offset:1px;border-style:solid}
+  .buscador input:disabled{background:#F1F4F3}
+  .sugerencias{position:absolute;z-index:30;left:0;top:calc(100% + 4px);min-width:100%;width:max-content;max-width:300px;margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--borde-2);border-radius:8px;box-shadow:0 12px 30px rgba(10,59,49,.16);max-height:290px;overflow:auto}
+  .sugerencias li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:14px}
+  .sugerencias li small{color:var(--apagado);font-size:12.5px;white-space:nowrap}
+  .sugerencias li[aria-selected="true"]{background:var(--verde-claro)}
+  .sugerencias li.vacio{color:var(--apagado);cursor:default}
+  .comparar-ayuda{font-size:13px;color:var(--apagado)}
+  .limpiar{border:0;background:none;color:var(--apagado);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:4px;margin-left:auto}
+  .terr-cuerpo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:26px;align-items:start}
+  .terr-cuerpo > .terr-graf{order:1}  /* en pantalla ancha: barras a la izquierda, mapa a la derecha */
+  .terr-cuerpo > .mapa{order:2}
+  .terr-cuerpo.sin-mapa{grid-template-columns:minmax(0,1fr)}
+  .mapa{margin:0;position:sticky;top:124px;min-width:0}
+  .mapa-tramos{position:relative;height:18px}
+  .mapa-tramos span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .mapa-lienzo{position:relative;margin:0 auto;overflow:hidden;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+  .mapa-lienzo.acercado{touch-action:none;cursor:grab}
+  .mapa-lienzo.arrastrando{cursor:grabbing}
+  .mapa-lienzo svg{display:block;width:100%;height:100%}
+  .m-u{stroke:#fff;stroke-width:.8;vector-effect:non-scaling-stroke;stroke-linejoin:round;cursor:pointer;transition:fill .5s ease}
+  .m-zona{fill:#F3F4F3;stroke:#fff;stroke-width:.8;vector-effect:non-scaling-stroke}
+  .m-prov{fill:none;stroke:rgba(19,33,29,.38);stroke-width:1.2;vector-effect:non-scaling-stroke;stroke-linejoin:round;pointer-events:none}
+  .m-hover{fill:none;stroke:var(--texto);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;pointer-events:none}
+  .m-marcado{fill:none;stroke:var(--resalte);stroke-width:2.6;vector-effect:non-scaling-stroke;stroke-linejoin:round;pointer-events:none}
+  .m-marco{fill:#FAFBFA;stroke:var(--borde-2);stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:4 3}
+  .m-capa{position:absolute;inset:0;pointer-events:none}
+  .m-etq{position:absolute;font-size:11.5px;font-weight:500;color:var(--apagado);white-space:nowrap}
+  .m-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--texto-2),0 2px 6px rgba(0,0,0,.25);cursor:pointer;pointer-events:auto;transition:transform .15s}
+  .m-pin:hover,.m-pin.activo{transform:scale(1.4);z-index:2}
+  .m-pin-n{position:absolute;font-size:12px;font-weight:600;line-height:16px;color:var(--texto);white-space:nowrap;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 2px #fff}
+  .mapa-zoom{position:absolute;right:0;top:22px;display:flex;flex-direction:column;gap:4px}
+  .mapa-zoom button{width:30px;height:30px;border:1px solid var(--borde-2);background:rgba(255,255,255,.94);border-radius:6px;color:var(--verde);font-size:18px;line-height:1;cursor:pointer;padding:0}
+  .mapa-zoom button:hover{background:var(--verde-claro)}
+  .mapa-tip{position:absolute;z-index:6;min-width:170px;max-width:250px;background:#fff;border:1px solid var(--borde-2);border-radius:8px;box-shadow:0 10px 26px rgba(10,59,49,.18);padding:9px 11px;font-size:13px;line-height:1.35;pointer-events:none}
+  .mapa-tip b{display:block;font-size:14px;color:var(--texto)}
+  .mapa-tip .tv{font-size:17px;font-weight:600;color:var(--verde-osc);margin-top:2px}
+  .mapa-tip .tv small{font-size:12px;font-weight:500;color:var(--apagado)}
+  .mapa-tip .ts{color:var(--texto-2);font-size:12.5px}
+  .mapa-tip .ta{display:block;margin-top:6px;color:var(--verde);font-size:12.5px;font-weight:500}
+  .mapa-tip button{display:block;margin-top:8px;width:100%;border:0;border-radius:6px;background:var(--verde);color:#fff;font:inherit;font-size:13.5px;padding:8px;cursor:pointer}
+  .mapa-tip.tactil{pointer-events:auto}
+  .ley{margin-top:10px;max-width:420px}
+  .ley-t{font-size:12.5px;color:var(--texto-2);margin-bottom:5px}
+  .ley-barra{display:flex;height:10px;border-radius:5px;overflow:hidden}
+  .ley-barra span{flex:1}
+  .ley-num{position:relative;height:17px;margin-top:3px;font-size:11.5px;color:var(--apagado);font-variant-numeric:tabular-nums}
+  .ley-num span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+  .ley-num span:first-child{transform:none}
+  .ley-num span:last-child{transform:translateX(-100%)}
+  .ley-extra{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:12px;color:var(--apagado)}
+  .ley-extra i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+  .mapa-ayuda{margin:8px 0 0;font-size:12.5px;color:var(--texto-2)}
+  .mapa-fuente{margin:2px 0 0;font-size:11.5px;color:var(--apagado)}
+  td .quitar{border:0;background:var(--verde-claro);color:var(--verde-osc);width:20px;height:20px;border-radius:50%;cursor:pointer;margin-right:6px;font-size:14px;line-height:1;padding:0}
+  td .quitar:hover{background:var(--verde);color:#fff}
+  @media (max-width:900px){
+    .terr-cuerpo{grid-template-columns:minmax(0,1fr);gap:14px}
+    .terr-cuerpo > .terr-graf,.terr-cuerpo > .mapa{order:0} /* en celular el mapa va arriba */
+    .mapa{position:relative;top:auto}
+    .terr-cab .seg{min-width:0;width:100%}
+    .buscador{flex:1 1 180px}
+  }
+  @media (min-width:901px) and (max-width:1100px){
+    .mapa{top:12px} /* ahí los filtros ya no quedan fijos arriba */
+  }
+
   @media (max-width:1100px){
     .filtros{position:static}
     .c2,.c3,.c4,.c5{grid-column:span 6}
@@ -220,7 +301,7 @@
     <div class="intro-txt">
       <p class="eyebrow" id="intro-eyebrow">Datos abiertos · Fuente CEAD</p>
       <h1>Estadísticas delictuales de Chile</h1>
-      <p class="sub" id="intro-sub">Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y comparte los gráficos.</p>
+      <p class="sub" id="intro-sub">Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara comunas en el mapa y comparte los gráficos.</p>
       <p class="actualizado" id="actualizado">Cargando datos…</p>
     </div>
     <div class="modos" role="tablist" aria-label="Tipo de estadística">
@@ -305,22 +386,59 @@
   </article>
   </div>
 
-  <div class="grid2">
-    <article class="tarjeta">
-      <h2 id="t-del">¿Qué delitos?</h2>
-      <p class="bajada" id="b-del"></p>
-      <div class="lienzo alto"><canvas id="g-del" role="img" aria-label="Gráfico de delitos"></canvas></div>
-      <div class="pie-tarjeta"><span></span><div class="acciones"><button type="button" class="principal" data-compartir="del">Compartir</button><button type="button" data-imagen="del">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
-      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-del"></div></details>
-    </article>
-    <article class="tarjeta">
-      <h2 id="t-terr">Comparación territorial</h2>
-      <p class="bajada" id="b-terr"></p>
-      <div class="lienzo alto"><canvas id="g-terr" role="img" aria-label="Gráfico de comparación territorial"></canvas></div>
-      <div class="pie-tarjeta"><span id="n-terr"></span><div class="acciones"><button type="button" id="ver-todas" hidden>Ver todas</button><button type="button" class="principal" data-compartir="terr">Compartir</button><button type="button" data-imagen="terr">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
-      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-terr"></div></details>
-    </article>
-  </div>
+  <!-- Comparación territorial: mapa de calor (límites de la BCN) + ranking, y comparador de comunas -->
+  <article class="tarjeta terr" id="tarjeta-terr">
+    <div class="terr-cab">
+      <div>
+        <h2 id="t-terr">Comparación territorial</h2>
+        <p class="bajada" id="b-terr"></p>
+      </div>
+      <div class="seg" role="group" aria-label="Qué mostrar" id="f-vista" hidden>
+        <button type="button" data-v="rank">Ranking</button>
+        <button type="button" data-v="mis">Mis comunas</button>
+      </div>
+    </div>
+    <div class="comparar">
+      <span class="lbl" id="l-comparar">Comparar comunas</span>
+      <div class="chips" id="chips"></div>
+      <div class="buscador">
+        <input type="text" id="buscar-comuna" placeholder="+ Agregar comuna…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugerencias" aria-labelledby="l-comparar">
+        <ul class="sugerencias" id="sugerencias" role="listbox" aria-label="Comunas" hidden></ul>
+      </div>
+      <span class="comparar-ayuda" id="comparar-ayuda">de cualquier región, o elígelas en el mapa</span>
+      <button type="button" class="limpiar" id="limpiar-cmp" hidden>Quitar todas</button>
+    </div>
+    <div class="terr-cuerpo" id="terr-cuerpo">
+      <figure class="mapa" id="mapa" hidden>
+        <div class="mapa-tramos" id="mapa-tramos" aria-hidden="true"></div>
+        <div class="mapa-lienzo" id="mapa-lienzo"></div>
+        <div class="mapa-zoom" id="mapa-zoom">
+          <button type="button" data-zoom="mas" aria-label="Acercar el mapa">+</button>
+          <button type="button" data-zoom="menos" aria-label="Alejar el mapa">&minus;</button>
+          <button type="button" data-zoom="todo" id="mapa-todo" aria-label="Ver el mapa completo" hidden>&#8634;</button>
+        </div>
+        <div class="mapa-tip" id="mapa-tip" role="status" hidden></div>
+        <figcaption>
+          <div class="ley" id="leyenda"></div>
+          <p class="mapa-ayuda" id="mapa-ayuda"></p>
+          <p class="mapa-fuente">Límites: Biblioteca del Congreso Nacional de Chile. Mapa referencial.</p>
+        </figcaption>
+      </figure>
+      <div class="terr-graf">
+        <div class="lienzo alto"><canvas id="g-terr" role="img" aria-label="Gráfico de comparación territorial"></canvas></div>
+      </div>
+    </div>
+    <div class="pie-tarjeta"><span id="n-terr"></span><div class="acciones"><button type="button" id="ver-todas" hidden>Ver todas</button><button type="button" class="principal" data-compartir="terr">Compartir</button><button type="button" data-imagen="terr">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+    <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-terr"></div></details>
+  </article>
+
+  <article class="tarjeta">
+    <h2 id="t-del">¿Qué delitos?</h2>
+    <p class="bajada" id="b-del"></p>
+    <div class="lienzo alto"><canvas id="g-del" role="img" aria-label="Gráfico de delitos"></canvas></div>
+    <div class="pie-tarjeta"><span></span><div class="acciones"><button type="button" class="principal" data-compartir="del">Compartir</button><button type="button" data-imagen="del">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+    <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-del"></div></details>
+  </article>
 
   <section class="notas" id="metodologia">
     <h2>Cómo leer estos datos</h2>
@@ -331,6 +449,7 @@
       <dt>Aprehendidos</dt><dd>Personas aprehendidas (cuenta personas, no casos).</dd>
       <dt>Tasa por 100 mil hab.</dt><dd>Casos divididos por la población del territorio, multiplicado por 100.000. Usa la misma población que publica el CEAD para cada año. La tasa anual del período considera los meses incluidos, así un año incompleto no se ve artificialmente bajo.</dd>
       <dt>Casos sin comuna</dt><dd>El total de Chile incluye casos que el CEAD no asigna a ninguna comuna (entre 0,05% y 2% según el año). Por eso la suma de las regiones puede ser levemente menor que el total nacional.</dd>
+      <dt>Mapas</dt><dd>Límites comunales de los mapas vectoriales de la <a href="https://www.bcn.cl/siit/mapas_vectoriales" target="_blank" rel="noopener">Biblioteca del Congreso Nacional de Chile</a>, simplificados para que carguen rápido. Las provincias y regiones se forman uniendo sus comunas, por eso los límites calzan exactos. El color agrupa los territorios en hasta cinco tramos con cantidades parecidas de territorios (quintiles): más oscuro, más casos (o mayor tasa, si eliges la tasa). Isla de Pascua y Juan Fernández (islas Robinson Crusoe y Santa Clara) van en recuadros; la comuna Antártica no se dibuja. Mapa referencial, con fines estadísticos: los límites y fronteras que muestra no comprometen en modo alguno al Estado de Chile (art. 2° letra g del DFL N° 83 de 1979, del Ministerio de Relaciones Exteriores).</dd>
       <dt>Período y actualización</dt><dd id="nota-periodo">–</dd>
       <dt>Fuente</dt><dd>Centro de Estudios y Análisis del Delito (CEAD), Subsecretaría de Prevención del Delito, <a href="https://cead.minsegpublica.gob.cl/estadisticas-delictuales/" target="_blank" rel="noopener">cead.minsegpublica.gob.cl</a>. Vértice Legal recopila y ordena estas cifras públicas; no las modifica. El CEAD puede corregir cifras en publicaciones posteriores.</dd>
     </dl>
@@ -454,7 +573,8 @@
 
   let META, PAIS, ANUAL = null, N, A0, ANIOS;
   const REG = {};
-  const S = { r: 0, p: 0, c: 0, f: 0, g: 0, s: 0, tipo: 'cp', medida: 'frec', desde: 0, hasta: 0, agrupar: 'mes' };
+  // cmp: comunas elegidas para comparar; vt: qué muestra la comparación ('rank' = ranking del territorio, 'mis' = las elegidas)
+  const S = { r: 0, p: 0, c: 0, f: 0, g: 0, s: 0, tipo: 'cp', medida: 'frec', desde: 0, hasta: 0, agrupar: 'mes', cmp: [], vt: 'rank' };
   const IDX = {};
   let verTodas = false;
 
@@ -673,17 +793,21 @@
   function grafBarras(prev, canvas, filas, resaltar, o = {}) {
     const fmtB = o.fmt || fmt, unidadB = o.unidad || unidadMedida();
     const angosto = canvas.parentNode.clientWidth < 520;
-    const alto = Math.max(160, filas.length * (angosto ? 38 : 26) + 40);
+    let alto = Math.max(160, filas.length * (angosto ? 38 : 26) + 40);
+    // junto al mapa, el gráfico se estira hasta su altura (filas de 44 px como máximo)
+    if (o.altoMin) alto = Math.max(alto, Math.min(o.altoMin, filas.length * 44 + 40));
     canvas.parentNode.style.height = alto + 'px';
     const max = Math.max(...filas.map((f) => f.v), 1);
     const data = {
       labels: filas.map((f) => f.n),
       datasets: [{ data: filas.map((f) => f.v), backgroundColor: filas.map((f) => (resaltar(f) ? css('--resalte') : css('--serie'))),
+        hoverBackgroundColor: filas.map((f) => (resaltar(f) ? css('--cafe') : css('--verde-osc'))),
         borderRadius: 4, borderSkipped: 'start', barThickness: 16 }]
     };
     const opciones = {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
       layout: { padding: { right: 70 } },
+      onHover: o.onHover ? (e, els) => o.onHover(els.length ? filas[els[0].index] : null) : undefined,
       plugins: { legend: { display: false }, etiquetasBarra: { fmt: fmtB }, tooltip: { displayColors: false, callbacks: { label: (it) => fmtB(it.raw) + ' ' + unidadB } } },
       scales: {
         x: { beginAtZero: true, suggestedMax: max * 1.02, grid: { color: css('--grilla') }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: (v) => nf0.format(v) } },
@@ -691,10 +815,417 @@
       }
     };
     if (angosto) opciones.layout.padding.right = 62;
-    if (prev) { prev.data = data; prev.options = opciones; prev.update(); return prev; }
+    if (prev) { prev.data = data; prev.options = opciones; prev.$filas = filas; prev.update(); return prev; }
     const g = new Chart(canvas, { type: 'bar', data, options: Object.assign({}, opciones, { animation: animacionBarras() }), plugins: [etiquetasBarra] });
     g.options.animation = false;
+    g.$filas = filas;
     return g;
+  }
+
+  // ======================= MAPA DE CALOR (límites de la BCN, ver mapas_bcn.py) =======================
+  // Rampa secuencial de un solo tono (claro = menos, oscuro = más); gris = fuera de la selección
+  const RAMPA = ['#E0EEE7', '#AAD0BF', '#6CAA92', '#2D7B63', '#0E4D40'];
+  const FUERA = '#E9EDEB';
+  const NS = 'http://www.w3.org/2000/svg';
+  const MAPAS = {};
+  const archivoMapa = (n) => (MAPAS[n] = MAPAS[n] || fetch('mapas/' + n + '.json').then((r) => { if (!r.ok) throw new Error(n + ' ' + r.status); return r.json(); }));
+  const MP = { nombre: '', d: null, svg: null, unid: new Map(), base: [0, 0, 1, 1], vb: [0, 0, 1, 1], etqs: [], pines: [], cfg: null, hover: null, toque: false, anim: 0 };
+  function nodo(tag, at, padre) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in at) e.setAttribute(k, at[k]);
+    if (padre) padre.appendChild(e);
+    return e;
+  }
+  const ladoALado = () => innerWidth > 900;
+
+  function construirMapa(nombre, d) {
+    const cont = $('mapa-lienzo');
+    cont.textContent = '';
+    Object.assign(MP, { nombre, d, unid: new Map(), etqs: [], pines: [], hover: null, base: [0, 0, d.w, d.h], vb: [0, 0, d.w, d.h], nuevo: true });
+    const svg = nodo('svg', { viewBox: MP.base.join(' '), 'aria-hidden': 'true', focusable: 'false' }, cont);
+    (d.marcos || []).forEach((m) => {
+      nodo('rect', { x: m.x, y: m.y, width: m.w, height: m.h, rx: d.w * 0.006, class: 'm-marco' }, svg);
+      MP.etqs.push({ x: m.x + d.w * 0.012, y: m.y + d.w * 0.008, t: m.t });
+    });
+    if (d.zona) nodo('title', {}, nodo('path', { d: d.zona, class: 'm-zona' }, svg)).textContent = 'Zona sin demarcar';
+    const g = nodo('g', {}, svg);
+    for (const u of d.u) {
+      const p = nodo('path', { d: u.d, class: 'm-u', 'fill-rule': 'evenodd', 'data-c': u.c }, g);
+      p.style.fill = FUERA;
+      MP.unid.set(u.c, { p, u });
+    }
+    if (d.prov) nodo('path', { d: d.prov, class: 'm-prov' }, svg);
+    MP.gSel = nodo('g', {}, svg);
+    MP.hoverP = nodo('path', { class: 'm-hover', d: '' }, svg);
+    MP.svg = svg;
+    // títulos de recuadros y marcadores van en HTML sobre el SVG (texto nítido a cualquier tamaño)
+    const capa = document.createElement('div');
+    capa.className = 'm-capa';
+    cont.appendChild(capa);
+    MP.capa = capa;
+    MP.etqs.forEach((e) => { const s = document.createElement('span'); s.className = 'm-etq'; s.textContent = e.t; capa.appendChild(s); e.el = s; });
+    const tr = $('mapa-tramos');
+    tr.hidden = !d.tramos;
+    tr.innerHTML = (d.tramos || []).map((t) => '<span style="left:' + (t.x / d.w * 100).toFixed(2) + '%">' + t.t + '</span>').join('');
+  }
+
+  // quintiles de los valores visibles (menos tramos si hay pocos territorios)
+  function clases(vals) {
+    const v = vals.filter((x) => !isNaN(x)).sort((a, b) => a - b);
+    if (!v.length) return { k: 0, cortes: [], colores: [] };
+    const k0 = Math.min(5, new Set(v).size);
+    const cortes = [];
+    for (let i = 1; i < k0; i++) { const c = v[Math.floor(i * v.length / k0)]; if (c > v[0] && !cortes.includes(c)) cortes.push(c); }
+    const k = cortes.length + 1;
+    const idx = { 1: [3], 2: [1, 4], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4] }[k];
+    return { k, cortes, colores: idx.map((i) => RAMPA[i]), min: v[0], max: v[v.length - 1], n: v.length };
+  }
+  const claseDe = (C, x) => { let i = 0; while (i < C.cortes.length && x >= C.cortes[i]) i++; return i; };
+
+  function leyendaMapa(C, cfg) {
+    const L = $('leyenda');
+    if (!C.k) { L.innerHTML = ''; return; }
+    const f = (v) => (S.medida === 'tasa' && v < 100 ? nf1.format(v) : nf0.format(v));
+    const nums = [C.min].concat(C.cortes, [C.max]);
+    let h = '<div class="ley-t">' + (S.medida === 'tasa' ? 'Tasa anual por 100 mil hab.' : 'Cantidad de ' + TIPO[S.tipo].u) + (cfg.pines ? ' (color de cada punto)' : '') + '</div>' +
+      '<div class="ley-barra">' + C.colores.map((c) => '<span style="background:' + c + '"></span>').join('') + '</div>' +
+      '<div class="ley-num">' + (C.k === 1 ? '<span>' + f(C.min) + '</span>'
+        // con pocos territorios los cortes no aportan: solo la menor y la mayor cifra
+        : C.n <= 6 ? '<span style="left:0">' + f(C.min) + '</span><span style="left:100%">' + f(C.max) + '</span>'
+          : nums.map((v, i) => '<span style="left:' + (i / C.k * 100) + '%">' + f(v) + '</span>').join('')) + '</div>';
+    const extra = [];
+    if (cfg.fueraTxt) extra.push('<span><i style="background:' + FUERA + '"></i>' + cfg.fueraTxt + '</span>');
+    if (cfg.marcados.size) extra.push('<span><i style="box-shadow:inset 0 0 0 2px ' + css('--resalte') + '"></i>' + cfg.marcadoTxt + '</span>');
+    L.innerHTML = h + (extra.length ? '<div class="ley-extra">' + extra.join('') + '</div>' : '');
+    ajustarLeyenda();
+  }
+  // en pantallas angostas, oculta las cifras intermedias que se pisan (la mínima y la máxima siempre quedan)
+  function ajustarLeyenda() {
+    const sp = [...$('leyenda').querySelectorAll('.ley-num span')];
+    sp.forEach((s) => { s.style.visibility = ''; });
+    let previo = sp[0];
+    for (let i = 1; i < sp.length; i++) {
+      const a = previo.getBoundingClientRect(), b = sp[i].getBoundingClientRect();
+      if (b.left < a.right + 6) {
+        if (i === sp.length - 1) { if (previo !== sp[0]) previo.style.visibility = 'hidden'; }
+        else { sp[i].style.visibility = 'hidden'; continue; }
+      }
+      previo = sp[i];
+    }
+  }
+  const TACTIL = !!(window.matchMedia && matchMedia('(hover: none)').matches);
+  const clicTxt = (s) => (TACTIL ? s.replace(/^Haz clic en/, 'Toca').replace(/^Clic para/, 'Toca para').replace(/Haz clic para/, 'Toca para').replace(/haz clic en/g, 'toca') : s);
+
+  async function mapaTerritorial(cfg, vigente) {
+    let d;
+    try { d = await archivoMapa(cfg.archivo); }
+    catch (e) { console.error(e); $('mapa').hidden = true; $('terr-cuerpo').classList.add('sin-mapa'); return; }
+    if (!vigente()) return;
+    $('mapa').hidden = false;
+    $('terr-cuerpo').classList.remove('sin-mapa');
+    if (MP.nombre !== cfg.archivo) construirMapa(cfg.archivo, d);
+    MP.cfg = cfg;
+    ocultarTip();
+    marcarHover(null);
+    const enFoco = (c) => !cfg.foco || cfg.foco.has(c);
+    const vals = [];
+    cfg.valores.forEach((x, c) => { if (enFoco(c) && !isNaN(x.v)) vals.push(x.v); });
+    const C = clases(vals);
+    const nuevo = MP.nuevo;
+    MP.unid.forEach(({ p }, c) => {
+      const x = cfg.valores.get(c);
+      const dentro = !cfg.pines && enFoco(c) && x && !isNaN(x.v);
+      const k = dentro ? claseDe(C, x.v) : 0;
+      // la primera vez el calor "sube": los tramos más oscuros se pintan al final
+      p.style.transitionDelay = nuevo && ANIMAR ? (k * 90) + 'ms' : '0ms';
+      const color = dentro ? C.colores[k] : cfg.pines ? '#CFD9D5' : FUERA; // con marcadores, Chile va de fondo
+      p.dataset.color = color; // (la imagen para compartir usa el color final, aunque la transición no haya terminado)
+      if (nuevo && ANIMAR) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.fill = color; }));
+      else p.style.fill = color;
+    });
+    MP.gSel.textContent = '';
+    cfg.marcados.forEach((c) => { const it = MP.unid.get(c); if (it) nodo('path', { d: it.p.getAttribute('d'), class: 'm-marcado' }, MP.gSel); });
+    MP.pines.forEach((p) => { p.el.remove(); p.et.remove(); });
+    MP.pines = [];
+    if (cfg.pines) {
+      cfg.valores.forEach((x, c) => {
+        const pt = d.centros && d.centros[c];
+        if (!pt) return;
+        const s = document.createElement('span');
+        s.className = 'm-pin';
+        s.dataset.c = c;
+        s.style.background = isNaN(x.v) ? FUERA : C.colores[claseDe(C, x.v)];
+        const n = document.createElement('span');
+        n.className = 'm-pin-n';
+        n.textContent = x.n;
+        MP.capa.appendChild(n);
+        MP.capa.appendChild(s);
+        MP.pines.push({ c, x: pt[0], y: pt[1], el: s, et: n });
+      });
+    }
+    leyendaMapa(C, cfg);
+    $('mapa-ayuda').textContent = clicTxt(cfg.ayuda);
+    dimensionarMapa();
+    const destino = cfg.zoomA && cfg.zoomA.size ? cajaDe(cfg.zoomA, cfg.pines) : MP.base;
+    if (nuevo) { MP.vb = destino.slice(); aplicarVB(); MP.nuevo = false; }
+    else acercar(destino);
+  }
+
+  // Encuadre que muestra todos los territorios indicados (con margen y sin acercarse de más)
+  function cajaDe(codigos, pines) {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    codigos.forEach((c) => {
+      let b;
+      if (pines) { const p = MP.d.centros && MP.d.centros[c]; if (!p) return; b = { x: p[0], y: p[1], width: 0, height: 0 }; }
+      else { const it = MP.unid.get(c); if (!it) return; b = it.p.getBBox(); }
+      x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height);
+    });
+    if (!isFinite(x0)) return MP.base.slice();
+    const W = MP.base[2], H = MP.base[3], asp = W / H, min = pines ? 0.14 : 0.28;
+    let w = Math.max(x1 - x0, W * min) * 1.18, h = Math.max(y1 - y0, H * min) * 1.18;
+    if (w / h > asp) h = w / asp; else w = h * asp;
+    if (w >= W * 0.92 || h >= H * 0.92) return MP.base.slice();
+    return limitarVB([(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h]);
+  }
+  function limitarVB(vb) {
+    const [x, y, w, h] = vb, W = MP.base[2], H = MP.base[3];
+    return [Math.min(Math.max(x, 0), Math.max(0, W - w)), Math.min(Math.max(y, 0), Math.max(0, H - h)), w, h];
+  }
+  const acercado = () => MP.vb[2] < MP.base[2] - 0.5;
+  function aplicarVB() {
+    if (!MP.svg) return;
+    MP.svg.setAttribute('viewBox', MP.vb.map((v) => v.toFixed(2)).join(' '));
+    const [x, y, w, h] = MP.vb;
+    const pos = (el, px, py) => { el.style.left = ((px - x) / w * 100) + '%'; el.style.top = ((py - y) / h * 100) + '%'; };
+    MP.etqs.forEach((e) => pos(e.el, e.x, e.y));
+    MP.pines.forEach((p) => pos(p.el, p.x, p.y));
+    nombresPines();
+    const z = acercado();
+    $('mapa-tramos').style.visibility = z ? 'hidden' : '';
+    $('mapa-todo').hidden = !z;
+    $('mapa-lienzo').classList.toggle('acercado', z);
+  }
+  // nombre junto a cada punto, probando a la derecha, izquierda, abajo y arriba para no pisarse
+  function nombresPines() {
+    if (!MP.pines.length) return;
+    const cont = $('mapa-lienzo'), cw = cont.clientWidth, ch = cont.clientHeight, [x, y, w, h] = MP.vb;
+    const puestos = MP.pines.map((p) => { const px = (p.x - x) / w * cw, py = (p.y - y) / h * ch; return { x0: px - 8, y0: py - 8, x1: px + 8, y1: py + 8 }; });
+    const z = $('mapa-zoom').getBoundingClientRect(), r = cont.getBoundingClientRect();
+    puestos.push({ x0: z.left - r.left - 4, y0: z.top - r.top - 4, x1: z.right - r.left + 4, y1: z.bottom - r.top + 4 }); // botones de zoom
+    const choca = (b) => puestos.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
+    MP.pines.slice().sort((a, b) => a.y - b.y).forEach((p) => {
+      const px = (p.x - x) / w * cw, py = (p.y - y) / h * ch, an = p.et.offsetWidth || p.et.textContent.length * 7, al = 16;
+      const opciones = [[px + 11, py - al / 2], [px - 11 - an, py - al / 2], [px - an / 2, py + 10], [px - an / 2, py - 10 - al]];
+      let elegida = opciones.find(([lx, ly]) => lx >= 0 && lx + an <= cw && ly >= 0 && ly + al <= ch && !choca({ x0: lx, y0: ly, x1: lx + an, y1: ly + al }));
+      p.et.hidden = !elegida;
+      if (!elegida) return;
+      p.et.style.left = elegida[0] + 'px';
+      p.et.style.top = elegida[1] + 'px';
+      puestos.push({ x0: elegida[0], y0: elegida[1], x1: elegida[0] + an, y1: elegida[1] + al });
+    });
+  }
+  function acercar(vb) {
+    cancelAnimationFrame(MP.anim);
+    const de = MP.vb.slice(), a = vb.slice();
+    if (!ANIMAR || de.every((v, i) => Math.abs(v - a[i]) < 0.5)) { MP.vb = a; aplicarVB(); return; }
+    let t0 = null;
+    const paso = (t) => {
+      if (t0 === null) t0 = t;
+      const p = Math.min(1, (t - t0) / 650), e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      MP.vb = de.map((v, i) => v + (a[i] - v) * e);
+      aplicarVB();
+      if (p < 1) MP.anim = requestAnimationFrame(paso);
+    };
+    MP.anim = requestAnimationFrame(paso);
+  }
+  function zoomBoton(z) {
+    if (z === 'todo') { acercar(MP.base); return; }
+    const f = z === 'mas' ? 1 / 1.7 : 1.7, [x, y, w, h] = MP.vb;
+    const nw = Math.min(MP.base[2], w * f), nh = Math.min(MP.base[3], h * f);
+    if (nw < MP.base[2] / 14) return; // límite de acercamiento
+    acercar(limitarVB([x + (w - nw) / 2, y + (h - nh) / 2, nw, nh]));
+  }
+  function dimensionarMapa() {
+    if (!MP.d || $('mapa').hidden) return;
+    const cont = $('mapa-lienzo'), fig = $('mapa'), ancho = fig.clientWidth || 300;
+    let maxAlto;
+    if (ladoALado()) {
+      // que la tarjeta completa (título, comparador, mapa y leyenda) quepa en la pantalla, bajo los filtros fijos
+      const filtros = $('filtros-personas');
+      const fijos = getComputedStyle(filtros).position === 'sticky' ? filtros.offsetHeight : 0;
+      const cab = $('terr-cuerpo').getBoundingClientRect().top - $('tarjeta-terr').getBoundingClientRect().top;
+      const pie = fig.querySelector('figcaption').offsetHeight + $('mapa-tramos').offsetHeight;
+      maxAlto = Math.max(280, Math.min(600, innerHeight - fijos - cab - pie - 30));
+      fig.style.top = (fijos + 10) + 'px';
+    } else { maxAlto = Math.min(innerHeight * 0.62, 520); fig.style.top = ''; }
+    const asp = MP.base[2] / MP.base[3];
+    let w = ancho, h = w / asp;
+    if (h > maxAlto) { h = maxAlto; w = h * asp; }
+    cont.style.width = Math.round(w) + 'px';
+    cont.style.height = Math.round(h) + 'px';
+  }
+
+  // ---- tooltip y enlace con el gráfico
+  const nombreMapa = (c) => (IDX.com.has(c) ? IDX.com.get(c).n : IDX.reg.has(c) ? regionCorta(IDX.reg.get(c).n) : '');
+  function infoMapa(c) {
+    const cfg = MP.cfg;
+    if (!cfg || (cfg.pines && !cfg.valores.has(c))) return null; // con marcadores, las regiones son solo fondo
+    const x = cfg.valores.get(c);
+    let h = '<b>' + nombreMapa(c) + '</b>';
+    if (x && (cfg.pines || !cfg.foco || cfg.foco.has(c))) {
+      h += '<div class="tv">' + (isNaN(x.v) ? 's/d' : fmt(x.v)) + ' <small>' + unidadMedida() + '</small></div>';
+      h += '<div class="ts">' + (S.medida === 'tasa' ? nf0.format(x.frec) + ' ' + TIPO[S.tipo].u : isNaN(x.tasa) ? '' : 'Tasa anual: ' + nf1.format(x.tasa) + ' por 100 mil hab.') + '</div>';
+      if (!isNaN(x.v)) h += '<div class="ts">Lugar ' + x.rank + ' de ' + cfg.total + '</div>';
+    } else if (cfg.fueraTip) h += '<div class="ts">' + cfg.fueraTip + '</div>';
+    return { html: h, accion: cfg.accion ? cfg.accion(c) : '', ayuda: cfg.ayudaTip ? cfg.ayudaTip(c) : '' };
+  }
+  function ocultarTip() { $('mapa-tip').hidden = true; }
+  function marcarHover(c) {
+    if (MP.hover === c) return;
+    MP.hover = c;
+    const it = c != null && !(MP.cfg && MP.cfg.pines) && MP.unid.get(c);
+    MP.hoverP.setAttribute('d', it ? it.p.getAttribute('d') : '');
+    MP.pines.forEach((p) => p.el.classList.toggle('activo', p.c === c));
+  }
+  function mapaHover(c, e, tactil) {
+    const info = c != null ? infoMapa(c) : null;
+    marcarHover(info ? c : null);
+    activarBarra(info ? c : null);
+    const tip = $('mapa-tip');
+    if (!info || !e) { tip.hidden = true; return; }
+    tip.innerHTML = info.html + (tactil ? (info.accion ? '<button type="button" data-c="' + c + '">' + info.accion + '</button>' : '') : (info.ayuda ? '<span class="ta">' + info.ayuda + '</span>' : ''));
+    tip.classList.toggle('tactil', !!tactil);
+    tip.hidden = false;
+    const fig = $('mapa').getBoundingClientRect();
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = e.clientX - fig.left + 14, y = e.clientY - fig.top + 14;
+    if (x + tw > fig.width) x = e.clientX - fig.left - tw - 14;
+    if (y + th > fig.height) y = e.clientY - fig.top - th - 14;
+    tip.style.left = Math.max(0, x) + 'px';
+    tip.style.top = Math.max(0, y) + 'px';
+  }
+  function activarBarra(c) {
+    if (!gTerr || !gTerr.$filas) return;
+    const i = c == null ? -1 : gTerr.$filas.findIndex((f) => f.c === c);
+    const act = i >= 0 ? [{ datasetIndex: 0, index: i }] : [];
+    if (!act.length && !gTerr.getActiveElements().length) return;
+    gTerr.setActiveElements(act);
+    gTerr.tooltip.setActiveElements(act, { x: 0, y: 0 });
+    gTerr.update();
+  }
+  function accionMapa(c) { const cfg = MP.cfg; if (cfg && cfg.clic) cfg.clic(c); }
+
+  function enlazarMapa() {
+    const cont = $('mapa-lienzo');
+    let arrastre = null, movido = false;
+    cont.addEventListener('pointerdown', (e) => {
+      MP.toque = e.pointerType !== 'mouse';
+      movido = false;
+      arrastre = acercado() ? { x: e.clientX, y: e.clientY, vb: MP.vb.slice(), id: e.pointerId } : null;
+    });
+    cont.addEventListener('pointermove', (e) => {
+      if (arrastre && e.pointerId === arrastre.id && (e.pointerType !== 'mouse' || e.buttons)) {
+        const dx = e.clientX - arrastre.x, dy = e.clientY - arrastre.y;
+        if (!movido && Math.hypot(dx, dy) < 5) return;
+        if (!movido) { movido = true; cont.setPointerCapture(e.pointerId); cont.classList.add('arrastrando'); ocultarTip(); }
+        const k = arrastre.vb[2] / cont.clientWidth;
+        cancelAnimationFrame(MP.anim);
+        MP.vb = limitarVB([arrastre.vb[0] - dx * k, arrastre.vb[1] - dy * k, arrastre.vb[2], arrastre.vb[3]]);
+        aplicarVB();
+        return;
+      }
+      if (e.pointerType !== 'mouse') return;
+      const t = e.target.closest('[data-c]');
+      mapaHover(t ? +t.dataset.c : null, e);
+    });
+    const soltar = () => { arrastre = null; cont.classList.remove('arrastrando'); };
+    cont.addEventListener('pointerup', soltar);
+    cont.addEventListener('pointercancel', soltar);
+    cont.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !arrastre) mapaHover(null); });
+    cont.addEventListener('click', (e) => {
+      if (movido) { movido = false; return; }
+      const t = e.target.closest('[data-c]');
+      if (!t) { mapaHover(null); return; }
+      const c = +t.dataset.c;
+      if (MP.toque) mapaHover(c, e, true); // en pantallas táctiles: primero la cifra, la acción va en un botón
+      else accionMapa(c);
+    });
+    $('mapa-tip').addEventListener('click', (e) => { const b = e.target.closest('button[data-c]'); if (b) { ocultarTip(); accionMapa(+b.dataset.c); } });
+    $('mapa-zoom').addEventListener('click', (e) => { const b = e.target.closest('button[data-zoom]'); if (b) zoomBoton(b.dataset.zoom); });
+    let ancho = innerWidth;
+    window.addEventListener('resize', () => { dimensionarMapa(); aplicarVB(); ajustarLeyenda(); if (Math.abs(innerWidth - ancho) > 60) { ancho = innerWidth; renderSoloTerritorial(); } });
+  }
+
+  // ======================= COMPARADOR DE COMUNAS =======================
+  const MAX_CMP = 12;
+  let recienAgregada = 0;
+  function pintarChips() {
+    $('chips').innerHTML = S.cmp.map((c) => { const n = IDX.com.get(c).n; return '<button type="button" class="chip' + (c === recienAgregada ? ' nueva' : '') + '" data-quitar="' + c + '" title="Quitar ' + n + '" aria-label="Quitar ' + n + ' de la comparación">' + n + '<span class="x" aria-hidden="true">×</span></button>'; }).join('');
+    recienAgregada = 0;
+    $('limpiar-cmp').hidden = S.cmp.length < 2;
+    $('comparar-ayuda').hidden = S.cmp.length > 0;
+    $('f-vista').hidden = !S.cmp.length;
+    $('f-vista').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === S.vt)));
+    $('f-vista').querySelector('[data-v="mis"]').textContent = 'Mis comunas (' + S.cmp.length + ')';
+    const lleno = S.cmp.length >= MAX_CMP, inp = $('buscar-comuna');
+    inp.disabled = lleno;
+    inp.placeholder = lleno ? 'Máximo ' + MAX_CMP + ' comunas' : S.cmp.length ? '+ Agregar otra comuna…' : '+ Agregar comuna…';
+  }
+  function cambiarCmp(c) {
+    const i = S.cmp.indexOf(c);
+    if (i >= 0) S.cmp.splice(i, 1);
+    else if (S.cmp.length < MAX_CMP && IDX.com.has(c)) { S.cmp.push(c); S.vt = 'mis'; recienAgregada = c; }
+    if (!S.cmp.length) S.vt = 'rank';
+    pintarChips();
+    renderSoloTerritorial();
+  }
+  function renderSoloTerritorial() {
+    if (!personasListo) return;
+    const [k0, k1] = rango();
+    renderTerritorial(pedido, unidad(), subsSel(), k0, k1).then(escribirHash).catch(error);
+  }
+  function enlazarComparador() {
+    const inp = $('buscar-comuna'), lista = $('sugerencias');
+    const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, '');
+    const TODAS = META.comunas.map((c) => ({ c: c.c, n: c.n, k: norm(c.n), r: c.r, reg: regionCorta(IDX.reg.get(c.r).n) }));
+    let opciones = [], activa = -1;
+    function marcar() {
+      lista.querySelectorAll('li[data-c]').forEach((li, i) => li.setAttribute('aria-selected', String(i === activa)));
+      inp.setAttribute('aria-activedescendant', activa >= 0 ? 'sug-' + activa : '');
+      const li = lista.querySelector('[aria-selected="true"]');
+      if (li) li.scrollIntoView({ block: 'nearest' });
+    }
+    function cerrar() { lista.hidden = true; inp.setAttribute('aria-expanded', 'false'); opciones = []; activa = -1; }
+    function mostrar() {
+      const q = norm(inp.value.trim());
+      let res = !q ? (S.r ? TODAS.filter((x) => x.r === S.r) : [])
+        : TODAS.filter((x) => x.k.includes(q)).sort((a, b) => (b.k.startsWith(q) - a.k.startsWith(q)) || a.k.localeCompare(b.k));
+      res = res.filter((x) => !S.cmp.includes(x.c)).slice(0, 9);
+      if (!q && !res.length) { cerrar(); return; }
+      opciones = res; activa = res.length ? 0 : -1;
+      lista.innerHTML = res.length ? res.map((x, i) => '<li role="option" id="sug-' + i + '" data-c="' + x.c + '">' + x.n + ' <small>' + x.reg + '</small></li>').join('')
+        : '<li class="vacio">No hay comunas con ese nombre</li>';
+      lista.hidden = false;
+      inp.setAttribute('aria-expanded', 'true');
+      marcar();
+    }
+    function elegir(c) { inp.value = ''; if (!S.cmp.includes(c)) cambiarCmp(c); if (S.cmp.length < MAX_CMP) mostrar(); else cerrar(); }
+    inp.addEventListener('input', mostrar);
+    inp.addEventListener('focus', mostrar);
+    inp.addEventListener('blur', () => setTimeout(cerrar, 150));
+    inp.addEventListener('keydown', (e) => {
+      if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && opciones.length) {
+        e.preventDefault();
+        activa = (activa + (e.key === 'ArrowDown' ? 1 : -1) + opciones.length) % opciones.length;
+        marcar();
+      } else if (e.key === 'Enter' && activa >= 0) { e.preventDefault(); elegir(opciones[activa].c); }
+      else if (e.key === 'Escape') { cerrar(); }
+    });
+    lista.addEventListener('mousedown', (e) => { const li = e.target.closest('li[data-c]'); if (li) { e.preventDefault(); elegir(+li.dataset.c); } });
+    // quitar: desde las fichas o desde la tabla
+    document.addEventListener('click', (e) => { const b = e.target.closest('[data-quitar]'); if (b) cambiarCmp(+b.dataset.quitar); });
+    $('limpiar-cmp').onclick = () => { S.cmp = []; S.vt = 'rank'; pintarChips(); renderSoloTerritorial(); };
+    $('f-vista').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; S.vt = b.dataset.v; pintarChips(); renderSoloTerritorial(); });
   }
 
   // ---------- tablas y CSV
@@ -754,6 +1285,17 @@
     }
     const T = ultimo.terr;
     const sel = T.unidades.find((x) => x.c === S.c);
+    if (T.mis) {
+      const nombres = T.unidades.map((x) => x.n);
+      const lista = nombres.length > 4 ? nombres.slice(0, 4).join(', ') + ' y ' + (nombres.length - 4) + ' más' : nombres.slice(0, -1).join(', ') + (nombres.length > 1 ? ' y ' : '') + nombres[nombres.length - 1];
+      return Object.assign(base, {
+        titulo: 'Comparación de comunas: ' + minus(sujeto) + ', ' + per,
+        subtitulo: enTipo + (S.medida === 'tasa' ? 'Tasa anual por 100 mil habitantes' : 'Cantidad'),
+        destacado: '', nota: S.medida === 'tasa' ? 'En comunas con poca población la tasa varía mucho de un año a otro.' : '',
+        compartir: cap(minus(sujeto)) + ' en ' + lista + ', ' + per + ', según datos del CEAD.',
+        archivo: 'comparacion ' + nombres.slice(0, 4).join(' ') + ' ' + per
+      });
+    }
     return Object.assign(base, {
       titulo: T.titulo + ' con más ' + minus(sujeto) + ', ' + per,
       subtitulo: enTipo + (S.medida === 'tasa' ? 'Tasa anual por 100 mil habitantes' : 'Cantidad'),
@@ -765,9 +1307,9 @@
   }
 
   // Dibuja el gráfico en un lienzo aparte, con letra grande para redes sociales
-  function graficoParaImagen(cual, ancho, alto) {
+  function graficoParaImagen(cual, ancho, alto, compacto) {
     const cv = document.createElement('canvas'); cv.width = ancho; cv.height = alto;
-    const ejes = { color: css('--texto-2'), font: { size: 26, family: SANS } };
+    const ejes = { color: css('--texto-2'), font: { size: compacto ? 21 : 26, family: SANS } };
     if (cual.startsWith('e-')) return graficoEspec(espec[cual], cv, ancho, alto, ejes);
     // rótulo del último valor al final de la línea (el dato que más se comenta)
     const ultimoValor = {
@@ -826,8 +1368,8 @@
         type: 'bar',
         data: { labels: filas.map((f) => f.n), datasets: [{ data: filas.map((f) => f.v), barThickness: grosor, borderRadius: 6, borderSkipped: 'start',
           backgroundColor: filas.map((f) => (resaltar(f) ? css('--resalte') : css('--serie'))) }] },
-        options: { indexAxis: 'y', layout: { padding: { right: 150 } },
-          plugins: { legend: { display: false }, tooltip: { enabled: false }, etiquetasBarra: { tam: pocas ? 32 : 24 } },
+        options: { indexAxis: 'y', layout: { padding: { right: compacto ? 118 : 150 } },
+          plugins: { legend: { display: false }, tooltip: { enabled: false }, etiquetasBarra: { tam: pocas ? (compacto ? 26 : 32) : (compacto ? 20 : 24) } },
           scales: { x: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 4, callback: (v) => nf0.format(v) }, ejes) },
                     y: { grid: { display: false }, border: { color: css('--borde') }, ticks: Object.assign({ autoSkip: false, callback(v) { return partir(this.getLabelForValue(v)); } }, ejes) } } }
       };
@@ -924,11 +1466,20 @@
     envolver(ctx, info.subtitulo, W - 2 * M).slice(0, 2).forEach((l) => { ctx.fillText(l, M, y); y += 38; });
     if (info.destacado) { y += 12; ctx.fillStyle = '#0E4D40'; textoAjustado(ctx, info.destacado, M, y, W - 2 * M, '600', 30, SANS); y += 10; }
     y += 30;
-    // Gráfico
+    // Gráfico (la comparación territorial va con su mapa de calor a la izquierda)
     const PIE = 132, nota = info.nota ? 44 : 0;
     const altoG = H - PIE - nota - y - 18;
-    const g = graficoParaImagen(cual, W - 2 * M + 28, altoG);
-    ctx.drawImage(g, M - 14, y + Math.round((altoG - g.height) / 2));
+    const conMapa = cual === 'terr' && MP.d && !$('mapa').hidden;
+    if (conMapa) {
+      const anchoMapa = 380, sep = 44;
+      const g = graficoParaImagen(cual, W - 2 * M + 28 - anchoMapa - sep, altoG, true);
+      ctx.drawImage(g, M - 14, y + Math.round((altoG - g.height) / 2));
+      dibujarMapa(ctx, W - M - anchoMapa, y, anchoMapa, altoG);   // igual que en pantalla: el mapa a la derecha
+      info.fuente = 'Fuente: CEAD (cifras) y Biblioteca del Congreso Nacional (mapa)';
+    } else {
+      const g = graficoParaImagen(cual, W - 2 * M + 28, altoG);
+      ctx.drawImage(g, M - 14, y + Math.round((altoG - g.height) / 2));
+    }
     if (info.nota) { ctx.fillStyle = '#6B7A75'; textoAjustado(ctx, info.nota, M, y + altoG + 32, W - 2 * M, '400', 22, SANS); }
     // Pie: dónde verlo y fuente
     ctx.fillStyle = '#E7F0EC'; ctx.fillRect(0, H - PIE, W, PIE);
@@ -937,6 +1488,60 @@
     ctx.fillStyle = '#44544F'; textoAjustado(ctx, (info.fuente || 'Fuente: CEAD, Subsecretaría de Prevención del Delito') + ' · Elaborado por Vértice Legal', M, H - PIE + 98, W - 2 * M, '400', 22, SANS);
     const blob = await new Promise((res) => cv.toBlob(res, 'image/png'));
     return { blob, nombre: 'vertice-legal_' + slug(info.archivo) + '.png', texto: info.compartir };
+  }
+
+  // El mapa tal como se ve en pantalla (mismo encuadre y colores), dibujado en el lienzo de la imagen
+  function dibujarMapa(ctx, x0, y0, w, h) {
+    const [vx, vy, vw, vh] = MP.vb, d = MP.d;
+    const altoLey = 70, arriba = d.tramos && !acercado() ? 26 : 0, hm = h - altoLey - arriba;
+    const k = Math.min(w / vw, hm / vh), mw = vw * k, mh = vh * k;
+    const ox = x0 + (w - mw) / 2, oy = y0 + arriba + (hm - mh) / 2, lw = 1 / k;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(ox, oy, mw, mh); ctx.clip();
+    ctx.translate(ox, oy); ctx.scale(k, k); ctx.translate(-vx, -vy);
+    ctx.lineJoin = 'round';
+    (d.marcos || []).forEach((m) => {
+      ctx.fillStyle = '#FAFBFA'; ctx.fillRect(m.x, m.y, m.w, m.h);
+      ctx.setLineDash([5 * lw, 4 * lw]); ctx.strokeStyle = css('--borde-2'); ctx.lineWidth = 1.2 * lw; ctx.strokeRect(m.x, m.y, m.w, m.h); ctx.setLineDash([]);
+    });
+    if (d.zona) { ctx.fillStyle = '#F3F4F3'; ctx.fill(new Path2D(d.zona), 'evenodd'); }
+    MP.unid.forEach(({ p, u }) => {
+      const q = new Path2D(u.d);
+      ctx.fillStyle = p.dataset.color || FUERA; ctx.fill(q, 'evenodd');
+      ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1.3 * lw; ctx.stroke(q);
+    });
+    if (d.prov) { ctx.strokeStyle = 'rgba(19,33,29,.4)'; ctx.lineWidth = 1.7 * lw; ctx.stroke(new Path2D(d.prov)); }
+    MP.gSel.querySelectorAll('path').forEach((s) => { ctx.strokeStyle = css('--resalte'); ctx.lineWidth = 4 * lw; ctx.stroke(new Path2D(s.getAttribute('d'))); });
+    ctx.restore();
+    const px = (X) => ox + (X - vx) * k, py = (Y) => oy + (Y - vy) * k;
+    const dentro = (X, Y) => X >= vx && X <= vx + vw && Y >= vy && Y <= vy + vh;
+    ctx.textBaseline = 'top'; ctx.fillStyle = '#6B7A75'; ctx.font = '500 16px ' + SANS;
+    MP.etqs.forEach((e) => { if (dentro(e.x, e.y)) ctx.fillText(e.t, px(e.x), py(e.y)); });
+    if (arriba) {
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.font = '600 15px ' + SANS;
+      d.tramos.forEach((t) => ctx.fillText(t.t.toUpperCase(), px(t.x), oy - 6));
+      ctx.textAlign = 'left';
+    }
+    MP.pines.forEach((p) => {
+      if (!dentro(p.x, p.y)) return;
+      const cx = px(p.x), cy = py(p.y);
+      ctx.beginPath(); ctx.arc(cx, cy, 13, 0, Math.PI * 2); ctx.fillStyle = '#44544F'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, 11.5, 0, Math.PI * 2); ctx.fillStyle = '#FFFFFF'; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI * 2); ctx.fillStyle = p.el.style.background; ctx.fill();
+      if (p.et.hidden) return;
+      ctx.font = '600 18px ' + SANS; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+      ctx.lineWidth = 5; ctx.strokeStyle = '#FFFFFF'; ctx.strokeText(p.et.textContent, cx + 18, cy);
+      ctx.fillStyle = '#13211D'; ctx.fillText(p.et.textContent, cx + 18, cy);
+    });
+    // leyenda: de menos a más
+    const col = [...$('leyenda').querySelectorAll('.ley-barra span')].map((s) => s.style.background);
+    if (col.length) {
+      const ly = y0 + h - altoLey + 22, ancho = Math.min(w, 300), sw = ancho / col.length;
+      col.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(x0 + i * sw, ly, sw, 16); });
+      ctx.font = '400 17px ' + SANS; ctx.fillStyle = '#44544F'; ctx.textBaseline = 'top';
+      ctx.fillText('menos', x0, ly + 22);
+      ctx.textAlign = 'right'; ctx.fillText('más', x0 + ancho, ly + 22); ctx.textAlign = 'left';
+    }
   }
 
   function bajarArchivo(blob, nombre) {
@@ -1057,37 +1662,53 @@
     escribirHash();
   }
 
+  let pedidoT = 0;
   async function renderTerritorial(id, u, subs, k0, k1) {
-    let unidades, titulo, resaltar;
+    const t = ++pedidoT;
+    const vigente = () => id === pedido && t === pedidoT;
+    let unidades, titulo, resaltar, nivelMapa, regMapa = 0;
     const tipos = tiposDe(S.tipo);
     const ia = ANIOS.indexOf(S.desde), ib = ANIOS.indexOf(S.hasta);
-    if (u.nivel === 'pais') {
+    const mis = S.vt === 'mis' && S.cmp.length > 0;
+    const totalComuna = (AN, cod) => {
+      let v = 0; const o = AN.u[cod];
+      if (o) for (const tp of tipos) { const m = o[tp]; if (!m) continue; for (const s of subs) { const a = m[s]; if (a) for (let i = ia; i <= ib; i++) v += a[i]; } }
+      return v;
+    };
+    if (mis) {
+      // "Mis comunas": solo las elegidas, de cualquier región
+      const AN = await anual();
+      if (!vigente()) return;
+      titulo = 'Comunas elegidas';
+      unidades = S.cmp.map((c) => { const x = IDX.com.get(c); return { n: x.n, c, frec: totalComuna(AN, c), pob: x.pob }; });
+      resaltar = (f) => f.c === S.c;
+      const regs = new Set(S.cmp.map((c) => IDX.com.get(c).r));
+      if (regs.size === 1) { nivelMapa = 'region'; regMapa = [...regs][0]; } else nivelMapa = 'pines';
+    } else if (u.nivel === 'pais') {
       titulo = 'Regiones';
       unidades = META.regiones.map((r) => {
         const a = new Float64Array(N); sumar(a, PAIS.u[r.c], tipos, subs);
         let v = 0; for (let k = k0; k <= k1; k++) v += a[k];
-        return { n: r.n.replace('Región de ', '').replace('Región del ', '').replace('Región ', ''), c: r.c, frec: v, pob: poblacion({ nivel: 'region', cod: r.c }) };
+        return { n: regionCorta(r.n), c: r.c, frec: v, pob: poblacion({ nivel: 'region', cod: r.c }) };
       });
       resaltar = () => false;
+      nivelMapa = 'pais';
     } else {
       const AN = await anual();
-      if (id !== pedido) return;
+      if (!vigente()) return;
       const r = u.nivel === 'region' ? u.cod : u.nivel === 'provincia' ? Math.floor(u.cod / 10) : Math.floor(u.cod / 1000);
       const lista = u.nivel === 'provincia' ? META.comunas.filter((c) => c.p === u.cod) : META.comunas.filter((c) => c.r === r);
       titulo = 'Comunas de la ' + (u.nivel === 'provincia' ? u.n : IDX.reg.get(r).n);
-      unidades = lista.map((c) => {
-        let v = 0; const o = AN.u[c.c];
-        if (o) for (const t of tipos) { const m = o[t]; if (!m) continue; for (const s of subs) { const a = m[s]; if (a) for (let i = ia; i <= ib; i++) v += a[i]; } }
-        return { n: c.n, c: c.c, frec: v, pob: c.pob };
-      });
+      unidades = lista.map((c) => ({ n: c.n, c: c.c, frec: totalComuna(AN, c.c), pob: c.pob }));
       resaltar = (f) => f.c === S.c;
+      nivelMapa = 'region'; regMapa = r;
     }
     unidades.forEach((x) => { x.tasa = tasaAnual(x.frec, x.pob, k0, k1); x.v = S.medida === 'tasa' ? x.tasa : x.frec; });
     // sin población conocida (tasa no calculable): fuera del gráfico, al final de la tabla
     unidades.sort((a, b) => (isNaN(b.v) ? -Infinity : b.v) - (isNaN(a.v) ? -Infinity : a.v));
     unidades.forEach((x, i) => { x.rank = i + 1; });
     let mostrar = unidades.filter((x) => !isNaN(x.v));
-    const LIM = u.nivel === 'pais' ? 99 : 15; // las 16 regiones caben completas
+    const LIM = u.nivel === 'pais' || mis ? 99 : 15; // las 16 regiones (y las comunas elegidas) caben completas
     $('ver-todas').hidden = unidades.length <= LIM;
     $('ver-todas').textContent = verTodas ? 'Ver solo las primeras ' + LIM : 'Ver todas (' + unidades.length + ')';
     if (!verTodas && mostrar.length > LIM) {
@@ -1096,13 +1717,48 @@
       if (sel && sel.rank > LIM) mostrar = mostrar.concat([sel]);
     }
     const filas = mostrar.map((x) => ({ ...x, n: (x.rank > LIM && !verTodas ? x.rank + '. ' : '') + x.n }));
-    $('t-terr').textContent = 'Comparación: ' + titulo;
+    $('t-terr').textContent = mis ? 'Comparación: tus comunas' : 'Comparación: ' + titulo;
     $('b-terr').textContent = (S.medida === 'tasa' ? 'Tasa anual por 100 mil hab.' : 'Cantidad') + ' de ' + TIPO[S.tipo].n.toLowerCase() + (nombreDelito() === 'Todos los delitos' ? '' : ' (' + nombreDelito() + ')') + ', ' + (S.desde === S.hasta ? S.desde : S.desde + '–' + S.hasta) + '.';
     $('n-terr').textContent = S.medida === 'tasa' ? 'En comunas con poca población la tasa varía mucho de un año a otro.' : 'Para comparar territorios de distinto tamaño, usa la tasa.';
-    gTerr = grafBarras(gTerr, $('g-terr'), filas, resaltar);
-    const filasT = unidades.map((x) => [x.rank + '. ' + x.n, nf0.format(x.frec), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]);
-    tabla($('tb-terr'), ['Territorio', 'Cantidad', 'Tasa anual x 100 mil'], filasT);
-    ultimo.terr = { unidades, titulo };
+    // primero el mapa: el gráfico toma su altura para quedar parejos
+    await mapaTerritorial(cfgMapa(nivelMapa, regMapa, unidades, mis, u), vigente);
+    if (!vigente()) return;
+    const junto = ladoALado() && !$('mapa').hidden;
+    gTerr = grafBarras(gTerr, $('g-terr'), filas, resaltar, { altoMin: junto ? $('mapa').offsetHeight : 0, onHover: (f) => marcarHover(f ? f.c : null) });
+    const filasT = unidades.map((x) => [(mis ? '<button type="button" class="quitar" data-quitar="' + x.c + '" aria-label="Quitar ' + x.n + '">×</button>' : '') + x.rank + '. ' + x.n,
+      nf0.format(x.frec), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]);
+    tabla($('tb-terr'), [mis ? 'Comuna' : 'Territorio', 'Cantidad', 'Tasa anual x 100 mil'], filasT);
+    ultimo.terr = { unidades, titulo, mis };
+  }
+
+  // Qué muestra el mapa en cada caso y qué hace un clic
+  function cfgMapa(nivel, r, unidades, mis, u) {
+    const valores = new Map(unidades.map((x) => [x.c, x]));
+    const base = {
+      valores, total: unidades.filter((x) => !isNaN(x.v)).length,
+      marcados: new Set(S.c && valores.has(S.c) ? [S.c] : []),
+      marcadoTxt: S.c ? IDX.com.get(S.c).n + ' (comuna de los filtros)' : ''
+    };
+    if (nivel === 'pais') return Object.assign(base, {
+      archivo: 'chile', foco: null, pines: false, zoomA: null,
+      ayuda: TACTIL ? 'Toca una región para ver su cifra y entrar a sus comunas.' : 'Pasa el cursor por una región para ver su cifra. Haz clic para ver sus comunas.',
+      accion: () => 'Ver sus comunas', ayudaTip: () => 'Clic para ver sus comunas',
+      clic: (c) => { if (!IDX.reg.has(c)) return; S.r = c; S.p = 0; S.c = 0; S.vt = 'rank'; verTodas = false; cambio(); }
+    });
+    if (nivel === 'pines') return Object.assign(base, {
+      archivo: 'chile', foco: null, pines: true, zoomA: new Set(S.cmp),
+      ayuda: 'Tus comunas están en regiones distintas: cada punto es una comuna, con el color de su cifra.'
+    });
+    const foco = mis ? new Set(S.cmp) : u.nivel === 'provincia' ? new Set(unidades.map((x) => x.c)) : null;
+    return Object.assign(base, {
+      archivo: 'region-' + r, foco, pines: false, zoomA: foco,
+      fueraTxt: mis ? 'Otras comunas' : foco ? 'Fuera de la provincia' : '',
+      fueraTip: mis ? 'Aún no está en tu comparación.' : 'Fuera de la provincia elegida.',
+      ayuda: mis ? 'Haz clic en otras comunas del mapa para sumarlas, o en una de las tuyas para quitarla.' : 'Haz clic en una comuna para agregarla a tu comparación.',
+      accion: (c) => (S.cmp.includes(c) ? 'Quitar de mi comparación' : 'Agregar a mi comparación'),
+      ayudaTip: (c) => (S.cmp.includes(c) ? 'Clic para quitarla de tu comparación' : 'Clic para agregarla a tu comparación'),
+      clic: (c) => cambiarCmp(c)
+    });
   }
 
   // ---------- filtros
@@ -1130,9 +1786,10 @@
   }
   function enlazar() {
     const num = (v) => parseInt(v, 10) || 0;
-    $('f-region').onchange = (e) => { S.r = num(e.target.value); S.p = 0; S.c = 0; verTodas = false; cambio(); };
-    $('f-provincia').onchange = (e) => { S.p = num(e.target.value); S.c = 0; verTodas = false; cambio(); };
-    $('f-comuna').onchange = (e) => { S.c = num(e.target.value); if (S.c) { const c = IDX.com.get(S.c); S.r = c.r; S.p = c.p; } verTodas = false; cambio(); };
+    // cambiar el territorio muestra su ranking (las comunas elegidas se mantienen en "Mis comunas")
+    $('f-region').onchange = (e) => { S.r = num(e.target.value); S.p = 0; S.c = 0; S.vt = 'rank'; verTodas = false; pintarChips(); cambio(); };
+    $('f-provincia').onchange = (e) => { S.p = num(e.target.value); S.c = 0; S.vt = 'rank'; verTodas = false; pintarChips(); cambio(); };
+    $('f-comuna').onchange = (e) => { S.c = num(e.target.value); if (S.c) { const c = IDX.com.get(S.c); S.r = c.r; S.p = c.p; } S.vt = 'rank'; verTodas = false; pintarChips(); cambio(); };
     $('f-familia').onchange = (e) => { S.f = num(e.target.value); S.g = 0; S.s = 0; cambio(); };
     $('f-grupo').onchange = (e) => { S.g = num(e.target.value); S.s = 0; cambio(); };
     $('f-subgrupo').onchange = (e) => { S.s = num(e.target.value); cambio(); };
@@ -1341,7 +1998,7 @@
   }
 
   const TEXTOS = {
-    personas: { eyebrow: 'Datos abiertos · Fuente CEAD', sub: 'Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y comparte los gráficos.' },
+    personas: { eyebrow: 'Datos abiertos · Fuente CEAD', sub: 'Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara comunas en el mapa y comparte los gráficos.' },
     empresas: { eyebrow: 'Datos abiertos · Fuente Fiscalía de Chile', sub: 'Delitos económicos, de corrupción y falsificaciones, condenas y empresas imputadas, por región y año, con los boletines oficiales de la Fiscalía de Chile.' }
   };
   let textoActualizadoP = '';
@@ -1392,6 +2049,7 @@
       for (const [k, prop] of Object.entries(CLAVES_E)) if (SE[prop] && SE[prop] !== DEFE[prop]) q.set(k, SE[prop]);
     } else {
       CLAVES.forEach((k) => { if (S[k] && S[k] !== DEF[k]) q.set(k, S[k]); });
+      if (S.cmp.length) { q.set('cmp', S.cmp.join('-')); if (S.vt === 'rank') q.set('vt', 'rank'); }
     }
     history.replaceState(null, '', q.toString() ? '#' + q.toString() : location.pathname);
   }
@@ -1416,6 +2074,8 @@
     if (!ANIOS.includes(S.desde)) S.desde = DEF.desde;
     if (!ANIOS.includes(S.hasta)) S.hasta = DEF.hasta;
     if (S.desde > S.hasta) S.desde = S.hasta;
+    S.cmp = (q.get('cmp') || '').split('-').map(Number).filter((c, i, a) => IDX.com.has(c) && a.indexOf(c) === i).slice(0, MAX_CMP);
+    S.vt = S.cmp.length && q.get('vt') !== 'rank' ? 'mis' : 'rank';
   }
   let DEF = {};
 
@@ -1444,6 +2104,10 @@
     $('cita').textContent = 'Vértice Legal (' + META.actualizado.slice(0, 4) + '). Estadísticas delictuales de Chile, a partir de datos del CEAD, Subsecretaría de Prevención del Delito. https://verticelegal.cl/estadisticas-delictuales/';
     enlazar();
     enlazarEmpresas();
+    enlazarMapa();
+    enlazarComparador();
+    pintarChips();
+    archivoMapa('chile').catch(() => {}); // precarga del mapa de Chile
     if (MODO === 'empresas') {
       await cambiarModo('empresas');
     } else {
@@ -1456,6 +2120,7 @@
   window.addEventListener('hashchange', () => {
     if (!META) return;
     leerHash();
+    pintarChips();
     if (MODO === 'empresas') { cambiarModo('empresas').catch(error); }
     else { aplicarModo(); pintarFiltros(); render().catch(error); }
   });
