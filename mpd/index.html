@@ -84,6 +84,7 @@
   .pasos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
   .pasos li{border-radius:6px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;background:#fff;color:var(--texto-2);border:1px solid var(--borde);font-size:16px}
   .pasos li b{font-weight:600}
+  .pasos .corto{display:none}
   .pasos li.hecho{background:var(--verde-claro);color:var(--verde-osc);border-color:var(--borde-2)}
   .pasos li.on{background:var(--verde);color:#fff;border-color:var(--verde)}
   .form{background:#fff;border:1px solid var(--borde);border-radius:10px;overflow:hidden}
@@ -156,11 +157,20 @@
   }
   @media (max-width:700px){
     .intro h1{font-size:40px} .h2,.res-txt h2{font-size:36px} .cierre h2{font-size:36px} .equipo .txt h2{font-size:34px}
-    .sec{padding:64px 0} .pasos{grid-template-columns:repeat(5,minmax(56px,1fr));overflow-x:auto}
+    .sec{padding:64px 0}
     .form iframe{height:4400px}
     .btn-blanco,.btn-borde{width:100%;justify-content:center}
   }
   @media (min-width:480px) and (max-width:700px){ .form iframe{height:3900px} }
+  /* Celular: pestañas de secciones más compactas ("7 preg.") para que quepan las 5 */
+  @media (max-width:640px){
+    .pasos{gap:6px}
+    .pasos li{padding:8px 2px;line-height:1.25}
+    .pasos li b{font-size:15px}
+    .pasos li > span{font-size:12px}
+    .pasos .largo{display:none} .pasos .corto{display:inline}
+  }
+  @media (max-width:359px){ .pasos li > span{display:none} }
 </style>
 </head>
 <body>
@@ -213,11 +223,11 @@
           </div>
 
           <ol class="pasos" aria-label="Secciones del test">
-            <li><b>A1</b>7 preguntas</li>
-            <li><b>A2</b>7 preguntas</li>
-            <li><b>A3</b>4 preguntas</li>
-            <li><b>A4</b>3 preguntas</li>
-            <li><b>Datos</b>Contacto</li>
+            <li><b>A1</b><span>7 <span class="largo">preguntas</span><span class="corto">preg.</span></span></li>
+            <li><b>A2</b><span>7 <span class="largo">preguntas</span><span class="corto">preg.</span></span></li>
+            <li><b>A3</b><span>4 <span class="largo">preguntas</span><span class="corto">preg.</span></span></li>
+            <li><b>A4</b><span>3 <span class="largo">preguntas</span><span class="corto">preg.</span></span></li>
+            <li><b>Datos</b><span>Contacto</span></li>
           </ol>
 
           <div class="form">

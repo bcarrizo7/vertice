@@ -73,7 +73,7 @@
   .rango span{color:var(--apagado);font-size:14px}
 
   /* Indicadores */
-  main{padding:20px 0 40px}
+  main{padding:16px 0 40px}
   .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
   .kpi{background:var(--superficie);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;min-width:0}
   .kpi .t{margin:0 0 6px;font-size:13px;color:var(--texto-2);font-weight:500}
@@ -102,6 +102,41 @@
   .estado{opacity:1;transition:opacity .2s}
   .cargando .estado{opacity:.45}
   .aviso{background:var(--crema);color:var(--cafe);border-radius:8px;padding:10px 14px;font-size:14px;margin-bottom:16px}
+
+  /* Interruptor entre "Delitos por comuna" y "Empresas" */
+  .modos{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .modos button{flex:1 1 280px;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--borde-2);background:#fff;border-radius:10px;padding:12px 16px;cursor:pointer;color:var(--texto-2)}
+  .modos button b{display:block;font-size:16px;font-weight:600;color:var(--texto)}
+  .modos button small{display:block;font-size:13px;color:var(--apagado)}
+  .modos button svg{flex:none;color:var(--apagado)}
+  .modos button[aria-selected="true"]{border-color:var(--verde);box-shadow:inset 0 0 0 1px var(--verde);background:var(--verde-claro)}
+  .modos button[aria-selected="true"] svg{color:var(--verde)}
+  .modos button:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
+
+  /* Escritorio: título a la izquierda e interruptor a la derecha; gráfico principal con los indicadores al lado,
+     para que el gráfico se vea completo sin bajar */
+  @media (min-width:1101px){
+    .intro{padding:20px 0 16px}
+    .intro .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px);gap:16px 40px;align-items:center}
+    .intro .eyebrow{margin-bottom:6px;font-size:13px}
+    .intro h1{font-size:42px;margin-bottom:8px}
+    .intro p.sub{font-size:16px;max-width:720px}
+    .intro .actualizado{margin-top:6px;font-size:13px}
+    .intro .modos{flex-direction:column;margin-top:0;gap:8px}
+    .intro .modos button{flex:none;padding:9px 14px}
+    .filtros{padding:10px 0}
+    .filtros .wrap{gap:8px 12px}
+    .campo{gap:3px}
+    .campo label,.campo .lbl{font-size:11px}
+    .campo select,.seg,.rango select{height:36px}
+    .hero{display:grid;grid-template-columns:minmax(0,1fr) 280px;grid-template-areas:"graf kpis";gap:18px;align-items:stretch;margin-bottom:18px}
+    .hero > .tarjeta{grid-area:graf;margin-bottom:0}
+    .hero > .kpis{grid-area:kpis;grid-template-columns:1fr;grid-auto-rows:1fr;margin-bottom:0}
+    .hero .kpi{display:flex;flex-direction:column;justify-content:center;padding:14px 16px}
+    .hero .kpi .v{font-size:28px}
+  }
+  @media (prefers-reduced-motion:reduce){ *{scroll-behavior:auto !important} }
+  [hidden]{display:none !important}
 
   .acciones button.principal{background:var(--verde);border-color:var(--verde);color:#fff}
   .acciones button.principal:hover{background:var(--verde-osc)}
@@ -152,7 +187,7 @@
     .intro p.sub{font-size:16px}
     .filtros .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}
     .c2{grid-column:span 1}
-    .c3,.c4,.c5,.c6{grid-column:span 2}
+    .c3,.c4,.c5,.c6,#filtros-empresas .c2{grid-column:span 2}
     .campo select{height:38px;font-size:14px;padding:0 6px}
     #f-tipo{height:auto;flex-wrap:wrap}
     #f-tipo button{flex:1 1 50%;height:38px;border-left:0;border-top:1px solid var(--borde)}
@@ -182,14 +217,40 @@
 
 <section class="intro">
   <div class="wrap">
-    <p class="eyebrow">Datos abiertos · Fuente CEAD</p>
-    <h1>Estadísticas delictuales de Chile</h1>
-    <p class="sub">Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y descarga lo que necesites.</p>
-    <p class="actualizado" id="actualizado">Cargando datos…</p>
+    <div class="intro-txt">
+      <p class="eyebrow" id="intro-eyebrow">Datos abiertos · Fuente CEAD</p>
+      <h1>Estadísticas delictuales de Chile</h1>
+      <p class="sub" id="intro-sub">Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y comparte los gráficos.</p>
+      <p class="actualizado" id="actualizado">Cargando datos…</p>
+    </div>
+    <div class="modos" role="tablist" aria-label="Tipo de estadística">
+      <button type="button" role="tab" data-modo="personas" aria-selected="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span><b>Delitos por comuna</b><small>Denuncias, detenciones y aprehendidos · CEAD</small></span>
+      </button>
+      <button type="button" role="tab" data-modo="empresas" aria-selected="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+        <span><b>Empresas y delitos económicos</b><small>Causas, condenas y empresas imputadas · Fiscalía</small></span>
+      </button>
+    </div>
   </div>
 </section>
 
-<section class="filtros" aria-label="Filtros">
+<section class="filtros" id="filtros-empresas" aria-label="Filtros de empresas y delitos económicos" hidden>
+  <div class="wrap">
+    <div class="campo c3"><label for="f-e-region">Región</label><select id="f-e-region"></select></div>
+    <div class="campo c4"><label for="f-e-cat">Tipo de delito</label><select id="f-e-cat"></select></div>
+    <div class="campo c2"><span class="lbl">Período</span>
+      <div class="rango"><select id="f-e-desde" aria-label="Desde el año"></select><span>a</span><select id="f-e-hasta" aria-label="Hasta el año"></select></div></div>
+    <div class="campo c3"><span class="lbl" id="l-e-medida">Medida</span>
+      <div class="seg" role="group" aria-labelledby="l-e-medida" id="f-e-medida">
+        <button type="button" data-v="frec">Cantidad</button>
+        <button type="button" data-v="tasa">Tasa x 100 mil hab.</button>
+      </div></div>
+  </div>
+</section>
+
+<section class="filtros" id="filtros-personas" aria-label="Filtros">
   <div class="wrap">
     <div class="campo c2"><label for="f-region">Región</label><select id="f-region"></select></div>
     <div class="campo c2"><label for="f-provincia">Provincia</label><select id="f-provincia"></select></div>
@@ -223,6 +284,8 @@
 <main class="wrap estado" id="contenido">
   <div class="aviso" id="aviso" hidden></div>
 
+  <div id="vista-personas">
+  <div class="hero">
   <div class="kpis" aria-live="polite">
     <div class="kpi"><p class="t" id="k1t">Total en el período</p><p class="v" id="k1v">–</p><p class="n" id="k1n"></p></div>
     <div class="kpi"><p class="t">Tasa anual por 100 mil hab.</p><p class="v" id="k2v">–</p><p class="n" id="k2n"></p></div>
@@ -240,6 +303,7 @@
     </div>
     <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-evol"></div></details>
   </article>
+  </div>
 
   <div class="grid2">
     <article class="tarjeta">
@@ -272,6 +336,67 @@
     </dl>
     <p class="cita"><strong>Cómo citar:</strong> <span id="cita">Vértice Legal, Estadísticas delictuales de Chile, a partir de datos del CEAD.</span></p>
   </section>
+  </div>
+
+  <div id="vista-empresas" hidden>
+    <div class="hero">
+    <div class="kpis" aria-live="polite">
+      <div class="kpi"><p class="t">Delitos ingresados a la Fiscalía</p><p class="v" id="ke1v">–</p><p class="n" id="ke1n"></p></div>
+      <div class="kpi"><p class="t">Sentencias condenatorias</p><p class="v" id="ke2v">–</p><p class="n" id="ke2n"></p></div>
+      <div class="kpi"><p class="t">Empresas imputadas</p><p class="v" id="ke3v">–</p><p class="n" id="ke3n"></p></div>
+      <div class="kpi"><p class="t" id="ke4t">Variación anual</p><p class="v" id="ke4v">–</p><p class="n" id="ke4n"></p></div>
+    </div>
+
+    <article class="tarjeta">
+      <h2 id="t-e-evol">Delitos ingresados por año</h2>
+      <p class="bajada" id="b-e-evol"></p>
+      <div class="lienzo"><canvas id="g-e-evol" role="img" aria-label="Delitos ingresados por año"></canvas></div>
+      <div class="pie-tarjeta"><span id="n-e-evol"></span><div class="acciones"><button type="button" class="principal" data-compartir="e-evol">Compartir</button><button type="button" data-imagen="e-evol">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-e-evol"></div></details>
+    </article>
+    </div>
+
+    <div class="grid2">
+      <article class="tarjeta">
+        <h2 id="t-e-pj">Empresas imputadas por tipo de delito</h2>
+        <p class="bajada" id="b-e-pj"></p>
+        <div class="lienzo alto"><canvas id="g-e-pj" role="img" aria-label="Empresas imputadas por tipo de delito"></canvas></div>
+        <div class="pie-tarjeta"><span id="n-e-pj"></span><div class="acciones"><button type="button" class="principal" data-compartir="e-pj">Compartir</button><button type="button" data-imagen="e-pj">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+        <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-e-pj"></div></details>
+      </article>
+      <article class="tarjeta">
+        <h2 id="t-e-reg">Comparación por región</h2>
+        <p class="bajada" id="b-e-reg"></p>
+        <div class="lienzo alto"><canvas id="g-e-reg" role="img" aria-label="Comparación por región"></canvas></div>
+        <div class="pie-tarjeta"><span id="n-e-reg"></span><div class="acciones"><button type="button" class="principal" data-compartir="e-reg">Compartir</button><button type="button" data-imagen="e-reg">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+        <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-e-reg"></div></details>
+      </article>
+    </div>
+
+    <article class="tarjeta">
+      <h2 id="t-e-cond">Sentencias condenatorias por año</h2>
+      <p class="bajada" id="b-e-cond"></p>
+      <div class="lienzo"><canvas id="g-e-cond" role="img" aria-label="Sentencias condenatorias por año"></canvas></div>
+      <div class="pie-tarjeta"><span id="n-e-cond"></span><div class="acciones"><button type="button" class="principal" data-compartir="e-cond">Compartir</button><button type="button" data-imagen="e-cond">Descargar imagen</button><button type="button" data-copiar>Copiar enlace</button></div></div>
+      <details class="tabla"><summary>Ver como tabla</summary><div class="tabla-cont" id="tb-e-cond"></div></details>
+    </article>
+
+    <section class="notas">
+      <h2>Cómo leer estos datos</h2>
+      <dl>
+        <dt>Delitos ingresados</dt><dd>Delitos que llegan a la Fiscalía en el año, con imputado conocido o desconocido. Un caso puede tener varios delitos.</dd>
+        <dt>Sentencias condenatorias</dt><dd>Términos de tipo "sentencia definitiva condenatoria" aplicados en el año, sin importar cuándo ingresó la causa.</dd>
+        <dt>Empresas imputadas</dt><dd>Imputados conocidos que son personas jurídicas, ingresados en el año. La Fiscalía publica este dato desde 2020 y solo para todo Chile, no por región.</dd>
+        <dt>Delitos económicos y tributarios</dt><dd>Incluye estafas y otras defraudaciones, apropiación indebida, administración desleal, delitos tributarios y facturas falsas, colusión, lavado de dinero por personas jurídicas, delitos de la Ley de Bancos y del mercado de valores, delitos aduaneros y negociación incompatible, entre otros.</dd>
+        <dt>Delitos funcionarios</dt><dd>Cohecho, soborno (también cometido por personas jurídicas), malversación, tráfico de influencias y otros delitos de funcionarios públicos.</dd>
+        <dt>Fe pública</dt><dd>Falsificaciones de documentos y de dinero, perjurio, obstrucción a la investigación y corrupción entre particulares, entre otros.</dd>
+        <dt>Regiones y años</dt><dd>La Región Metropolitana suma sus cuatro fiscalías regionales. En 2017 Ñuble aún era parte del Biobío. La Fiscalía no publicó boletín anual 2018 en formato de datos, por eso ese año aparece sin dato. 2026 incluye solo enero a junio. Las categorías siguen el catálogo de delitos de la Fiscalía, que cambia algunos delitos de categoría entre años.</dd>
+        <dt>Tasa por 100 mil hab.</dt><dd>Delitos divididos por la población de la región (la misma que usa el CEAD), multiplicado por 100.000. Para un período de varios años es el promedio anual.</dd>
+        <dt>Fuente</dt><dd>Fiscalía de Chile (Ministerio Público), boletines estadísticos anuales, <a href="https://www.fiscaliadechile.cl/persecucion-penal/estadisticas" target="_blank" rel="noopener">fiscaliadechile.cl</a>. Vértice Legal recopila y ordena estas cifras públicas; no las modifica.</dd>
+      </dl>
+      <p class="cita"><strong>Cómo citar:</strong> <span id="cita-e">Vértice Legal, Estadísticas delictuales de Chile, a partir de datos de la Fiscalía de Chile.</span></p>
+    </section>
+  </div>
 
   <section class="cta">
     <div>
@@ -366,6 +491,8 @@
     if (S.r) return { nivel: 'region', cod: S.r, n: IDX.reg.get(S.r).n };
     return { nivel: 'pais', cod: 0, n: 'Chile' };
   }
+  // "en la Región de Valparaíso", "en la Provincia de Santiago", "en Ñuñoa", "en Chile"
+  const enU = (u) => (u.nivel === 'region' || u.nivel === 'provincia' ? 'la ' : '') + u.n;
   function comunasDe(u) {
     return META.comunas.filter((c) => u.nivel === 'pais' || (u.nivel === 'region' && c.r === u.cod) ||
       (u.nivel === 'provincia' && c.p === u.cod) || (u.nivel === 'comuna' && c.c === u.cod));
@@ -462,11 +589,46 @@
     afterDatasetsDraw(chart, args, opts) {
       if (chart.config.options.indexAxis !== 'y') return;
       const ctx = chart.ctx, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0), tam = (opts && opts.tam) || 12;
+      const f = (opts && opts.fmt) || fmt;
       ctx.save(); ctx.font = '500 ' + tam + 'px ' + css('--sans'); ctx.fillStyle = css('--texto-2'); ctx.textBaseline = 'middle';
-      meta.data.forEach((b, i) => { ctx.fillText(fmt(ds.data[i]), b.x + tam / 2, b.y); });
+      meta.data.forEach((b, i) => { if (ds.data[i] != null) ctx.fillText(f(ds.data[i]), b.x + tam / 2, b.y); });
       ctx.restore();
     }
   };
+  // ---------- animación de entrada (solo la primera vez que aparece cada gráfico; respeta "reducir movimiento")
+  const ANIMAR = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const animacionBarras = () => (ANIMAR ? { duration: 800, easing: 'easeOutQuart' } : false);
+  function animacionLinea(n) {
+    if (!ANIMAR || n < 2) return false;
+    const paso = 1100 / n;
+    const yAnterior = (ctx) => (ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(0)
+      : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y);
+    return {
+      x: { type: 'number', easing: 'linear', duration: paso, from: NaN, delay(ctx) { if (ctx.type !== 'data' || ctx.xStarted) return 0; ctx.xStarted = true; return ctx.index * paso; } },
+      y: { type: 'number', easing: 'linear', duration: paso, from: yAnterior, delay(ctx) { if (ctx.type !== 'data' || ctx.yStarted) return 0; ctx.yStarted = true; return ctx.index * paso; } }
+    };
+  }
+  // Las cifras grandes cuentan hasta su valor la primera vez que se muestran
+  const yaContados = new Set();
+  function mostrarNumero(id, valor, formato) {
+    const el = $(id);
+    el.dataset.ficha = ''; // detiene cualquier conteo anterior de esta cifra
+    if (valor == null || isNaN(valor)) { el.textContent = '–'; return; }
+    el.textContent = formato.format(valor); // valor final de inmediato (si la pestaña está oculta, queda así)
+    if (!ANIMAR || yaContados.has(id)) return;
+    yaContados.add(id);
+    const ficha = String(Math.random()); el.dataset.ficha = ficha;
+    let t0 = null; const dur = 900;
+    const paso = (t) => {
+      if (el.dataset.ficha !== ficha) return; // otra actualización tomó el control
+      if (t0 === null) t0 = t;
+      const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = formato.format(valor * e);
+      if (p < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  }
+
   const fmt = (v) => (S.medida === 'tasa' ? nf1.format(v) : nf0.format(v));
   const unidadMedida = () => (S.medida === 'tasa' ? 'por 100 mil hab.' : TIPO[S.tipo].u);
   let gEvol, gDel, gTerr;
@@ -491,7 +653,12 @@
       }
     };
     if (gEvol && gEvol.config.type === (barras ? 'bar' : 'line')) { gEvol.data = data; gEvol.options = opciones; gEvol.update(); }
-    else { if (gEvol) gEvol.destroy(); gEvol = new Chart($('g-evol'), { type: barras ? 'bar' : 'line', data, options: opciones, plugins: [cruz] }); }
+    else {
+      if (gEvol) gEvol.destroy();
+      const inicial = Object.assign({}, opciones, { animation: barras ? animacionBarras() : animacionLinea(vals.length) });
+      gEvol = new Chart($('g-evol'), { type: barras ? 'bar' : 'line', data, options: inicial, plugins: [cruz] });
+      gEvol.options.animation = false; // las actualizaciones siguientes son instantáneas
+    }
   }
 
   // En pantallas angostas los nombres largos van en dos líneas (si no, el gráfico los corta)
@@ -503,7 +670,8 @@
     for (const w of t.split(' ')) { if (!b && (a + ' ' + w).trim().length <= lim) a = (a + ' ' + w).trim(); else b = (b + ' ' + w).trim(); }
     return [a, b.length > lim ? b.slice(0, lim - 1) + '…' : b];
   }
-  function grafBarras(prev, canvas, filas, resaltar) {
+  function grafBarras(prev, canvas, filas, resaltar, o = {}) {
+    const fmtB = o.fmt || fmt, unidadB = o.unidad || unidadMedida();
     const angosto = canvas.parentNode.clientWidth < 520;
     const alto = Math.max(160, filas.length * (angosto ? 38 : 26) + 40);
     canvas.parentNode.style.height = alto + 'px';
@@ -516,7 +684,7 @@
     const opciones = {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
       layout: { padding: { right: 70 } },
-      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: (it) => fmt(it.raw) + ' ' + unidadMedida() } } },
+      plugins: { legend: { display: false }, etiquetasBarra: { fmt: fmtB }, tooltip: { displayColors: false, callbacks: { label: (it) => fmtB(it.raw) + ' ' + unidadB } } },
       scales: {
         x: { beginAtZero: true, suggestedMax: max * 1.02, grid: { color: css('--grilla') }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: (v) => nf0.format(v) } },
         y: { grid: { display: false }, border: { color: css('--borde') }, ticks: { autoSkip: false, font: { size: angosto ? 12 : 13 }, callback(v) { return etiquetaBarra(this.getLabelForValue(v), angosto); } } }
@@ -524,7 +692,9 @@
     };
     if (angosto) opciones.layout.padding.right = 62;
     if (prev) { prev.data = data; prev.options = opciones; prev.update(); return prev; }
-    return new Chart(canvas, { type: 'bar', data, options: opciones, plugins: [etiquetasBarra] });
+    const g = new Chart(canvas, { type: 'bar', data, options: Object.assign({}, opciones, { animation: animacionBarras() }), plugins: [etiquetasBarra] });
+    g.options.animation = false;
+    return g;
   }
 
   // ---------- tablas y CSV
@@ -555,6 +725,7 @@
   }
 
   function textosImagen(cual) {
+    if (cual.startsWith('e-')) return Object.assign({}, espec[cual]); // gráficos del modo Empresas
     const u = unidad(), del = nombreDelito(), tipo = TIPO[S.tipo].n;
     const per = S.desde === S.hasta ? String(S.desde) : S.desde + '–' + S.hasta;
     const todos = del === 'Todos los delitos';
@@ -565,20 +736,20 @@
     if (cual === 'evol') {
       const k3 = $('k3v').textContent;
       return Object.assign(base, {
-        titulo: sujeto + ' en ' + u.n + ', ' + per,
+        titulo: sujeto + ' en ' + enU(u) + ', ' + per,
         subtitulo: enTipo + cap(medida) + ' por ' + { mes: 'mes', trim: 'trimestre', anio: 'año' }[S.agrupar],
-        destacado: 'Total del período: ' + $('k1v').textContent + ' ' + TIPO[S.tipo].u + (k3 && k3 !== '–' ? '  ·  Últimos 12 meses: ' + k3 : ''),
+        destacado: 'Total del período: ' + nf0.format(ultimo.evol.total) + ' ' + TIPO[S.tipo].u + (k3 && k3 !== '–' ? '  ·  Últimos 12 meses: ' + k3 : ''),
         nota: ultimo.evol.c.parcialNota,
-        compartir: sujeto + ' en ' + u.n + ', ' + per + ', según datos del CEAD.'
+        compartir: sujeto + ' en ' + enU(u) + ', ' + per + ', según datos del CEAD.'
       });
     }
     if (cual === 'del') {
       const nivel = { familias: 'familia de delito', grupos: 'grupo de delito', subgrupos: 'subgrupo de delito' }[ultimo.del.nivel];
       return Object.assign(base, {
-        titulo: (S.f ? del + ' en ' + u.n + ', por tipo' : 'Delitos más frecuentes en ' + u.n) + ', ' + per,
+        titulo: (S.f ? del + ' en ' + enU(u) + ', por tipo' : 'Delitos más frecuentes en ' + enU(u)) + ', ' + per,
         subtitulo: tipo + ' · ' + (S.medida === 'tasa' ? 'Tasa anual por 100 mil habitantes' : 'Cantidad') + ' por ' + nivel,
         destacado: '', nota: '',
-        compartir: (S.f ? del + ' en ' + u.n : 'Delitos más frecuentes en ' + u.n) + ', ' + per + ', según datos del CEAD.'
+        compartir: (S.f ? del + ' en ' + enU(u) : 'Delitos más frecuentes en ' + enU(u)) + ', ' + per + ', según datos del CEAD.'
       });
     }
     const T = ultimo.terr;
@@ -597,6 +768,7 @@
   function graficoParaImagen(cual, ancho, alto) {
     const cv = document.createElement('canvas'); cv.width = ancho; cv.height = alto;
     const ejes = { color: css('--texto-2'), font: { size: 26, family: SANS } };
+    if (cual.startsWith('e-')) return graficoEspec(espec[cual], cv, ancho, alto, ejes);
     // rótulo del último valor al final de la línea (el dato que más se comenta)
     const ultimoValor = {
       id: 'ultimoValor',
@@ -669,6 +841,62 @@
     return copia;
   }
 
+  // "Receta" de cada gráfico del modo Empresas (datos + textos), para dibujar su imagen de compartir
+  const espec = {};
+  const valoresV = {
+    id: 'valoresV',
+    afterDatasetsDraw(chart, args, opts) {
+      if (!opts || !opts.fmt) return;
+      const ctx = chart.ctx, ds = chart.data.datasets[0].data, meta = chart.getDatasetMeta(0);
+      ctx.save(); ctx.font = '600 ' + (opts.tam || 24) + 'px ' + SANS; ctx.fillStyle = css('--texto'); ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      meta.data.forEach((b, i) => { if (ds[i] != null) ctx.fillText(opts.fmt(ds[i]), b.x, b.y - 8); else ctx.fillText('s/d', b.x, chart.chartArea.bottom - 8); });
+      ctx.restore();
+    }
+  };
+  function graficoEspec(sp, cv, ancho, alto, ejes) {
+    let config;
+    if (sp.tipo === 'v') {
+      config = {
+        type: 'bar',
+        data: { labels: sp.etiquetas, datasets: [{ data: sp.valores, borderRadius: 6, maxBarThickness: 80,
+          backgroundColor: sp.parciales.map((p) => (p ? css('--oro-claro') : css('--serie'))) }] },
+        options: { layout: { padding: { top: 48 } }, plugins: { legend: { display: false }, tooltip: { enabled: false }, valoresV: { fmt: sp.fmt, tam: sp.valores.length > 8 ? 20 : 24 } },
+          scales: { x: { grid: { display: false }, border: { color: css('--borde') }, ticks: Object.assign({ maxRotation: 0, autoSkip: false }, ejes) },
+                    y: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 6, callback: (v) => nf0.format(v) }, ejes) } } }
+      };
+    } else {
+      const filas = sp.filas.slice(0, 18);
+      const pocas = filas.length <= 4;
+      const grosor = Math.max(16, Math.min(pocas ? 90 : 56, Math.floor((alto - 70) / filas.length * 0.6)));
+      alto = Math.min(alto, Math.round(filas.length * grosor / 0.6 + 80));
+      cv.height = alto;
+      const holgado = (alto - 80) / filas.length >= 60;
+      const partir = (t) => {
+        if (!holgado) return t.length > 26 ? t.slice(0, 25) + '…' : t;
+        if (t.length <= 22) return t;
+        let a = '', b = '';
+        for (const w of t.split(' ')) { if (!b && (a + ' ' + w).trim().length <= 22) a = (a + ' ' + w).trim(); else b = (b + ' ' + w).trim(); }
+        return [a, b.length > 24 ? b.slice(0, 23) + '…' : b];
+      };
+      config = {
+        type: 'bar',
+        data: { labels: filas.map((f) => f.n), datasets: [{ data: filas.map((f) => f.v), barThickness: grosor, borderRadius: 6, borderSkipped: 'start',
+          backgroundColor: filas.map((f) => (f.resaltar ? css('--resalte') : css('--serie'))) }] },
+        options: { indexAxis: 'y', layout: { padding: { right: 150 } },
+          plugins: { legend: { display: false }, tooltip: { enabled: false }, etiquetasBarra: { tam: pocas ? 32 : 24, fmt: sp.fmt } },
+          scales: { x: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: Object.assign({ maxTicksLimit: 4, callback: (v) => nf0.format(v) }, ejes) },
+                    y: { grid: { display: false }, border: { color: css('--borde') }, ticks: Object.assign({ autoSkip: false, callback(v) { return partir(this.getLabelForValue(v)); } }, ejes) } } }
+      };
+    }
+    Object.assign(config.options, { responsive: false, maintainAspectRatio: false, animation: false, devicePixelRatio: 1, events: [] });
+    const g = new Chart(cv, Object.assign(config, { plugins: [etiquetasBarra, valoresV] }));
+    g.update('none');
+    const copia = document.createElement('canvas'); copia.width = ancho; copia.height = cv.height;
+    copia.getContext('2d').drawImage(cv, 0, 0);
+    g.destroy();
+    return copia;
+  }
+
   async function componerImagen(cual) {
     try {
       await Promise.all(['700 60px "Cormorant Garamond"', '600 44px "Cormorant Garamond"', '400 28px Outfit', '600 30px Outfit']
@@ -706,7 +934,7 @@
     ctx.fillStyle = '#E7F0EC'; ctx.fillRect(0, H - PIE, W, PIE);
     ctx.fillStyle = '#C9A563'; ctx.fillRect(0, H - PIE, W, 4);
     ctx.fillStyle = '#0E4D40'; textoAjustado(ctx, 'verticelegal.cl/estadisticas-delictuales', M, H - PIE + 58, W - 2 * M, '600', 32, SANS);
-    ctx.fillStyle = '#44544F'; textoAjustado(ctx, 'Fuente: CEAD, Subsecretaría de Prevención del Delito · Elaborado por Vértice Legal', M, H - PIE + 98, W - 2 * M, '400', 22, SANS);
+    ctx.fillStyle = '#44544F'; textoAjustado(ctx, (info.fuente || 'Fuente: CEAD, Subsecretaría de Prevención del Delito') + ' · Elaborado por Vértice Legal', M, H - PIE + 98, W - 2 * M, '400', 22, SANS);
     const blob = await new Promise((res) => cv.toBlob(res, 'image/png'));
     return { blob, nombre: 'vertice-legal_' + slug(info.archivo) + '.png', texto: info.compartir };
   }
@@ -766,10 +994,10 @@
     // Indicadores
     let total = 0; for (let k = k0; k <= k1; k++) total += arr[k];
     $('k1t').textContent = TIPO[S.tipo].n + ' en el período';
-    $('k1v').textContent = nf0.format(total);
+    mostrarNumero('k1v', total, nf0);
     $('k1n').textContent = u.n + ' · ' + per;
     const ta = tasaAnual(total, pob, k0, k1);
-    $('k2v').textContent = isNaN(ta) ? '–' : nf1.format(ta);
+    mostrarNumero('k2v', ta, nf1);
     $('k2n').textContent = 'Promedio anual del período';
     if (k1 - k0 + 1 >= 24) {
       let a = 0, b = 0; for (let k = k1 - 11; k <= k1; k++) a += arr[k]; for (let k = k1 - 23; k <= k1 - 12; k++) b += arr[k];
@@ -792,13 +1020,13 @@
 
     // Evolución
     const c = cubetas(arr, pob);
-    $('t-evol').textContent = tit + ' en ' + u.n;
+    $('t-evol').textContent = tit + ' en ' + enU(u);
     $('b-evol').textContent = (S.medida === 'tasa' ? 'Tasa por 100 mil habitantes' : 'Cantidad') + ' por ' + { mes: 'mes', trim: 'trimestre', anio: 'año' }[S.agrupar] + ', ' + per + '.';
     $('n-evol').textContent = c.parcialNota;
     grafEvol(c);
     const filasEvol = c.cub.map((x) => [x.etq, nf0.format(x.frec), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]);
     tabla($('tb-evol'), ['Período', 'Cantidad', 'Tasa x 100 mil'], filasEvol);
-    ultimo.evol = { u, c, tit, per };
+    ultimo.evol = { u, c, tit, per, total };
 
     // ¿Qué delitos?: el nivel siguiente al elegido
     let nivelDel, cats;
@@ -817,7 +1045,7 @@
     if (id !== pedido) return;
     filasDel.sort((a, b) => b.v - a.v);
     $('t-del').textContent = '¿Qué delitos? (' + nivelDel + ')';
-    $('b-del').textContent = TIPO[S.tipo].n + ' en ' + u.n + ', ' + per + (S.medida === 'tasa' ? ' · tasa anual por 100 mil hab.' : '') + '.';
+    $('b-del').textContent = TIPO[S.tipo].n + ' en ' + enU(u) + ', ' + per + (S.medida === 'tasa' ? ' · tasa anual por 100 mil hab.' : '') + '.';
     gDel = grafBarras(gDel, $('g-del'), filasDel, (f) => f.c === S.s);
     ultimo.del = { filas: filasDel, nivel: nivelDel };
     tabla($('tb-del'), ['Delito', 'Cantidad', 'Tasa anual x 100 mil'], filasDel.map((f) => [f.n, nf0.format(f.frec), nf1.format(tasaAnual(f.frec, pob, k0, k1))]));
@@ -825,6 +1053,7 @@
     // Comparación territorial
     await renderTerritorial(id, u, subs, k0, k1);
     document.body.classList.remove('cargando');
+    personasListo = true;
     escribirHash();
   }
 
@@ -934,15 +1163,244 @@
   }
   function cambio() { pintarFiltros(); render().catch(error); }
 
+  // ======================= MODO EMPRESAS (boletines de la Fiscalía) =======================
+  let FIS = null, MODO = 'personas', personasListo = false;
+  const SE = { r: 0, cat: 'eco', desde: 0, hasta: 0, medida: 'frec' };
+  let DEFE = { r: 0, cat: 'eco', desde: 2019, hasta: 2026, medida: 'frec' };
+  const CLAVES_E = { er: 'r', ec: 'cat', ed: 'desde', eh: 'hasta', em: 'medida' };
+  const MESES_PARCIAL = { 'enero–marzo': 3, 'enero–junio': 6, 'enero–septiembre': 9 };
+  let geEvol, gePj, geReg, geCond;
+  const fiscalia = () => (FIS ? Promise.resolve(FIS) : cargar('fiscalia.json').then((d) => { FIS = d; return d; }));
+  const sinTilde = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
+  const oracion = (s) => { const t = s.toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1); };
+  const regionCorta = (n) => n.replace('Región de ', '').replace('Región del ', '').replace('Región ', '');
+  const fmtE = (v) => (SE.medida === 'tasa' ? nf1.format(v) : nf0.format(v));
+  const fmt0 = (v) => nf0.format(v);
+  const fraccion = (a) => (FIS.parcial[a] ? (MESES_PARCIAL[FIS.parcial[a]] || 6) / 12 : 1);
+  const etiquetaAnio = (a) => a + (FIS.parcial[a] ? '*' : '');
+  const catE = () => FIS.categorias.find((c) => c.c === SE.cat);
+
+  function pobRegion(r, anio) {
+    const ai = ANIOS.indexOf(anio); if (ai < 0) return 0;
+    let p = 0; for (const c of META.comunas) if (!r || c.r === r) p += c.pob[ai];
+    return p;
+  }
+  const aniosRango = () => FIS.anios.map((a, i) => ({ a, i })).filter((x) => x.a >= SE.desde && x.a <= SE.hasta);
+  function totalRango(arr) {
+    if (!arr) return null;
+    let s = 0, n = 0; for (const { i } of aniosRango()) if (arr[i] != null) { s += arr[i]; n++; }
+    return n ? s : null;
+  }
+  function tasaRango(arr, r) {
+    if (!arr) return NaN;
+    let s = 0, pa = 0;
+    for (const { a, i } of aniosRango()) if (arr[i] != null) { s += arr[i]; pa += pobRegion(r, a) * fraccion(a); }
+    return pa > 0 ? s / pa * 1e5 : NaN;
+  }
+  function validarSE() {
+    if (!FIS.categorias.some((c) => c.c === SE.cat)) SE.cat = DEFE.cat;
+    if (!['frec', 'tasa'].includes(SE.medida)) SE.medida = 'frec';
+    if (SE.r && !IDX.reg.has(SE.r)) SE.r = 0;
+    const validos = FIS.anios.filter((a) => !FIS.faltan.includes(a));
+    if (!validos.includes(SE.desde)) SE.desde = DEFE.desde;
+    if (!validos.includes(SE.hasta)) SE.hasta = DEFE.hasta;
+    if (SE.desde > SE.hasta) SE.desde = SE.hasta;
+  }
+
+  function pintarFiltrosE() {
+    opciones($('f-e-region'), META.regiones, 'Todo Chile', SE.r);
+    $('f-e-cat').innerHTML = FIS.categorias.map((c) => '<option value="' + c.c + '">' + c.n + '</option>').join('');
+    $('f-e-cat').value = SE.cat;
+    const anios = FIS.anios.filter((a) => !FIS.faltan.includes(a));
+    const etq = (a) => a + (FIS.parcial[a] ? ' (' + FIS.parcial[a].replace('enero', 'ene').replace('junio', 'jun').replace('marzo', 'mar').replace('septiembre', 'sep') + ')' : '');
+    $('f-e-desde').innerHTML = anios.map((a) => '<option value="' + a + '"' + (a > SE.hasta ? ' disabled' : '') + '>' + a + '</option>').join('');
+    $('f-e-desde').value = String(SE.desde);
+    $('f-e-hasta').innerHTML = anios.map((a) => '<option value="' + a + '"' + (a < SE.desde ? ' disabled' : '') + '>' + etq(a) + '</option>').join('');
+    $('f-e-hasta').value = String(SE.hasta);
+    $('f-e-medida').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === SE.medida)));
+  }
+
+  function grafV(prev, canvas, etiquetas, valores, parciales, f, unidad) {
+    const data = { labels: etiquetas, datasets: [{ data: valores, borderRadius: 4, maxBarThickness: 48,
+      backgroundColor: parciales.map((p) => (p ? css('--oro-claro') : css('--serie'))) }] };
+    const opciones = {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: { label: (it) => (it.raw == null ? 'Sin dato' : f(it.raw) + ' ' + unidad) } } },
+      scales: { x: { grid: { display: false }, border: { color: css('--borde') } },
+                y: { beginAtZero: true, grid: { color: css('--grilla') }, border: { display: false }, ticks: { callback: (v) => nf0.format(v) } } }
+    };
+    if (prev) { prev.data = data; prev.options = opciones; prev.update(); return prev; }
+    const g = new Chart(canvas, { type: 'bar', data, options: Object.assign({}, opciones, { animation: animacionBarras() }) });
+    g.options.animation = false;
+    return g;
+  }
+
+  async function renderEmpresas() {
+    await fiscalia();
+    const cat = catE(), reg = SE.r ? String(SE.r) : 'n', nomReg = SE.r ? IDX.reg.get(SE.r).n : 'Chile';
+    const enReg = SE.r ? 'la ' + nomReg : 'Chile'; // "en la Región de Valparaíso" / "en Chile"
+    const per = SE.desde === SE.hasta ? String(SE.desde) : SE.desde + '–' + SE.hasta;
+    const tasa = SE.medida === 'tasa';
+    const ing = FIS.ingresos[SE.cat][reg], con = FIS.condenas[SE.cat][reg];
+    const rango = aniosRango();
+    const faltanEn = rango.filter(({ i }) => ing[i] == null).map(({ a }) => a);
+    const parcialEn = rango.filter(({ a }) => FIS.parcial[a]).map(({ a }) => a);
+    const notaPer = [faltanEn.length ? faltanEn.join(', ') + ': sin dato (no hay boletín anual)' : '',
+      parcialEn.length ? parcialEn.map((a) => '* ' + a + ': ' + FIS.parcial[a] + (tasa ? ' (tasa anualizada)' : '')).join(', ') : ''].filter(Boolean).join(' · ');
+    const fuente = 'Fuente: Fiscalía de Chile (Ministerio Público)';
+    const aTasa = (v, a, r) => v / (pobRegion(r, a) * fraccion(a)) * 1e5;
+
+    // ---- Indicadores
+    const totIng = totalRango(ing), totCon = totalRango(con);
+    mostrarNumero('ke1v', totIng, nf0);
+    $('ke1n').textContent = nomReg + ' · ' + per + (tasa ? ' · ' + nf1.format(tasaRango(ing, SE.r)) + ' por 100 mil hab. al año' : '');
+    mostrarNumero('ke2v', totCon, nf0);
+    $('ke2n').textContent = nomReg + ' · ' + per;
+    const clavePj = Object.keys(FIS.personasJuridicas).find((k) => sinTilde(k) === cat.b);
+    const totPj = clavePj ? totalRango(FIS.personasJuridicas[clavePj]) : null;
+    const perPj = Math.max(SE.desde, 2020) === SE.hasta ? String(SE.hasta) : Math.max(SE.desde, 2020) + '–' + SE.hasta;
+    mostrarNumero('ke3v', totPj, nf0);
+    $('ke3n').textContent = SE.hasta < 2020 ? 'Dato disponible desde 2020' : 'Todo Chile · ' + perPj + (SE.desde < 2020 ? ' (dato desde 2020)' : '');
+    const completos = rango.filter(({ a, i }) => ing[i] != null && !FIS.parcial[a]);
+    let variacion = '';
+    if (completos.length >= 2) {
+      const u = completos[completos.length - 1], p = completos[completos.length - 2];
+      const pct = (ing[u.i] / ing[p.i] - 1) * 100;
+      variacion = (pct > 0 ? '▲ +' : pct < 0 ? '▼ ' : '') + nf1.format(pct) + '%';
+      $('ke4t').textContent = 'Variación ' + p.a + ' → ' + u.a;
+      $('ke4v').textContent = variacion;
+      $('ke4n').textContent = nf0.format(ing[p.i]) + ' → ' + nf0.format(ing[u.i]) + ' delitos';
+    } else { $('ke4t').textContent = 'Variación anual'; $('ke4v').textContent = '–'; $('ke4n').textContent = 'Elige al menos dos años completos'; }
+
+    // ---- 1. Delitos ingresados por año
+    const etiq = rango.map(({ a }) => etiquetaAnio(a));
+    const parc = rango.map(({ a }) => !!FIS.parcial[a]);
+    const valsIng = rango.map(({ a, i }) => (ing[i] == null ? null : tasa ? aTasa(ing[i], a, SE.r) : ing[i]));
+    geEvol = grafV(geEvol, $('g-e-evol'), etiq, valsIng, parc, fmtE, tasa ? 'por 100 mil hab.' : 'delitos');
+    $('t-e-evol').textContent = cat.n + ' en ' + enReg;
+    $('b-e-evol').textContent = 'Delitos ingresados a la Fiscalía por año' + (tasa ? ', tasa por 100 mil habitantes' : '') + ', ' + per + '.';
+    $('n-e-evol').textContent = notaPer;
+    tabla($('tb-e-evol'), ['Año', 'Delitos ingresados', 'Tasa x 100 mil'],
+      rango.map(({ a, i }) => [etiquetaAnio(a), ing[i] == null ? 'sin dato' : nf0.format(ing[i]), ing[i] == null ? '–' : nf1.format(aTasa(ing[i], a, SE.r))]));
+    espec['e-evol'] = { tipo: 'v', etiquetas: etiq, valores: valsIng, parciales: parc, fmt: fmtE, fuente,
+      titulo: cat.n + ' en ' + enReg + ', ' + per,
+      subtitulo: 'Delitos ingresados a la Fiscalía por año' + (tasa ? ' · tasa por 100 mil habitantes' : ''),
+      destacado: totIng == null ? '' : 'Total del período: ' + nf0.format(totIng) + ' delitos' + (variacion ? '  ·  ' + $('ke4t').textContent + ': ' + variacion : ''),
+      nota: notaPer, compartir: cat.n + ' en ' + enReg + ', ' + per + ', según datos de la Fiscalía de Chile.',
+      archivo: cat.n + ' ' + nomReg + ' ' + per };
+
+    // ---- 2. Empresas imputadas por tipo de delito (todo Chile)
+    const pjFilas = Object.entries(FIS.personasJuridicas).filter(([k]) => k !== 'TOTAL')
+      .map(([k, arr]) => ({ n: oracion(k), b: sinTilde(k), v: totalRango(arr) || 0 }))
+      .filter((x) => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 10);
+    pjFilas.forEach((x) => { x.resaltar = x.b === cat.b; });
+    gePj = grafBarras(gePj, $('g-e-pj'), pjFilas, (f) => f.resaltar, { fmt: fmt0, unidad: 'empresas' });
+    $('b-e-pj').textContent = SE.hasta < 2020 ? 'La Fiscalía publica este dato desde 2020.' : 'Personas jurídicas imputadas ingresadas a la Fiscalía en todo Chile, ' + perPj + '.';
+    $('n-e-pj').textContent = SE.desde < 2020 && SE.hasta >= 2020 ? 'Dato disponible desde 2020.' : '';
+    tabla($('tb-e-pj'), ['Tipo de delito', 'Empresas imputadas'], pjFilas.map((x) => [x.n, nf0.format(x.v)]));
+    espec['e-pj'] = { tipo: 'h', filas: pjFilas, fmt: fmt0, fuente,
+      titulo: 'Empresas imputadas en Chile por tipo de delito, ' + perPj,
+      subtitulo: 'Personas jurídicas imputadas ingresadas a la Fiscalía',
+      destacado: totPj == null ? '' : cat.n + ': ' + nf0.format(totPj) + ' empresas',
+      nota: '', compartir: 'Empresas imputadas en Chile por tipo de delito, ' + perPj + ', según datos de la Fiscalía de Chile.',
+      archivo: 'empresas imputadas ' + perPj };
+
+    // ---- 3. Comparación por región
+    const regFilas = META.regiones.map((r) => {
+      const arr = FIS.ingresos[SE.cat][String(r.c)];
+      const tot = totalRango(arr), ta = tasaRango(arr, r.c);
+      return { n: regionCorta(r.n), c: r.c, tot, tasa: ta, v: tasa ? ta : tot };
+    }).filter((x) => x.v != null && !isNaN(x.v)).sort((a, b) => b.v - a.v);
+    regFilas.forEach((x, i) => { x.rank = i + 1; x.resaltar = x.c === SE.r; });
+    geReg = grafBarras(geReg, $('g-e-reg'), regFilas, (f) => f.c === SE.r, { fmt: fmtE, unidad: tasa ? 'por 100 mil hab.' : 'delitos' });
+    $('b-e-reg').textContent = cat.n + ', ' + (tasa ? 'tasa anual por 100 mil habitantes' : 'delitos ingresados') + ', ' + per + '.';
+    $('n-e-reg').textContent = tasa ? '' : 'Para comparar regiones de distinto tamaño, usa la tasa.';
+    tabla($('tb-e-reg'), ['Región', 'Delitos ingresados', 'Tasa anual x 100 mil'], regFilas.map((x) => [x.rank + '. ' + x.n, nf0.format(x.tot), isNaN(x.tasa) ? '–' : nf1.format(x.tasa)]));
+    const sel = regFilas.find((x) => x.c === SE.r);
+    espec['e-reg'] = { tipo: 'h', filas: regFilas.map((x) => Object.assign({}, x, { n: x.rank + '. ' + x.n })), fmt: fmtE, fuente,
+      titulo: 'Regiones con más ' + cat.n.charAt(0).toLowerCase() + cat.n.slice(1) + ', ' + per,
+      subtitulo: tasa ? 'Tasa anual por 100 mil habitantes' : 'Delitos ingresados a la Fiscalía',
+      destacado: sel ? regionCorta(sel.n) + ': lugar ' + sel.rank + ' de ' + regFilas.length : '',
+      nota: notaPer, compartir: 'Regiones con más ' + cat.n.toLowerCase() + ', ' + per + ', según datos de la Fiscalía de Chile.',
+      archivo: 'regiones ' + cat.n + ' ' + per };
+
+    // ---- 4. Sentencias condenatorias por año
+    const valsCon = rango.map(({ i }) => (con[i] == null ? null : con[i]));
+    geCond = grafV(geCond, $('g-e-cond'), etiq, valsCon, parc, fmt0, 'sentencias');
+    $('t-e-cond').textContent = 'Sentencias condenatorias: ' + cat.n.charAt(0).toLowerCase() + cat.n.slice(1);
+    $('b-e-cond').textContent = 'Cantidad por año en ' + enReg + ', ' + per + '.';
+    $('n-e-cond').textContent = notaPer.replace(' (tasa anualizada)', '');
+    tabla($('tb-e-cond'), ['Año', 'Sentencias condenatorias'], rango.map(({ a, i }) => [etiquetaAnio(a), con[i] == null ? 'sin dato' : nf0.format(con[i])]));
+    espec['e-cond'] = { tipo: 'v', etiquetas: etiq, valores: valsCon, parciales: parc, fmt: fmt0, fuente,
+      titulo: 'Condenas por ' + cat.n.charAt(0).toLowerCase() + cat.n.slice(1) + ' en ' + enReg + ', ' + per,
+      subtitulo: 'Sentencias definitivas condenatorias por año',
+      destacado: totCon == null ? '' : 'Total del período: ' + nf0.format(totCon) + ' sentencias condenatorias',
+      nota: notaPer.replace(' (tasa anualizada)', ''), compartir: 'Condenas por ' + cat.n.toLowerCase() + ' en ' + enReg + ', ' + per + ', según datos de la Fiscalía de Chile.',
+      archivo: 'condenas ' + cat.n + ' ' + nomReg + ' ' + per };
+    escribirHash();
+  }
+
+  const TEXTOS = {
+    personas: { eyebrow: 'Datos abiertos · Fuente CEAD', sub: 'Denuncias, detenciones y aprehendidos por región, provincia y comuna desde 2005, con los datos oficiales del CEAD. Filtra, compara territorios y comparte los gráficos.' },
+    empresas: { eyebrow: 'Datos abiertos · Fuente Fiscalía de Chile', sub: 'Delitos económicos, de corrupción y falsificaciones, condenas y empresas imputadas, por región y año, con los boletines oficiales de la Fiscalía de Chile.' }
+  };
+  let textoActualizadoP = '';
+  function aplicarModo() {
+    const emp = MODO === 'empresas';
+    $('filtros-personas').hidden = emp; $('vista-personas').hidden = emp;
+    $('filtros-empresas').hidden = !emp; $('vista-empresas').hidden = !emp;
+    document.querySelectorAll('.modos [data-modo]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.modo === MODO)));
+    $('intro-eyebrow').textContent = TEXTOS[MODO].eyebrow;
+    $('intro-sub').textContent = TEXTOS[MODO].sub;
+    if (!emp) $('actualizado').textContent = textoActualizadoP;
+    else if (FIS) {
+      const completos = FIS.anios.filter((a) => !FIS.faltan.includes(a) && !FIS.parcial[a]);
+      const parciales = Object.keys(FIS.parcial).map((a) => FIS.parcial[a] + ' ' + a);
+      $('actualizado').textContent = 'Datos anuales ' + completos[0] + '–' + completos[completos.length - 1] + (FIS.faltan.length ? ' (sin ' + FIS.faltan.join(', ') + ')' : '') +
+        (parciales.length ? ' y ' + parciales.join(', ') : '') + ' · Actualizado el ' + FIS.actualizado.split('-').reverse().join('-');
+    }
+  }
+  async function cambiarModo(m) {
+    MODO = m === 'empresas' ? 'empresas' : 'personas';
+    aplicarModo();
+    if (MODO === 'empresas') {
+      await fiscalia();
+      validarSE(); aplicarModo(); pintarFiltrosE();
+      await renderEmpresas();
+    } else if (!personasListo) {
+      pintarFiltros(); await render();
+    } else {
+      escribirHash();
+    }
+  }
+  function enlazarEmpresas() {
+    document.querySelectorAll('.modos [data-modo]').forEach((b) => b.addEventListener('click', () => cambiarModo(b.dataset.modo).catch(error)));
+    const cambioE = () => { pintarFiltrosE(); renderEmpresas().catch(error); };
+    $('f-e-region').onchange = (e) => { SE.r = parseInt(e.target.value, 10) || 0; cambioE(); };
+    $('f-e-cat').onchange = (e) => { SE.cat = e.target.value; cambioE(); };
+    $('f-e-desde').onchange = (e) => { SE.desde = parseInt(e.target.value, 10); if (SE.hasta < SE.desde) SE.hasta = SE.desde; cambioE(); };
+    $('f-e-hasta').onchange = (e) => { SE.hasta = parseInt(e.target.value, 10); if (SE.desde > SE.hasta) SE.desde = SE.hasta; cambioE(); };
+    $('f-e-medida').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; SE.medida = b.dataset.v; cambioE(); });
+  }
+
   // ---------- estado en el enlace (para compartir una vista exacta)
   const CLAVES = ['r', 'p', 'c', 'f', 'g', 's', 'tipo', 'medida', 'desde', 'hasta', 'agrupar'];
   function escribirHash() {
     const q = new URLSearchParams();
-    CLAVES.forEach((k) => { if (S[k] && S[k] !== DEF[k]) q.set(k, S[k]); });
+    if (MODO === 'empresas') {
+      q.set('modo', 'empresas');
+      for (const [k, prop] of Object.entries(CLAVES_E)) if (SE[prop] && SE[prop] !== DEFE[prop]) q.set(k, SE[prop]);
+    } else {
+      CLAVES.forEach((k) => { if (S[k] && S[k] !== DEF[k]) q.set(k, S[k]); });
+    }
     history.replaceState(null, '', q.toString() ? '#' + q.toString() : location.pathname);
   }
   function leerHash() {
     const q = new URLSearchParams(location.hash.slice(1));
+    MODO = q.get('modo') === 'empresas' ? 'empresas' : 'personas';
+    for (const [k, prop] of Object.entries(CLAVES_E)) {
+      if (q.has(k)) SE[prop] = (prop === 'cat' || prop === 'medida') ? q.get(k) : parseInt(q.get(k), 10) || 0;
+    }
     const ints = ['r', 'p', 'c', 'f', 'g', 's', 'desde', 'hasta'];
     CLAVES.forEach((k) => { if (q.has(k)) S[k] = ints.includes(k) ? parseInt(q.get(k), 10) || 0 : q.get(k); });
     if (!TIPO[S.tipo]) S.tipo = 'cp';
@@ -975,19 +1433,32 @@
     const fin = ANIOS[ANIOS.length - 1];
     DEF = { r: 0, p: 0, c: 0, f: 0, g: 0, s: 0, tipo: 'cp', medida: 'frec', desde: Math.max(A0, fin - 6), hasta: fin, agrupar: 'mes' };
     Object.assign(S, DEF);
+    Object.assign(SE, DEFE);
     leerHash();
     const [fy, fm] = META.fin.split('-').map(Number);
     const mesFin = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][fm - 1];
     const act = META.actualizado.split('-').reverse().join('-');
-    $('actualizado').textContent = 'Datos desde enero de ' + A0 + ' hasta ' + mesFin + ' de ' + fy + ' · Actualizado el ' + act;
+    textoActualizadoP = 'Datos desde enero de ' + A0 + ' hasta ' + mesFin + ' de ' + fy + ' · Actualizado el ' + act;
+    $('actualizado').textContent = textoActualizadoP;
     $('nota-periodo').textContent = 'Desde enero de ' + A0 + ' hasta ' + mesFin + ' de ' + fy + '. Cifras tal como las publicaba el CEAD al ' + act + '. Los meses sin publicar no se cuentan como cero.';
     $('cita').textContent = 'Vértice Legal (' + META.actualizado.slice(0, 4) + '). Estadísticas delictuales de Chile, a partir de datos del CEAD, Subsecretaría de Prevención del Delito. https://verticelegal.cl/estadisticas-delictuales/';
     enlazar();
-    pintarFiltros();
-    await render();
+    enlazarEmpresas();
+    if (MODO === 'empresas') {
+      await cambiarModo('empresas');
+    } else {
+      aplicarModo();
+      pintarFiltros();
+      await render();
+    }
     anual().catch(() => {}); // precarga para que la comparación de comunas sea instantánea
   }
-  window.addEventListener('hashchange', () => { if (!META) return; leerHash(); pintarFiltros(); render().catch(error); });
+  window.addEventListener('hashchange', () => {
+    if (!META) return;
+    leerHash();
+    if (MODO === 'empresas') { cambiarModo('empresas').catch(error); }
+    else { aplicarModo(); pintarFiltros(); render().catch(error); }
+  });
   iniciar().catch(error);
 })();
 </script>
