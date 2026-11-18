@@ -172,9 +172,6 @@
   .cta a.cta-sec:hover{background:rgba(255,255,255,.1)}
   .cta-eyebrow{margin:0 0 6px !important;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro-claro) !important;font-weight:600}
   .cta-botones{display:flex;flex-wrap:wrap;gap:10px}
-  footer{background:var(--texto);color:#C9D6D1;font-size:15px;margin-top:30px}
-  footer .wrap{padding-top:28px;padding-bottom:28px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
-  footer a{color:#fff}
 
   /* Comparación territorial: mapa de calor + ranking + comparador de comunas */
   .terr-cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 16px}
@@ -281,6 +278,33 @@
     .notas dl{grid-template-columns:1fr}
     .menu a:not(.btn){display:none}
   }
+</style>
+<style id="pie-comun">
+/* Pie de página común de verticelegal.cl (se edita en sitio-comun/pie.css y se aplica con aplicar_pie.py) */
+.pie{background:#0B3A30;color:#C3D4CD;font-family:'Outfit',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;font-size:15px;line-height:1.6;text-align:left;margin:0}
+.pie *{box-sizing:border-box}
+.pie a{color:#fff;text-decoration:none}
+.pie a:hover{text-decoration:underline;text-underline-offset:3px}
+.pie a:focus-visible{outline:2px solid #C9A563;outline-offset:2px;border-radius:2px}
+.pie .pie-wrap{max-width:1240px;margin:0 auto;padding:56px 24px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1.25fr) minmax(0,1.35fr);gap:36px 40px}
+.pie .pie-logo{display:inline-block;font-family:'Cormorant Garamond',Garamond,'Times New Roman',Georgia,serif;font-size:30px;font-weight:700;line-height:1.1;color:#fff}
+.pie .pie-logo:hover{text-decoration:none}
+.pie .pie-logo i{font-style:normal;color:#C9A563}
+.pie .pie-marca p{margin:12px 0 16px;max-width:330px;font-size:14.5px;color:#C3D4CD}
+.pie .pie-red{display:inline-flex;align-items:center;gap:8px;font-size:14px}
+.pie .pie-t{margin:0 0 14px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C9A563}
+.pie ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.pie li{margin:0;padding:0;font-size:15px}
+.pie address{font-style:normal}
+.pie .pie-legal{max-width:1240px;margin:0 auto;padding:20px 24px 28px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;font-size:13.5px;color:#9DB4AB}
+.pie .pie-legal p{margin:0;font-size:13.5px;color:#9DB4AB}
+.pie .pie-legal nav{display:flex;flex-wrap:wrap;gap:6px 22px}
+.pie .pie-legal a{color:#D7E3DE}
+@media (max-width:980px){.pie .pie-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (max-width:600px){
+  .pie .pie-wrap{grid-template-columns:minmax(0,1fr);padding:44px 20px 28px;gap:30px}
+  .pie .pie-legal{flex-direction:column;align-items:flex-start;padding:18px 20px 26px}
+}
 </style>
 </head>
 <body>
@@ -449,7 +473,6 @@
       <dt>Aprehendidos</dt><dd>Personas aprehendidas (cuenta personas, no casos).</dd>
       <dt>Tasa por 100 mil hab.</dt><dd>Casos divididos por la población del territorio, multiplicado por 100.000. Usa la misma población que publica el CEAD para cada año. La tasa anual del período considera los meses incluidos, así un año incompleto no se ve artificialmente bajo.</dd>
       <dt>Casos sin comuna</dt><dd>El total de Chile incluye casos que el CEAD no asigna a ninguna comuna (entre 0,05% y 2% según el año). Por eso la suma de las regiones puede ser levemente menor que el total nacional.</dd>
-      <dt>Mapas</dt><dd>Límites comunales de los mapas vectoriales de la <a href="https://www.bcn.cl/siit/mapas_vectoriales" target="_blank" rel="noopener">Biblioteca del Congreso Nacional de Chile</a>, simplificados para que carguen rápido. Las provincias y regiones se forman uniendo sus comunas, por eso los límites calzan exactos. El color agrupa los territorios en hasta cinco tramos con cantidades parecidas de territorios (quintiles): más oscuro, más casos (o mayor tasa, si eliges la tasa). Isla de Pascua y Juan Fernández (islas Robinson Crusoe y Santa Clara) van en recuadros; la comuna Antártica no se dibuja. Mapa referencial, con fines estadísticos: los límites y fronteras que muestra no comprometen en modo alguno al Estado de Chile (art. 2° letra g del DFL N° 83 de 1979, del Ministerio de Relaciones Exteriores).</dd>
       <dt>Período y actualización</dt><dd id="nota-periodo">–</dd>
       <dt>Fuente</dt><dd>Centro de Estudios y Análisis del Delito (CEAD), Subsecretaría de Prevención del Delito, <a href="https://cead.minsegpublica.gob.cl/estadisticas-delictuales/" target="_blank" rel="noopener">cead.minsegpublica.gob.cl</a>. Vértice Legal recopila y ordena estas cifras públicas; no las modifica. El CEAD puede corregir cifras en publicaciones posteriores.</dd>
     </dl>
@@ -530,12 +553,55 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>§ Vértice | Legal · Av. Apoquindo N° 7935, of. B 718, Las Condes</span>
-    <span><a href="/">verticelegal.cl</a> · <a href="https://wa.me/56989029993" target="_blank" rel="noopener">WhatsApp</a> · <a href="/#privacidad">Privacidad</a></span>
+<!-- PIE COMÚN -->
+<footer class="pie">
+  <div class="pie-wrap">
+    <div class="pie-marca">
+      <a class="pie-logo" href="/">§ Vértice <i>|</i> Legal</a>
+      <p>Estudio jurídico boutique especializado en protección de datos personales y compliance. Acompañamos a directorios y empresas en la gestión de sus riesgos más críticos.</p>
+      <a class="pie-red" href="https://www.linkedin.com/company/v%C3%A9rtice-legal/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+    </div>
+    <nav class="pie-col" aria-label="El estudio">
+      <p class="pie-t">El estudio</p>
+      <ul>
+        <li><a href="/#nosotros">Nosotras</a></li>
+        <li><a href="/#area_de_practica">Áreas de práctica</a></li>
+        <li><a href="/#equipo">Equipo</a></li>
+        <li><a href="/#blog">Blog</a></li>
+        <li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <nav class="pie-col" aria-label="Herramientas gratuitas">
+      <p class="pie-t">Herramientas gratuitas</p>
+      <ul>
+        <li><a href="/mpd/">Autodiagnóstico MPD (Ley 20.393)</a></li>
+        <li><a href="/proteccion-de-datos/">Multas por protección de datos</a></li>
+        <li><a href="/estadisticas-delictuales/">Estadísticas delictuales de Chile</a></li>
+      </ul>
+    </nav>
+    <div class="pie-col">
+      <p class="pie-t">Contacto</p>
+      <address>
+        <ul>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Apoquindo%207935%2C%20Las%20Condes" target="_blank" rel="noopener">Av. Apoquindo N° 7935, oficina B 718<br>Las Condes, Santiago, Chile</a></li>
+          <li><a href="tel:+56989029993">+56 9 8902 9993</a></li>
+          <li><a href="mailto:pilarcarrasco@proyectae.cl">pilarcarrasco@proyectae.cl</a></li>
+          <li><a href="https://wa.me/56989029993" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://calendar.app.google/aYSFTKFos2NbFKos8" target="_blank" rel="noopener">Agendar reunión</a></li>
+        </ul>
+      </address>
+    </div>
+  </div>
+  <div class="pie-legal">
+    <p>© 2026 Vértice Legal</p>
+    <nav aria-label="Información legal">
+      <a href="/aviso-legal/">Aviso legal</a>
+      <a href="/privacidad/">Política de privacidad</a>
+      <a href="/privacidad/#cookies">Cookies</a>
+    </nav>
+    <p>Sitio creado por 3Dimension Solutions SpA</p>
   </div>
 </footer>
+<!-- /PIE COMÚN -->
 
 <dialog id="dlg" aria-labelledby="dlg-t">
   <div class="dlg-cab"><h2 id="dlg-t">Compartir este gráfico</h2><button type="button" id="dlg-cerrar" aria-label="Cerrar">&times;</button></div>
