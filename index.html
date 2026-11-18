@@ -9,21 +9,21 @@
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <title>Vértice Legal - Datos Personales y Compliance.</title>
+  <title>Estudio jurídico en protección de datos y compliance | Vértice Legal</title>
   <meta name="description"
-    content="Vértice Legal - Especialistas en protección de datos personales y compliance legal en Chile. Asesoría experta para empresas y organizaciones.">
-  <meta property="og:title" content="Vértice Legal - Datos Personales y Compliance.">
+    content="Estudio jurídico en Santiago especializado en protección de datos personales (Ley 21.719), compliance penal y modelos de prevención de delitos (Ley 20.393).">
+  <link rel="canonical" href="https://verticelegal.cl/">
+  <meta property="og:title" content="Vértice Legal | Protección de datos personales y compliance en Chile">
   <meta property="og:description"
-    content="Especialistas en protección de datos personales y compliance legal en Chile.">
+    content="Estudio jurídico boutique especializado en protección de datos personales (Ley 21.719), compliance penal y modelos de prevención de delitos.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://verticelegal.cl/">
-  <meta property="og:image" content="https://verticelegal.cl/fotos_pagina_web/webp/portada_vértice_legal_4.webp">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:site_name" content="Vértice Legal">
+  <meta property="og:image" content="https://verticelegal.cl/fotos_pagina_web/webp/portada-1200.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Librerías externas -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <!-- Librerías externas (particles.js se carga al final de la página, para no frenar la primera vista) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
@@ -456,6 +456,21 @@
     .nosotros-content {
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    /* Título principal de la página (H1): dice a Google y a quien llega de qué se trata el estudio */
+    .h1-marca {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0.6rem auto 1.4rem;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--highlight-color);
     }
 
     .nosotros-content p {
@@ -1499,13 +1514,126 @@
   .pie .pie-legal{flex-direction:column;align-items:flex-start;padding:18px 20px 26px}
 }
 </style>
+<script type="application/ld+json" id="datos-estructurados">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "LegalService",
+   "@id": "https://verticelegal.cl/#estudio",
+   "name": "Vértice Legal",
+   "url": "https://verticelegal.cl/",
+   "description": "Estudio jurídico boutique especializado en protección de datos personales y compliance. Acompaña a directorios y empresas en la gestión de sus riesgos más críticos.",
+   "image": "https://verticelegal.cl/fotos_pagina_web/webp/portada-1200.jpg",
+   "logo": "https://verticelegal.cl/apple-touch-icon.png",
+   "telephone": "+56989029993",
+   "email": "pilarcarrasco@proyectae.cl",
+   "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. Apoquindo 7935, oficina B 718",
+    "addressLocality": "Las Condes",
+    "addressRegion": "Región Metropolitana",
+    "addressCountry": "CL"
+   },
+   "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -33.40909,
+    "longitude": -70.55368
+   },
+   "areaServed": {
+    "@type": "Country",
+    "name": "Chile"
+   },
+   "knowsAbout": [
+    "Ley 21.719",
+    "Ley 19.628",
+    "Ley 20.393",
+    "Ley 21.595",
+    "Protección de datos personales",
+    "Responsabilidad penal de la persona jurídica",
+    "Modelos de prevención de delitos",
+    "Capacitaciones",
+    "Litigación penal"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/company/v%C3%A9rtice-legal/"
+   ],
+   "founder": {
+    "@id": "https://verticelegal.cl/equipo/pilar-carrasco.html#persona"
+   },
+   "employee": [
+    {
+     "@id": "https://verticelegal.cl/equipo/pilar-carrasco.html#persona"
+    },
+    {
+     "@id": "https://verticelegal.cl/equipo/alejandra-castillo.html#persona"
+    },
+    {
+     "@id": "https://verticelegal.cl/equipo/pablo-carrasco.html#persona"
+    }
+   ],
+   "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Áreas de práctica",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Protección de datos personales"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Responsabilidad penal de la persona jurídica"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Modelos de prevención de delitos"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Capacitaciones"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Litigación penal"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://verticelegal.cl/#sitio",
+   "url": "https://verticelegal.cl/",
+   "name": "Vértice Legal",
+   "inLanguage": "es-CL",
+   "publisher": {
+    "@id": "https://verticelegal.cl/#estudio"
+   }
+  }
+ ]
+}
+</script>
 </head>
 
 <body>
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="/index.html" class="logo">§ Vértice <span style="color: #A88449">|</span> Legal</a>
+      <a href="/" class="logo">§ Vértice <span style="color: #A88449">|</span> Legal</a>
       <div class="menu-toggle">
         <i class="fas fa-bars"></i>
       </div>
@@ -1547,6 +1675,7 @@
     <div class="nosotros-content">
       <!-- Fondo de partículas -->
       <div id="particles-js-nosotras"></div>
+      <h1 class="h1-marca">Estudio jurídico en protección de datos personales y compliance</h1>
       <h2 class="section-title">Nosotras</h2>
       <p>En Vértice Legal, transformamos el <span class="highlight-text">cumplimiento normativo en una ventaja
           competitiva</span>.</p>
@@ -1571,7 +1700,7 @@
           <div class="practice-header">
             <h3 class="practice-title">Datos Personales</h3>
             <div class="practice-icon-container">
-              <img src="/fotos_pagina_web/png/datos_personales_huella_digital.png" alt="Datos Personales"
+              <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/icono-datos-personales.webp" alt="Datos Personales"
                 class="practice-mini-img">
             </div>
           </div>
@@ -1588,7 +1717,7 @@
           <div class="practice-header">
             <h3 class="practice-title">Responsabilidad Penal<br>Persona Jurídica</h3>
             <div class="practice-icon-container">
-              <img src="/fotos_pagina_web/png/maletin.png" alt="Responsabilidad Penal" class="practice-mini-img">
+              <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/icono-responsabilidad-penal.webp" alt="Responsabilidad Penal" class="practice-mini-img">
             </div>
           </div>
           <div class="practice-content">
@@ -1607,7 +1736,7 @@
           <div class="practice-header">
             <h3 class="practice-title">Capacitaciones</h3>
             <div class="practice-icon-container">
-              <img src="/fotos_pagina_web/png/capacitaciones_grupo_de_personas.png" alt="Capacitaciones"
+              <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/icono-capacitaciones.webp" alt="Capacitaciones"
                 class="practice-mini-img">
             </div>
           </div>
@@ -1623,7 +1752,7 @@
           <div class="practice-header">
             <h3 class="practice-title">Litigación Penal</h3>
             <div class="practice-icon-container">
-              <img src="/fotos_pagina_web/png/litigación_penal_martillo_judicial.png" alt="Litigación Penal"
+              <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/icono-litigacion-penal.webp" alt="Litigación Penal"
                 class="practice-mini-img">
             </div>
           </div>
@@ -1650,12 +1779,12 @@
             <div class="flipper">
               <!-- Frente -->
               <div class="front">
-                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo"
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/alejandra-castillo.webp" alt="Alejandra Castillo"
                   class="member-image">
               </div>
               <!-- Reverso -->
               <div class="back">
-                <img src="/fotos_pagina_web/webp/Alejandra Castillo Ara.webp" alt="Alejandra Castillo"
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/alejandra-castillo.webp" alt="Alejandra Castillo"
                   class="member-image">
                 <div class="back-content">
                   <a href="/equipo/alejandra-castillo.html" class="ver-mas-btn">+</a>
@@ -1672,10 +1801,10 @@
           <div class="flip-container">
             <div class="flipper">
               <div class="front">
-                <img src="/fotos_pagina_web/webp/pilar-carrasco.webp" alt="Pilar Carrasco" class="member-image">
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/pilar-carrasco.webp" alt="Pilar Carrasco" class="member-image">
               </div>
               <div class="back">
-                <img src="/fotos_pagina_web/webp/pilar-carrasco.webp" alt="Pilar Carrasco" class="member-image">
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/pilar-carrasco.webp" alt="Pilar Carrasco" class="member-image">
                 <div class="back-content">
                   <a href="/equipo/pilar-carrasco.html" class="ver-mas-btn">+</a>
                 </div>
@@ -1691,10 +1820,10 @@
           <div class="flip-container">
             <div class="flipper">
               <div class="front">
-                <img src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
               </div>
               <div class="back">
-                <img src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
+                <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/pablo.jpeg" alt="Pablo Carrasco" class="member-image">
                 <div class="back-content">
                   <a href="/equipo/pablo-carrasco.html" class="ver-mas-btn">+</a>
                 </div>
@@ -1740,7 +1869,7 @@
           <h3 class="blog-title">Alejandra Castillo sobre protección de datos: "El interés legítimo exige estándares
             estrictos de aplicación"</h3>
           <div class="blog-source-logo">
-            <img src="/fotos_pagina_web/png/doe.png" alt="DOE - Actualidad Jurídica" class="blog-source-img"
+            <img loading="lazy" decoding="async" src="/fotos_pagina_web/png/doe.png" alt="DOE - Actualidad Jurídica" class="blog-source-img"
               style="max-width: 180px;">
           </div>
           <div class="blog-plus">+</div>
@@ -1752,7 +1881,7 @@
           <div class="blog-year">Mayo 2025</div>
           <h3 class="blog-title">Alejandra Castillo se incorpora al cuerpo docente Diplomado Datos Personales UCh</h3>
           <div class="blog-source-logo">
-            <img src="/fotos_pagina_web/png/Uchile.png" alt="Universidad de Chile" class="blog-source-img"
+            <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/logo-uchile.webp" alt="Universidad de Chile" class="blog-source-img"
               style="max-width: 200px;">
           </div>
           <div class="blog-plus">+</div>
@@ -1764,7 +1893,7 @@
           <h3 class="blog-title">&ldquo;Sharenting y afectación de la indemnidad informativa&rdquo; en la U. Complutense
             de Madrid</h3>
           <div class="blog-source-logo">
-            <img src="/fotos_pagina_web/png/UniComplutense.png" alt="Universidad Complutense de Madrid"
+            <img loading="lazy" decoding="async" src="/fotos_pagina_web/webp/logo-complutense.webp" alt="Universidad Complutense de Madrid"
               class="blog-source-img">
           </div>
           <div class="blog-plus">+</div>
@@ -1866,6 +1995,7 @@
 </footer>
 <!-- /PIE COMÚN -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
   <!-- Configuración de particles.js + Lógica del carrusel (JS) -->
   <script>
 

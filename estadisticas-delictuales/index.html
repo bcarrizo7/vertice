@@ -8,7 +8,7 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <title>Estadísticas delictuales de Chile por comuna | Vértice Legal</title>
-<meta name="description" content="Explora denuncias, detenciones y aprehendidos por región, provincia y comuna de Chile desde 2005, con datos oficiales del CEAD. Mapa de calor, rankings y comparador de comunas.">
+<meta name="description" content="Denuncias, detenciones y aprehendidos por región, provincia y comuna de Chile desde 2005, con datos oficiales del CEAD. Mapa de calor y comparador de comunas.">
 <meta property="og:title" content="Estadísticas delictuales de Chile por comuna | Vértice Legal">
 <meta property="og:description" content="Denuncias, detenciones y aprehendidos por comuna desde 2005, con datos oficiales del CEAD. Mapa de calor, rankings y comparador de comunas.">
 <meta property="og:type" content="website">
@@ -306,6 +306,40 @@
   .pie .pie-legal{flex-direction:column;align-items:flex-start;padding:18px 20px 26px}
 }
 </style>
+<script type="application/ld+json" id="datos-estructurados">
+{
+ "@context": "https://schema.org",
+ "@type": "Dataset",
+ "name": "Estadísticas delictuales de Chile por región, provincia y comuna",
+ "description": "Denuncias, detenciones en flagrancia y personas aprehendidas por región, provincia y comuna de Chile, mes a mes, con tasas por 100 mil habitantes, a partir de los datos oficiales del Centro de Estudios y Análisis del Delito (CEAD). Incluye mapa de calor, rankings, comparador de comunas y estadísticas de delitos económicos de la Fiscalía de Chile.",
+ "url": "https://verticelegal.cl/estadisticas-delictuales/",
+ "creator": {
+  "@type": "LegalService",
+  "@id": "https://verticelegal.cl/#estudio",
+  "name": "Vértice Legal"
+ },
+ "isBasedOn": [
+  "https://cead.minsegpublica.gob.cl/estadisticas-delictuales/",
+  "https://www.fiscaliadechile.cl/persecucion-penal/estadisticas"
+ ],
+ "temporalCoverage": "2005-01/2026-09",
+ "dateModified": "2026-11-16",
+ "spatialCoverage": {
+  "@type": "Place",
+  "name": "Chile"
+ },
+ "inLanguage": "es-CL",
+ "keywords": [
+  "estadísticas delictuales",
+  "delitos por comuna",
+  "CEAD",
+  "casos policiales",
+  "denuncias",
+  "detenciones",
+  "Chile"
+ ]
+}
+</script>
 </head>
 <body>
 
